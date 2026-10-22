@@ -1,10 +1,11 @@
 "use client";
 
 import Image from"next/image";
-import { useLayoutEffect, useRef } from"react";
+import { useRef } from "react";
 import { gsap, prefersReducedMotion } from"@/lib/gsap";
 import { INTERIORS } from"@/lib/media";
 import TextReveal from"@/components/ui/TextReveal";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 /**
  * The Grand Atrium
@@ -16,7 +17,7 @@ export default function Atrium() {
  const imgRef = useRef<HTMLDivElement>(null);
  const contentRef = useRef<HTMLDivElement>(null);
 
- useLayoutEffect(() => {
+ useIntroLayoutEffect(() => {
  const root = rootRef.current;
  const img = imgRef.current;
  const content = contentRef.current;
@@ -82,7 +83,6 @@ export default function Atrium() {
  src={INTERIORS.atriumApex.src}
  alt={INTERIORS.atriumApex.alt}
  fill
- priority
  sizes="100vw"
  className="object-cover"
  style={{ objectPosition: INTERIORS.atriumApex.position ??"center 45%" }}

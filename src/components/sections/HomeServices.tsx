@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useLayoutEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap, prefersReducedMotion, revealStart } from "@/lib/gsap";
 import { splitWords } from "@/lib/splitWords";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { FACADES, type Still } from "@/lib/media";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 import Link from "next/link";
 /**
@@ -65,7 +66,7 @@ const DEFAULT_ACTIVE = 1;
 export default function HomeServices() {
   const rootRef = useRef<HTMLElement>(null);
 
-  useLayoutEffect(() => {
+  useIntroLayoutEffect(() => {
     const root = rootRef.current;
     if (!root) return;
 

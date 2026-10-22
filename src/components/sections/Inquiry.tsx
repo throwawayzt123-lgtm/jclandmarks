@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from"react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { gsap, prefersReducedMotion } from"@/lib/gsap";
 import SectionLabel from"@/components/ui/SectionLabel";
 import TextReveal from"@/components/ui/TextReveal";
 import MagneticButton from"@/components/ui/MagneticButton";
 import { CONTACT } from"@/lib/site";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 /** What the enquiry is about. Keys match the `topic` query used across the site. */
 const ENQUIRY_TYPES = [
@@ -41,7 +42,7 @@ export default function Inquiry() {
  setSent(true);
   };
 
- useLayoutEffect(() => {
+ useIntroLayoutEffect(() => {
  const root = rootRef.current;
  if (!root || prefersReducedMotion()) return;
 

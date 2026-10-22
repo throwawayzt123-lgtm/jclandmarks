@@ -1,8 +1,9 @@
 "use client";
 
-import { useLayoutEffect, useRef, type ElementType, type ReactNode } from "react";
+import { useRef, type ElementType, type ReactNode } from "react";
 import { gsap, prefersReducedMotion, revealStart } from "@/lib/gsap";
 import { splitWords } from "@/lib/splitWords";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 /**
  * Declarative scroll motion for server-rendered markup.
@@ -31,7 +32,7 @@ interface RevealScopeProps {
 export default function RevealScope({ as: Tag = "div", className, id, children }: RevealScopeProps) {
   const rootRef = useRef<HTMLElement>(null);
 
-  useLayoutEffect(() => {
+  useIntroLayoutEffect(() => {
     const root = rootRef.current;
     if (!root || prefersReducedMotion()) return;
 

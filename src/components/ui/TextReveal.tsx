@@ -1,7 +1,8 @@
 "use client";
 
-import { useLayoutEffect, useRef, type ElementType, type ReactNode } from"react";
+import { useRef, type ElementType, type ReactNode } from "react";
 import { gsap, prefersReducedMotion } from"@/lib/gsap";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 interface TextRevealProps {
   /** Each entry becomes one masked line. */
@@ -26,7 +27,7 @@ export default function TextReveal({
 }: TextRevealProps) {
  const rootRef = useRef<HTMLElement>(null);
 
- useLayoutEffect(() => {
+ useIntroLayoutEffect(() => {
  const root = rootRef.current;
  if (!root) return;
 

@@ -145,17 +145,15 @@ export default function SmoothScrollProvider() {
       ScrollTrigger.sort();
       ScrollTrigger.refresh();
     };
+ // One refresh when everything has loaded, plus one safety pass. (Each
+ // refresh re-measures every trigger — a forced reflow — so they are kept few.)
  window.addEventListener("load", refresh);
- const settle1 = window.setTimeout(refresh, 400);
- const settle2 = window.setTimeout(refresh, 1200);
- const settle3 = window.setTimeout(refresh, 2500);
+ const settle1 = window.setTimeout(refresh, 1500);
 
  return () => {
  document.removeEventListener("click", handleAnchorClick);
  window.removeEventListener("load", refresh);
  window.clearTimeout(settle1);
- window.clearTimeout(settle2);
- window.clearTimeout(settle3);
  gsap.ticker.remove(raf);
  lenis.destroy();
  if (activeLenis === lenis) activeLenis = null;

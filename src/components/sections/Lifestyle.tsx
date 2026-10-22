@@ -1,16 +1,17 @@
 "use client";
 
-import { useLayoutEffect, useRef } from"react";
+import { useRef } from "react";
 import { gsap, prefersReducedMotion } from"@/lib/gsap";
 import RevealImage from"@/components/ui/RevealImage";
 import SectionLabel from"@/components/ui/SectionLabel";
 import TextReveal from"@/components/ui/TextReveal";
 import { FACADES, INTERIORS } from"@/lib/media";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 export default function Lifestyle() {
  const rootRef = useRef<HTMLElement>(null);
 
- useLayoutEffect(() => {
+ useIntroLayoutEffect(() => {
  const root = rootRef.current;
  if (!root || prefersReducedMotion()) return;
 

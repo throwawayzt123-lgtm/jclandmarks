@@ -1,7 +1,8 @@
 "use client";
 
-import { useLayoutEffect, useRef } from"react";
+import { useRef } from "react";
 import { gsap, prefersReducedMotion } from"@/lib/gsap";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 const ROW_ONE = [
 "MONUMENTAL VOLUMES",
@@ -48,7 +49,7 @@ export default function ArchitecturalTicker() {
  const track1Ref = useRef<HTMLDivElement>(null);
  const track2Ref = useRef<HTMLDivElement>(null);
 
- useLayoutEffect(() => {
+ useIntroLayoutEffect(() => {
  const root = rootRef.current;
  const track1 = track1Ref.current;
  const track2 = track2Ref.current;

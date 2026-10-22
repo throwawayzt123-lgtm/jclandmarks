@@ -1,11 +1,12 @@
 "use client";
 
 import Image from"next/image";
-import { useLayoutEffect, useRef } from"react";
+import { useRef } from "react";
 import { gsap, prefersReducedMotion } from"@/lib/gsap";
 import SectionLabel from"@/components/ui/SectionLabel";
 import TextReveal from"@/components/ui/TextReveal";
 import { FACADES, INTERIORS, type Still } from"@/lib/media";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 interface Material {
  label: string;
@@ -44,7 +45,7 @@ const MATERIALS: Material[] = [
 export default function Materials() {
  const rootRef = useRef<HTMLElement>(null);
 
- useLayoutEffect(() => {
+ useIntroLayoutEffect(() => {
  const root = rootRef.current;
  if (!root || prefersReducedMotion()) return;
 

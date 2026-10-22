@@ -1,9 +1,10 @@
 "use client";
 
 import Image from"next/image";
-import { useLayoutEffect, useRef } from"react";
+import { useRef } from "react";
 import { gsap, prefersReducedMotion, revealStart } from "@/lib/gsap";
 import { splitWords } from"@/lib/splitWords";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 interface ChevronItem {
  id: string;
@@ -51,7 +52,7 @@ const CHEVRONS: ChevronItem[] = [
 export default function IdentityStatement() {
  const rootRef = useRef<HTMLElement>(null);
 
- useLayoutEffect(() => {
+ useIntroLayoutEffect(() => {
  const root = rootRef.current;
  if (!root || prefersReducedMotion()) return;
 
@@ -205,8 +206,9 @@ export default function IdentityStatement() {
  src={chv.src}
  alt={chv.alt}
  fill
- priority={idx < 2}
  sizes="(max-width: 768px) 35vw, 25vw"
+ // Just below the hero: never compete with the hero's first frame.
+ fetchPriority="low"
  className="object-cover transition-transform duration-700 ease-[var(--ease-luxe)] group-hover:scale-108"
  style={{ objectPosition: chv.position }}
                 />

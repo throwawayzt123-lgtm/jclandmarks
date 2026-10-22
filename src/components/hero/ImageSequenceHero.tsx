@@ -9,9 +9,9 @@ import {
 } from"react";
 import { gsap, ScrollTrigger, prefersReducedMotion } from"@/lib/gsap";
 import { HERO_SEQUENCE, type FrameSequenceConfig } from"@/lib/frameSequence";
+import { preload } from"react-dom";
 import { useFrameSequence } from"./useFrameSequence";
 import FrameLoader from"./FrameLoader";
-import { REVEAL_RATIO } from"./useFrameSequence";
 import HeroOverlay from"./HeroOverlay";
 
 interface ImageSequenceHeroProps {
@@ -52,6 +52,13 @@ export default function ImageSequenceHero({
  const targetFrameRef = useRef(0);
   /** Canvas box size in CSS pixels, plus the DPR it was sized for. */
  const sizeRef = useRef({ width: 0, height: 0, dpr: 1 });
+
+ // Ask for the first frame straight from the HTML <head>, in parallel with
+ // the site's scripts, instead of after they have loaded and run. Only this
+ // one: preloading more frames competes with the scripts on slow networks and
+ // delays everything. The hook's fetch() reuses this response (same URL,
+ // mode and credentials), so it is not downloaded twice.
+ preload(sequence.path(1), { as:"fetch", crossOrigin:"anonymous", fetchPriority:"high" });
 
  const { frameAt, progress, ready, decodedTick, isExact } = useFrameSequence(sequence);
  const [curtainGone, setCurtainGone] = useState(false);
@@ -232,8 +239,7 @@ export default function ImageSequenceHero({
     <>
       {!curtainGone && (
         <FrameLoader
-          // The hero reveals at REVEAL_RATIO of the frames, so that point is 100%.
- progress={Math.min(1, progress / REVEAL_RATIO)}
+ progress={progress}
  done={ready}
  onExited={() => setCurtainGone(true)}
         />

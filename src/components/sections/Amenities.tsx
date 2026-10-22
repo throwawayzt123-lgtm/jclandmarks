@@ -1,9 +1,10 @@
 "use client";
 
 import Image from"next/image";
-import { useLayoutEffect, useRef, useState } from"react";
+import { useRef, useState } from "react";
 import { gsap, prefersReducedMotion } from"@/lib/gsap";
 import { FACADES, INTERIORS, type Still } from"@/lib/media";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 /**
  * PRIVATE AMENITIES — a pinned horizontal gallery.
@@ -76,7 +77,7 @@ export default function Amenities() {
  const [active, setActive] = useState(0);
  const activeRef = useRef(0);
 
- useLayoutEffect(() => {
+ useIntroLayoutEffect(() => {
  const root = rootRef.current;
  const track = trackRef.current;
  if (!root || !track) return;

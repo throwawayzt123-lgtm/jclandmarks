@@ -1,10 +1,11 @@
 "use client";
 
 import Image from"next/image";
-import { useLayoutEffect, useRef, useState } from"react";
+import { useRef, useState } from "react";
 import { gsap, prefersReducedMotion } from"@/lib/gsap";
 import { FACADES, INTERIORS, type Still } from"@/lib/media";
 import MagneticButton from"@/components/ui/MagneticButton";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 /**
  * CAPABILITIES — a pinned card relay.
@@ -61,7 +62,7 @@ export default function Capabilities() {
  const [active, setActive] = useState(0);
  const activeRef = useRef(0);
 
- useLayoutEffect(() => {
+ useIntroLayoutEffect(() => {
  const root = rootRef.current;
  if (!root) return;
 

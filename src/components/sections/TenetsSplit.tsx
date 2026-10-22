@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useLayoutEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap, prefersReducedMotion, revealStart } from "@/lib/gsap";
 import { smoothScrollTo } from "@/components/SmoothScrollProvider";
 import { FACADES, INTERIORS, type Still } from "@/lib/media";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 /**
  * THE TENETS — three full-screen split sections, stacked edge to edge.
@@ -78,7 +79,7 @@ const SHELL_EDGE = "max(var(--gutter), calc((100vw - var(--page-max)) / 2 + var(
 export default function TenetsSplit() {
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  useIntroLayoutEffect(() => {
     const root = rootRef.current;
     if (!root || prefersReducedMotion()) return;
 

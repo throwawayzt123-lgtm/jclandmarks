@@ -281,7 +281,6 @@ export default function ThreeWorlds() {
  sizes="(max-width: 1024px) 85vw, 68vw"
  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
  style={{ objectPosition: world.still.position ??"center" }}
- priority={i === 1}
                 />
 
                 {/* Subtle Curvature Edge Shading (enhances the cylinder 3D look) */}

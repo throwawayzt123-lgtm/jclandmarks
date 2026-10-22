@@ -6,8 +6,17 @@ import {
   type FrameSequenceConfig,
 } from "@/lib/frameSequence";
 
-/** How many frames must arrive before we reveal the hero. */
-export const REVEAL_RATIO = 0.35;
+/**
+ * The hero is revealed once the first frame plus one key frame every
+ * KEYFRAME_STRIDE frames have arrived (16 frames, ~0.8 MB for 250 frames),
+ * not after a large share of the sequence. Every scroll position then has a
+ * nearby frame to show, and the rest of the sequence streams in behind it.
+ */
+export const KEYFRAME_STRIDE = 16;
+/** Never hold the hero back longer than this once the first frame is in. */
+const REVEAL_TIMEOUT_MS = 1200;
+/** Frames either side of the playhead fetched ahead of everything else. */
+const PLAYHEAD_AHEAD = 8;
 /** Parallel in-flight requests. Keeps the connection pool healthy. */
 const CONCURRENCY = 8;
 /** Frames kept decoded either side of the playhead. */
@@ -20,7 +29,7 @@ export interface FrameSequenceState {
    * decoding in the background.
    */
   frameAt: (index: number) => ImageBitmap | undefined;
-  /** 0..1 — share of the sequence downloaded so far. */
+  /** 0..1 — share of the frames needed to reveal the hero that have arrived. */
   progress: number;
   /** True once enough frames exist to start the cinematic scrub. */
   ready: boolean;
@@ -107,9 +116,23 @@ export function useFrameSequence(config: FrameSequenceConfig): FrameSequenceStat
         const near = cache.get(index - d) ?? cache.get(index + d);
         if (near) return near;
       }
-      return undefined;
+      // Nothing decoded nearby yet (the playhead jumped ahead of the stream):
+      // decode the nearest frame that HAS downloaded, and meanwhile show the
+      // closest decoded frame from anywhere rather than freezing.
+      const blobs = blobsRef.current;
+      for (let d = 1; d < blobs.length; d += 1) {
+        if (blobs[index - d]) { decode(index - d); break; }
+        if (blobs[index + d]) { decode(index + d); break; }
+      }
+      let best: ImageBitmap | undefined;
+      let bestD = Infinity;
+      for (const [i, bmp] of cache) {
+        const dist = Math.abs(i - index);
+        if (dist < bestD) { bestD = dist; best = bmp; }
+      }
+      return best;
     },
-    [warmAround]
+    [warmAround, decode]
   );
 
   const isExact = useCallback((index: number, bmp: ImageBitmap | null) => !!bmp && bitmapsRef.current.get(index) === bmp, []);
@@ -121,6 +144,13 @@ export function useFrameSequence(config: FrameSequenceConfig): FrameSequenceStat
 
     let cancelled = false;
     let loaded = 0;
+    // The frames that must arrive before the hero is revealed.
+    const keyframes = new Set<number>();
+    for (let i = 0; i < count; i += KEYFRAME_STRIDE) keyframes.add(i);
+    let keyLoaded = 0;
+    let firstAt = 0;
+    let revealTimer = 0;
+    const inFlight = new Set<number>();
     let rafId = 0;
     let pendingProgress = 0;
     const controller = new AbortController();
@@ -130,22 +160,38 @@ export function useFrameSequence(config: FrameSequenceConfig): FrameSequenceStat
       rafId = 0;
       if (cancelled) return;
       setProgress(pendingProgress);
-      if (pendingProgress >= REVEAL_RATIO) setReady(true);
+      if (pendingProgress >= 1) setReady(true);
     };
     const reportProgress = () => {
-      pendingProgress = loaded / count;
+      pendingProgress = keyLoaded / keyframes.size;
       if (!rafId) rafId = requestAnimationFrame(flushProgress);
     };
 
-    const order = buildPriorityOrder(count);
+    const order = buildPriorityOrder(count, KEYFRAME_STRIDE);
     let cursor = 0;
+    const have = (i: number) => !!blobsRef.current[i] || inFlight.has(i);
+
+    /** Missing frame nearest the playhead, if any is close enough to matter. */
+    const nearPlayhead = (): number => {
+      const c = centerRef.current;
+      for (let d = 0; d <= PLAYHEAD_AHEAD; d += 1) {
+        if (c + d < count && !have(c + d)) return c + d;
+        if (d > 0 && c - d >= 0 && !have(c - d)) return c - d;
+      }
+      return -1;
+    };
 
     const loadNext = (): void => {
       if (cancelled) return;
-      while (cursor < order.length && blobsRef.current[order[cursor]]) cursor += 1;
-      if (cursor >= order.length) return;
-      const index = order[cursor];
-      cursor += 1;
+      // Once the hero is up, whatever the viewer is scrubbing through wins.
+      let index = keyLoaded >= keyframes.size ? nearPlayhead() : -1;
+      if (index === -1) {
+        while (cursor < order.length && have(order[cursor])) cursor += 1;
+        if (cursor >= order.length) return;
+        index = order[cursor];
+        cursor += 1;
+      }
+      inFlight.add(index);
 
       fetch(path(index + 1), {
         signal: controller.signal,
@@ -164,8 +210,20 @@ export function useFrameSequence(config: FrameSequenceConfig): FrameSequenceStat
         .catch(() => {})
         // A missing frame must not stall the sequence; count it and move on.
         .finally(() => {
+          inFlight.delete(index);
           if (cancelled) return;
           loaded += 1;
+          if (keyframes.has(index)) keyLoaded += 1;
+          if (index === 0 && !firstAt) {
+            firstAt = performance.now();
+            // Slow connection: reveal anyway after a short wait; the nearest-
+            // frame fallback covers any key frame still on its way.
+            revealTimer = window.setTimeout(() => {
+              if (cancelled) return;
+              keyLoaded = keyframes.size;
+              reportProgress();
+            }, REVEAL_TIMEOUT_MS);
+          }
           reportProgress();
           loadNext();
         });
@@ -175,6 +233,7 @@ export function useFrameSequence(config: FrameSequenceConfig): FrameSequenceStat
 
     return () => {
       cancelled = true;
+      window.clearTimeout(revealTimer);
       controller.abort();
       if (rafId) cancelAnimationFrame(rafId);
       if (tickRafRef.current) cancelAnimationFrame(tickRafRef.current);

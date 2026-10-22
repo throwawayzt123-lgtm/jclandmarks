@@ -1,7 +1,8 @@
 "use client";
 
-import { useLayoutEffect, useRef } from"react";
+import { useRef } from "react";
 import { gsap, prefersReducedMotion } from"@/lib/gsap";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 interface SectionLabelProps {
   /** Section title, e.g."THE RESIDENCE" or"ABOUT US · THE ATELIER". */
@@ -21,7 +22,7 @@ export default function SectionLabel({
 }: SectionLabelProps) {
  const rootRef = useRef<HTMLDivElement>(null);
 
- useLayoutEffect(() => {
+ useIntroLayoutEffect(() => {
  const root = rootRef.current;
  if (!root || prefersReducedMotion()) return;
 

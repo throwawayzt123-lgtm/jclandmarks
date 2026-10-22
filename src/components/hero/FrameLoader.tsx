@@ -35,7 +35,7 @@ const STAGES = ["Setting out", "Foundations", "Frame", "Façade", "Handover"];
 let introPlayed = false;
 
 /** Shortest time the build is on screen on a first visit, so a warm cache never flashes it. */
-const MIN_BUILD_SECONDS = 2.2;
+const MIN_BUILD_SECONDS = 0.6;
 
 export default function FrameLoader({ progress, done, onExited }: FrameLoaderProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -115,7 +115,7 @@ export default function FrameLoader({ progress, done, onExited }: FrameLoaderPro
     const tween = gsap.to(shown.current, {
       // Forward only: real progress below the setting-out creep is ignored.
       v: Math.max(shown.current.v, Math.min(1, progress)),
-      duration: 0.9,
+      duration: 0.45,
       ease: "power2.out",
       overwrite: "auto",
       onUpdate: () => {
@@ -160,10 +160,15 @@ export default function FrameLoader({ progress, done, onExited }: FrameLoaderPro
     const wait = Math.max(0, MIN_BUILD_SECONDS - (performance.now() - startedAt.current) / 1000);
 
     ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: wait, onComplete: finish });
+      const tl = gsap.timeline({
+        delay: wait,
+        onComplete: finish,
+        // Tells deferred work (useIntroLayoutEffect) to pause for the doors.
+        onStart: () => root.setAttribute("data-handover", ""),
+      });
       tl.to(shown.current, {
         v: 1,
-        duration: 0.6,
+        duration: 0.3,
         ease: "power2.out",
         onUpdate: () => {
           buildRef.current?.progress(shown.current.v);
@@ -172,18 +177,17 @@ export default function FrameLoader({ progress, done, onExited }: FrameLoaderPro
         onComplete: () => root.querySelectorAll<HTMLElement>("[data-stage]").forEach((el) => (el.dataset.state = "done")),
       })
         // Lights on.
-        .to(".ld-pane", { fill: "#D8B479", duration: 0.5, stagger: 0.09, ease: "power2.out" })
-        .to(".ld-glow", { opacity: 1, scale: 1, duration: 0.9, ease: "power2.out" }, "<")
-        .to(".ld-mark [data-stroke]", { stroke: "#D8B479", duration: 0.6 }, "<")
+        .to(".ld-pane", { fill: "#D8B479", duration: 0.3, stagger: 0.04, ease: "power2.out" })
+        .to(".ld-glow", { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }, "<")
+        .to(".ld-mark [data-stroke]", { stroke: "#D8B479", duration: 0.4 }, "<")
         // The wordmark spells itself out.
-        .fromTo(".ld-letter", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.035, ease: "power3.out" }, "-=0.35")
-        .to({}, { duration: 0.45 })
+        .fromTo(".ld-letter", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.012, ease: "power3.out" }, "<")
         // The sheet clears; a seam of light opens down the middle.
-        .to(".ld-content", { opacity: 0, scale: 0.985, duration: 0.55, ease: "power2.in" })
-        .fromTo(".ld-seam", { scaleY: 0, opacity: 1 }, { scaleY: 1, duration: 0.55, ease: "power3.inOut" }, "-=0.25")
+        .to(".ld-content", { opacity: 0, scale: 0.985, duration: 0.22, ease: "power2.in" }, "-=0.05")
+        .fromTo(".ld-seam", { scaleY: 0, opacity: 1 }, { scaleY: 1, duration: 0.25, ease: "power3.inOut" }, "-=0.15")
         // Doors part onto the hero.
-        .to(".ld-door-l", { xPercent: -100, duration: 1.35, ease: "power4.inOut" }, "+=0.05")
-        .to(".ld-door-r", { xPercent: 100, duration: 1.35, ease: "power4.inOut" }, "<")
+        .to(".ld-door-l", { xPercent: -100, duration: 0.75, ease: "power4.inOut" }, "-=0.1")
+        .to(".ld-door-r", { xPercent: 100, duration: 0.75, ease: "power4.inOut" }, "<")
         .to(".ld-seam", { opacity: 0, duration: 0.5 }, "<0.15");
     }, root);
 

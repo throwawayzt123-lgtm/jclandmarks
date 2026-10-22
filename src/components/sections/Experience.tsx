@@ -1,11 +1,12 @@
 "use client";
 
 import Image from"next/image";
-import { useLayoutEffect, useRef, useState } from"react";
+import { useRef, useState } from "react";
 import { gsap, ScrollTrigger, prefersReducedMotion } from"@/lib/gsap";
 import SectionLabel from"@/components/ui/SectionLabel";
 import TextReveal from"@/components/ui/TextReveal";
 import { INTERIORS, type Still } from"@/lib/media";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 interface SpaceItem {
  tag: string;
@@ -64,7 +65,7 @@ export default function Experience() {
  const rootRef = useRef<HTMLElement>(null);
  const [activeSpace, setActiveSpace] = useState(0);
 
- useLayoutEffect(() => {
+ useIntroLayoutEffect(() => {
  const root = rootRef.current;
  if (!root || prefersReducedMotion()) return;
 

@@ -1,9 +1,10 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap, prefersReducedMotion, revealStart, isMobileViewport } from "@/lib/gsap";
 import { splitWords } from "@/lib/splitWords";
 import TenetsSplit from "@/components/sections/TenetsSplit";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 import Link from "next/link";
 /**
@@ -29,7 +30,7 @@ const STUDIO_METRICS = [
 export default function AboutUs() {
   const rootRef = useRef<HTMLElement>(null);
 
-  useLayoutEffect(() => {
+  useIntroLayoutEffect(() => {
     const root = rootRef.current;
     if (!root || prefersReducedMotion()) return;
 

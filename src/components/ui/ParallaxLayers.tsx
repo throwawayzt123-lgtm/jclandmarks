@@ -1,9 +1,10 @@
 "use client";
 
 import Image from"next/image";
-import { useLayoutEffect, useRef } from"react";
+import { useRef } from "react";
 import { gsap, prefersReducedMotion } from"@/lib/gsap";
 import type { Still } from"@/lib/media";
+import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 export interface Layer {
  still: Still;
@@ -43,7 +44,7 @@ export default function ParallaxLayers({
 }: ParallaxLayersProps) {
  const rootRef = useRef<HTMLDivElement>(null);
 
- useLayoutEffect(() => {
+ useIntroLayoutEffect(() => {
  const root = rootRef.current;
  if (!root || prefersReducedMotion()) return;
 
