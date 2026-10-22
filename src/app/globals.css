@@ -1,26 +1,474 @@
 @import "tailwindcss";
 
+/* ============================================================
+   DESIGN SYSTEM — SINGLE SOURCE OF TRUTH
+   ------------------------------------------------------------
+   Refined luxury architectural palette:
+   Warm silk ivory ground, velvety espresso-navy type,
+   luminous brushed champagne gold, and deep obsidian cine world.
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ---------- LAYER 1 — BRAND (Atmospheric Luxury Palette) ------- */
+  --brand-paper: #ffffff;        /* Pure luminous gallery white ground */
+  --brand-card: #ffffff;         /* Card plate — pure white */
+  --brand-mist: #f5f6f8;         /* Neutral band between sections (no cream) */
+  --brand-navy: #11141b;         /* Deep velvety graphite charcoal */
+  --brand-navy-soft: #232936;    /* Refined secondary graphite */
+  --brand-gold: #D8B479;         /* Primary Accent: Champagne Luminous Gold */
+  --brand-gold-deep: #b58c49;    /* High-contrast warm gold */
+  --brand-gold-light: #f5ecd9;   /* Soft warm gold tint */
+  --brand-slate: #374151;        /* Crisp architectural dark slate (high contrast) */
+
+  /* Cinematic tokens — deep obsidian world for hero & pinned moments */
+  --cine-ground: #07090e;        /* Deep obsidian night */
+  --cine-text: #f7f6f2;          /* Warm silk ivory type */
+  --cine-accent: #D8B479;        /* Primary Accent: Golden highlight */
+  --cine-accent-soft: rgba(216, 180, 121, 0.24);
+
+  /* ---------- LAYER 2 — SEMANTIC ----------------------------- */
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-deep: #f5f6f8;
+  --surface-well: #11141b;
+
+  --on-surface: #11141b;
+  --on-surface-muted: #374151;
+  --on-surface-faint: #6b7280;
+
+  --accent: #D8B479;
+  --accent-deep: #b58c49;
+  --accent-light: #f5ecd9;
+  --rule: rgba(216, 180, 121, 0.28);
+  --rule-strong: rgba(216, 180, 121, 0.55);
+
+  /* Legacy aliases so existing components resolve smoothly */
+  --color-ink: #11141b;
+  --color-ink-soft: #374151;
+  --color-ivory: #ffffff;
+  --color-ivory-soft: #ffffff;
+  --color-champagne: #D8B479;
+  --color-champagne-dim: #b58c49;
+  --color-stone: var(--brand-slate);
+  --text-on-dark: var(--cine-text);
+  --text-on-dark-muted: rgba(247, 246, 242, 0.78);
+  --rule-on-dark: rgba(216, 180, 121, 0.28);
+  --rule-on-light: rgba(216, 180, 121, 0.28);
+  --text-on-light: #11141b;
+  --text-on-light-muted: #374151;
+
+  /* ---------- Layout ----------------------------------------- */
+  --page-max: 1680px;
+  --gutter: clamp(1.25rem, 5vw, 6rem);
+  --section-y: clamp(5.5rem, 11vh, 9.5rem);
+  --nav-h: 5.25rem;
+
+  /* ---------- Motion ----------------------------------------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-slow: 900ms;
+  --dur-mid: 500ms;
+  --dur-fast: 320ms;
+}
+
+/* Sections vary by DEPTH */
+[data-depth="base"]   { background-color: var(--surface); color: var(--on-surface); }
+[data-depth="raised"] { background-color: var(--surface-raised); color: var(--on-surface); }
+[data-depth="deep"]   { background-color: var(--surface-deep); color: var(--on-surface); }
+
+[data-depth="well"] {
+  background-color: var(--surface-well);
+  --on-surface: var(--cine-text);
+  --on-surface-muted: rgba(247, 246, 242, 0.68);
+  --on-surface-faint: rgba(247, 246, 242, 0.38);
+  --accent: var(--cine-accent);
+  --rule: rgba(216, 180, 121, 0.28);
+  --rule-strong: rgba(216, 180, 121, 0.55);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --text-display: clamp(2.25rem, 5.2vw, 5.75rem);
+  --text-h1: clamp(2rem, 4.2vw, 4.25rem);
+  --text-h2: clamp(1.625rem, 3.1vw, 3rem);
+  --text-h3: clamp(1.35rem, 2.1vw, 2.2rem);
+  --text-body: clamp(1rem, 1.1vw, 1.15rem);
+  --text-eyebrow: clamp(0.75rem, 0.85vw, 0.875rem);
+
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-deep: var(--surface-deep);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-muted: var(--on-surface-muted);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-stone: var(--color-stone);
+
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-ivory: var(--color-ivory);
+  --color-ivory-soft: var(--color-ivory-soft);
+  --color-champagne: var(--color-champagne);
+  --color-champagne-dim: var(--color-champagne-dim);
+  --font-serif: var(--font-display), "Times New Roman", Times, serif;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    min-width: 0;
+  }
+
+  html {
+    overflow-x: clip;
+    background-color: var(--surface);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html.lenis,
+  html.lenis-smooth {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  /* While the loading screen is up, the page beneath it cannot be scrolled —
+     by wheel, keys or touch — even before the scripts have arrived. */
+  html:has([data-scroll-lock]) {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+  [data-scroll-lock] {
+    touch-action: none;
+  }
+
+
+  body {
+    background-color: var(--surface);
+    color: var(--on-surface);
+    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--text-body, 1rem);
+    line-height: 1.65;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--brand-gold);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 1.5px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Refined luxury scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--cine-ground);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(203, 163, 107, 0.4);
+    border-radius: 0;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-gold);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .u-shell {
+    width: 100%;
+    max-width: var(--page-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .u-eyebrow {
+    font-size: var(--text-eyebrow, 0.7rem);
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .u-display {
+    font-family: var(--font-display), "Times New Roman", Times, serif;
+    font-weight: 300;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .u-gold-text {
+    background: linear-gradient(135deg, var(--cine-accent) 0%, #fff2d6 50%, var(--brand-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .u-glass {
+    background: rgba(11, 14, 24, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(247, 246, 242, 0.1);
+  }
+}
+
+/* Directional scrim behind hero copy */
+.u-scrim-left {
+  background: linear-gradient(
+    100deg,
+    rgba(7, 9, 14, 0.52) 0%,
+    rgba(7, 9, 14, 0.34) 20%,
+    rgba(7, 9, 14, 0.08) 38%,
+    rgba(7, 9, 14, 0) 48%
+  );
+}
+
+@media (max-width: 767px) {
+  .u-scrim-left {
+    background: linear-gradient(
+      to bottom,
+      rgba(7, 9, 14, 0) 0%,
+      rgba(7, 9, 14, 0.06) 30%,
+      rgba(7, 9, 14, 0.42) 56%,
+      rgba(7, 9, 14, 0.7) 80%,
+      rgba(7, 9, 14, 0.78) 100%
+    );
+  }
+}
+
+.u-scrim-center {
+  background: radial-gradient(
+    ellipse 65% 48% at 50% 50%,
+    rgba(7, 9, 14, 0.78) 0%,
+    rgba(7, 9, 14, 0.48) 50%,
+    rgba(7, 9, 14, 0) 82%
+  );
+}
+
+/* ------------------------------------------------------------
+   EDITORIAL FRAME SYSTEM
+   Each plate gets an architectural hairline mount, a clean shadow,
+   and subtle inner edge.
+   ------------------------------------------------------------ */
+.u-plate {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--surface-raised);
+  box-shadow:
+    0 1px 3px rgba(17, 20, 27, 0.04),
+    0 10px 28px -10px rgba(17, 20, 27, 0.08),
+    0 24px 60px -20px rgba(216, 180, 121, 0.15);
+  transition: box-shadow 700ms var(--ease-luxe),
+              transform 700ms var(--ease-luxe);
+}
+
+.u-plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(216, 180, 121, 0.28);
+}
+
+[data-depth="well"] .u-plate::after {
+  box-shadow: inset 0 0 0 1px rgba(216, 180, 121, 0.35);
+}
+
+.u-plate-lift {
+  transition: transform 600ms var(--ease-luxe), box-shadow 600ms var(--ease-luxe);
+}
+
+.u-plate-lift:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 4px 14px rgba(17, 20, 27, 0.06),
+    0 18px 40px -8px rgba(17, 20, 27, 0.12),
+    0 34px 75px -18px rgba(216, 180, 121, 0.25);
+}
+
+.u-panel {
+  background-color: var(--surface-well);
+  box-shadow:
+    0 20px 60px -30px rgba(7, 9, 14, 0.45);
+}
+
+.u-hair {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--accent) 0%,
+    var(--rule) 42%,
+    transparent 100%
+  );
+}
+
+/* ------------------------------------------------------------
+   SURFACE SYSTEM — edges without outlines
+   Full-perimeter borders read as crude default form styling.
+   These define a panel by TONE plus one hairline instead, the
+   way print and architectural layouts separate fields.
+   ------------------------------------------------------------ */
+
+.u-panel-soft {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.58);
+  box-shadow:
+    0 1px 0 rgba(20, 33, 61, 0.05),
+    0 10px 30px -22px rgba(20, 33, 61, 0.3);
+  transition: background-color 420ms var(--ease-luxe),
+              box-shadow 420ms var(--ease-luxe),
+              transform 420ms var(--ease-luxe);
+}
+
+/* One accent rule replaces the outline; it grows from the left so
+   the edge reads as deliberate rather than as a container. */
+.u-panel-soft::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--accent) 0%,
+    rgba(216, 180, 121, 0.35) 38%,
+    transparent 100%
+  );
+  transform: scaleX(0.22);
+  transform-origin: left;
+  transition: transform 520ms var(--ease-luxe);
+}
+
+.u-panel-soft:hover,
+.u-panel-soft[data-active="true"] {
+  background-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(20, 33, 61, 0.06),
+    0 18px 44px -26px rgba(20, 33, 61, 0.38);
+}
+
+.u-panel-soft:hover::before,
+.u-panel-soft[data-active="true"]::before {
+  transform: scaleX(1);
+}
+
+/* The same idea inverted, for panels on the dark ground. */
+.u-panel-dark {
+  position: relative;
+  background-color: rgba(244, 241, 234, 0.045);
+  transition: background-color 420ms var(--ease-luxe),
+              transform 420ms var(--ease-luxe);
+}
+
+.u-panel-dark::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--accent) 0%,
+    rgba(216, 180, 121, 0.3) 40%,
+    transparent 100%
+  );
+  transform: scaleX(0.22);
+  transform-origin: left;
+  transition: transform 520ms var(--ease-luxe);
+}
+
+.u-panel-dark:hover,
+.u-panel-dark[data-active="true"] {
+  background-color: rgba(244, 241, 234, 0.085);
+  transform: translateY(-2px);
+}
+
+.u-panel-dark:hover::before,
+.u-panel-dark[data-active="true"]::before {
+  transform: scaleX(1);
+}
+
+/* Form fields: a baseline rule that warms to the accent on focus.
+   Boxed inputs are what made the form read as a browser default. */
+.u-field {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(20, 33, 61, 0.16);
+  padding-block: 0.65rem;
+  transition: border-color 380ms var(--ease-luxe);
+}
+.u-field:focus {
+  outline: none;
+  border-bottom-color: var(--accent);
+}
+
+/* Choice chip: tone plus a baseline, never a full box. */
+.u-chip {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 -1px 0 rgba(20, 33, 61, 0.14);
+  transition: background-color 360ms var(--ease-luxe),
+              box-shadow 360ms var(--ease-luxe),
+              color 360ms var(--ease-luxe);
+}
+.u-chip:hover {
+  background-color: #ffffff;
+  box-shadow: inset 0 -1px 0 var(--accent);
+}
+.u-chip[data-active="true"] {
+  background-color: rgba(216, 180, 121, 0.14);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.u-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.u-sr-only:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: auto;
+  height: auto;
+  clip-path: none;
+  padding: 0.75rem 1.25rem;
+  background: var(--brand-paper);
+  color: var(--brand-navy);
+  z-index: 200;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
