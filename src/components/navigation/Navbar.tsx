@@ -367,7 +367,7 @@ export default function Navbar() {
             style={{ transitionDelay: menuOpen ? `${260 + NAV.length * 55}ms` : "0ms" }}
           >
             {/* Very short screens (e.g. iPhone SE) keep just the enquiry button. */}
-            <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-[0.82rem] [@media(max-height:620px)]:hidden">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-3.5 text-[0.78rem] [@media(max-height:620px)]:hidden">
               <a href={CONTACT.phoneHref} className="block">
                 <span className="block text-[0.56rem] uppercase tracking-[0.22em] text-white/40">Call</span>
                 <span className="mt-1 block text-white/85">{CONTACT.phone}</span>
@@ -381,15 +381,15 @@ export default function Navbar() {
                 <span className="mt-1 block text-white/85">{CONTACT.email}</span>
               </a>
             </div>
-            {/* Enquiry + social share one row, so the panel fits short phones */}
-            <div className="mt-6 flex items-center gap-3">
+            {/* Enquiry + social: slim and on one line, divided by a hairline */}
+            <div className="mt-5 flex items-center gap-3 border-t border-white/[0.07] pt-5">
               <Link
                 href="/contact"
                 onClick={() => setMenuOpen(false)}
-                className="flex flex-1 items-center justify-between rounded-full bg-[#D8B479] px-6 py-3.5 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#11141b]"
+                className="group inline-flex h-[2.6rem] flex-1 items-center justify-between gap-3 whitespace-nowrap rounded-full px-5 text-[0.62rem] font-medium uppercase tracking-[0.22em] text-[#D8B479] shadow-[inset_0_0_0_1px_rgba(216,180,121,0.55)] transition-colors duration-300 hover:bg-[#D8B479] hover:text-[#11141b] active:bg-[#D8B479] active:text-[#11141b]"
               >
                 Start an enquiry
-                <span aria-hidden="true">→</span>
+                <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
               </Link>
               {SOCIAL.map((s) => (
                 <a
@@ -398,9 +398,9 @@ export default function Navbar() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`JC Landmarks on ${s.label}`}
-                  className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/[0.06] text-white/80 transition-colors hover:bg-[#D8B479] hover:text-[#11141b]"
+                  className="grid h-[2.6rem] w-[2.6rem] shrink-0 place-items-center rounded-full text-white/70 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)] transition-colors duration-300 hover:text-[#D8B479] hover:shadow-[inset_0_0_0_1px_rgba(216,180,121,0.55)]"
                 >
-                  <SocialIcon name={s.icon} />
+                  <SocialIcon name={s.icon} className="h-[15px] w-[15px]" />
                 </a>
               ))}
             </div>
