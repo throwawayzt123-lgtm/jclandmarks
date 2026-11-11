@@ -71,7 +71,7 @@ export default function PageHero({ eyebrow, title, accent, lede, crumbs, still, 
   return (
     <section
       ref={rootRef}
-      className="relative isolate flex min-h-[clamp(30rem,72vh,42rem)] items-end overflow-hidden bg-[#0b0d12] text-[#f4f2ee]"
+      className="relative isolate flex min-h-[clamp(30rem,72vh,42rem)] items-end overflow-hidden bg-[#000000] text-[#f4f2ee]"
     >
       {hasBackdrop && (
         <div aria-hidden="true" className="ph-bg absolute inset-0">
@@ -88,8 +88,8 @@ export default function PageHero({ eyebrow, title, accent, lede, crumbs, still, 
           ) : (
             <DrawingPlate kind={drawing} className="absolute inset-0 opacity-70" />
           )}
-          <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(11,13,18,0.94)_0%,rgba(11,13,18,0.74)_48%,rgba(11,13,18,0.42)_100%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0b0d12] to-transparent" />
+          <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(0,0,0,0.94)_0%,rgba(0,0,0,0.74)_48%,rgba(0,0,0,0.42)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#000000] to-transparent" />
         </div>
       )}
 

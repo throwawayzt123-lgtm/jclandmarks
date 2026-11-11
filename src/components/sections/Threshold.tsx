@@ -60,7 +60,7 @@ export default function Threshold() {
  className="relative h-[48svh] overflow-hidden bg-[var(--surface)]"
     >
       {/* Seamless dark veil receding */}
-      <div className="th-veil absolute inset-0 bg-[linear-gradient(to_bottom,var(--cine-ground)_0%,var(--cine-ground)_55%,rgba(7,9,14,0)_100%)] pointer-events-none" />
+      <div className="th-veil absolute inset-0 bg-[linear-gradient(to_bottom,var(--cine-ground)_0%,var(--cine-ground)_55%,rgba(0,0,0,0)_100%)] pointer-events-none" />
 
       {/* Atmospheric center aperture */}
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 px-[var(--gutter)] text-center">

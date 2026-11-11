@@ -15,7 +15,7 @@ interface CtaBandProps {
 
 export default function CtaBand({ eyebrow = "Begin a Conversation", title, body, action, secondary }: CtaBandProps) {
   return (
-    <RevealScope as="section" className="relative bg-[#0b0d12] py-[clamp(6rem,15vh,10rem)] text-[#f4f2ee]">
+    <RevealScope as="section" className="relative bg-[#000000] py-[clamp(6rem,15vh,10rem)] text-[#f4f2ee]">
       <div className="u-shell">
         <span data-r="up" className="block text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#D8B479]">
           {eyebrow}
@@ -35,10 +35,10 @@ export default function CtaBand({ eyebrow = "Begin a Conversation", title, body,
               )}
               <Link
                 href={action.href}
-                className="group inline-flex items-center gap-4 bg-[#D8B479] px-9 py-5 text-[0.66rem] font-semibold uppercase tracking-[0.26em] text-[#11141b] transition-colors duration-500 hover:bg-white"
+                className="u-btn u-btn--gold"
               >
-                {action.label}
-                <span aria-hidden="true" className="transition-transform duration-500 group-hover:translate-x-1.5">→</span>
+                <span>{action.label}</span>
+                <span aria-hidden="true" className="u-btn__arrow" />
               </Link>
             </div>
           </div>

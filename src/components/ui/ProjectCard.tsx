@@ -23,7 +23,7 @@ export default function ProjectCard({ project: p, feature = false, showCategory 
   return (
     <article className="group">
       <Link href={projectHref(p)} className={feature ? "grid items-center gap-y-0 outline-none lg:grid-cols-12 lg:gap-x-20" : "block outline-none"}>
-        <div data-r="plate" className={`relative ${aspect} overflow-hidden bg-[#0b0d12] ${feature ? "lg:col-span-7" : ""}`}>
+        <div data-r="plate" className={`relative ${aspect} overflow-hidden bg-[#000000] ${feature ? "lg:col-span-7" : ""}`}>
           <div data-r-img className="absolute inset-0">
             {p.cover ? (
               <Image

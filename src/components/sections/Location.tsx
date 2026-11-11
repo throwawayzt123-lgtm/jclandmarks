@@ -1,24 +1,23 @@
 "use client";
 
 import Image from"next/image";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { gsap, prefersReducedMotion } from"@/lib/gsap";
 import SectionLabel from"@/components/ui/SectionLabel";
 import TextReveal from"@/components/ui/TextReveal";
 import { FACADES } from"@/lib/media";
 import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
-const TRANSIT_POINTS = [
-  { name:"Private Deepwater Marina", time:"05 min", distance:"2.1 miles" },
-  { name:"Private Helipad & FBO", time:"08 min", distance:"3.8 miles" },
-  { name:"Championship Golf & Country Club", time:"10 min", distance:"4.5 miles" },
-  { name:"Metropolitan Financial Center", time:"14 min", distance:"7.2 miles" },
-  { name:"International Private Airport", time:"18 min", distance:"11.0 miles" },
+const ATTRIBUTES = [
+  { no: "01", name: "Architecture", detail: "Concept to drawings" },
+  { no: "02", name: "Structural Engineering", detail: "Designed to stand" },
+  { no: "03", name: "Approvals", detail: "Handled for you" },
+  { no: "04", name: "Construction", detail: "Built by one team" },
+  { no: "05", name: "Finishing & Handover", detail: "Complete, key in hand" },
 ];
 
 export default function Location() {
  const rootRef = useRef<HTMLElement>(null);
- const [activePoint, setActivePoint] = useState<number | null>(null);
 
  useIntroLayoutEffect(() => {
  const root = rootRef.current;
@@ -139,15 +138,15 @@ export default function Location() {
  className="py-[var(--section-y)] relative overflow-hidden bg-white text-[#11141b]"
     >
       <div className="u-shell">
-        <SectionLabel label="Geography & Seclusion" />
+        <SectionLabel label="Who We Are" />
         <div className="mt-14 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <TextReveal
  as="h2"
  className="u-display max-w-[14ch] text-3xl sm:text-4xl lg:text-5xl text-[#11141b] font-normal leading-[1.08]"
- lines={["An address", <em key="e" className="font-serif italic font-normal text-[#D8B479]">of absolute distinction.</em>]}
+ lines={["Building across", <em key="e" className="font-serif italic font-normal text-[#D8B479]">Lahore.</em>]}
           />
           <p className="loc-desc max-w-md text-base text-[#4b5563] leading-relaxed font-normal">
-            Nestled inside an exclusive, privately guarded enclave. Buffered by protected coastal reserves yet seamlessly connected to prime air and nautical infrastructure.
+            From DHA to Valencia Town and beyond, we build in the city we live in — on plots of every size, for families and businesses who want it done properly the first time.
           </p>
         </div>
       </div>
@@ -182,12 +181,12 @@ export default function Location() {
  aria-hidden="true"
  className="loc-tether h-px w-10 sm:w-20 origin-left bg-gradient-to-r from-[var(--accent)] to-transparent"
             />
-            <div className="ml-2 sm:ml-4 [text-shadow:0_1px_12px_rgba(11,13,18,0.75)]">
+            <div className="ml-2 sm:ml-4 [text-shadow:0_1px_12px_rgba(0,0,0,0.75)]">
               <span className="u-eyebrow text-[0.62rem] text-[#f4f2ee] font-medium block">
-                The Estate Enclave
+                JC Landmarks
               </span>
               <span className="mt-1 text-[0.58rem] tracking-wider text-[#D8B479] uppercase hidden sm:block">
-                2 Kanal Spanish Classical Estate
+                2-Kanal Residence · Design &amp; Build
               </span>
             </div>
           </div>
@@ -195,31 +194,30 @@ export default function Location() {
         </div>
       </div>
 
-      {/* Transit Distance Highlights */}
+      {/* Company attributes — each card floods dark from the top on hover */}
       <div className="u-shell mt-16">
-        <h3 className="u-eyebrow text-[var(--accent)] mb-6">
-          Strategic Proximity
+        <h3 className="u-eyebrow font-sans text-[var(--accent)] mb-6">
+          Company Attributes
         </h3>
 
         <div className="loc-facts grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {TRANSIT_POINTS.map((pt, i) => (
+          {ATTRIBUTES.map((a) => (
             <div
- key={pt.name}
- onMouseEnter={() => setActivePoint(i)}
- onMouseLeave={() => setActivePoint(null)}
- className={[
-"loc-fact u-panel-soft p-5 cursor-default",
-              ].join(" ")}
- data-active={activePoint === i}
+              key={a.name}
+              className="loc-fact group relative isolate cursor-default overflow-hidden bg-white p-6 shadow-[inset_0_0_0_1px_rgba(20,33,61,0.06),0_18px_44px_-28px_rgba(20,33,61,0.3)] transition-shadow duration-500 hover:shadow-[0_24px_54px_-26px_rgba(0,0,0,0.55)]"
             >
-              <span className="u-eyebrow text-[var(--accent)] text-[0.62rem] block font-mono">
-                {pt.time}
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 -z-10 origin-top bg-[#000000] [transform:scaleY(0)] transition-transform duration-[700ms] ease-[var(--ease-luxe)] group-hover:[transform:scaleY(1)]"
+              />
+              <span className="u-eyebrow block text-[0.62rem] text-[var(--accent)]">
+                {a.no}
               </span>
-              <h4 className="u-display text-lg text-[var(--on-surface)] mt-2 font-normal">
-                {pt.name}
+              <h4 className="u-display mt-3 text-[1.35rem] font-normal leading-snug text-[#11141b] transition-colors duration-500 group-hover:text-white">
+                {a.name}
               </h4>
-              <span className="text-[0.65rem] text-[var(--on-surface-muted)] tracking-wider uppercase mt-2 block">
-                {pt.distance}
+              <span className="mt-4 block text-[0.65rem] uppercase tracking-wider text-[#4b5563] transition-colors duration-500 group-hover:text-[rgba(255,255,255,0.7)]">
+                {a.detail}
               </span>
             </div>
           ))}

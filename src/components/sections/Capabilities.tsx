@@ -8,7 +8,7 @@ import MagneticButton from"@/components/ui/MagneticButton";
 import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 /**
- * CAPABILITIES — a pinned card relay.
+ * WHY CHOOSE US — a pinned card relay.
  *
  * One hero card holds the stage. As the pinned section is scrolled, the
  * outgoing card shrinks away to a thumbnail parked top-left while the next
@@ -29,28 +29,28 @@ interface Capability {
 
 const CAPABILITIES: Capability[] = [
   {
- index:"01",
- title:"Earthworks",
- body:"Site preparation, deep excavation, shoring and grading — set out and levelled before a single foundation is poured.",
- still: FACADES.prismMonolith,
+    index: "01",
+    title: "Design to Keys",
+    body: "Architecture, structural engineering, approvals, construction and finishing — one company, one contract, one point of contact.",
+    still: FACADES.prismMonolith,
   },
   {
- index:"02",
- title:"Structure",
- body:"Reinforced concrete frames, cantilevers and steel connections, engineered in-house and cast on site.",
- still: FACADES.phase7Villa,
+    index: "02",
+    title: "Built by Our Own Teams",
+    body: "Our own engineers and site teams carry out the work, so the quality you are shown is the quality you get.",
+    still: FACADES.phase7Villa,
   },
   {
- index:"03",
- title:"Envelope",
- body:"Unitised glazing, dry-clad stone and weatherproofing — the line where the building meets the weather.",
- still: FACADES.phase7Curtain,
+    index: "03",
+    title: "Clear Costs",
+    body: "An itemised estimate before work begins and regular progress updates during it — no hidden extras at the end.",
+    still: FACADES.phase7Curtain,
   },
   {
- index:"04",
- title:"Fit-Out",
- body:"Joinery, stone setting, services coordination and final finishes, delivered turnkey by our own trades.",
- still: INTERIORS.loungeDoubleHeight,
+    index: "04",
+    title: "Handed Over Complete",
+    body: "Finished, tested and snag-checked before handover, with the drawings and documents for your home.",
+    still: INTERIORS.loungeDoubleHeight,
   },
 ];
 
@@ -171,9 +171,12 @@ export default function Capabilities() {
  className="relative bg-[#ffffff] text-[#11141b]"
     >
       <div className="cap-stage relative h-[100svh] overflow-hidden">
-        <div className="u-shell grid h-full items-center gap-8 lg:grid-cols-12 lg:gap-x-16">
+        {/* On phones everything has to fit one screen (the stage is pinned and
+            clips), so the card scales with the screen height and the top
+            leaves room for the header logo. */}
+        <div className="u-shell grid h-full content-center items-center gap-5 pt-16 sm:gap-8 sm:pt-0 lg:grid-cols-12 lg:gap-x-16">
           {/* ---- Card stage ---- */}
-          <div className="relative col-span-full h-[52vh] lg:col-span-7 lg:h-[72vh]">
+          <div className="relative col-span-full h-[34svh] sm:h-[48svh] lg:col-span-7 lg:h-[72vh]">
             {CAPABILITIES.map((c) => (
               <figure
  key={c.index}
@@ -194,30 +197,33 @@ export default function Capabilities() {
 
           {/* ---- Copy column ---- */}
           <div className="relative col-span-full lg:col-span-4 lg:col-start-9">
-            <span className="block font-mono text-[0.72rem] tracking-[0.42em] text-[#9a8f7d]">
+            <span className="mb-4 block text-[0.66rem] font-semibold uppercase tracking-[0.34em] text-[#b58c49]">
+              Why Choose Us
+            </span>
+            <span className="block text-[0.72rem] tabular-nums tracking-[0.42em] text-[#9a8f7d]">
  [ {CAPABILITIES[active].index}/{total} ]
             </span>
 
             {/* Each slide's copy is stacked and cross-faded in place. */}
-            <div className="relative mt-5 min-h-[11rem]">
+            <div className="relative mt-4 min-h-[9.5rem] sm:mt-5 sm:min-h-[11rem]">
               {CAPABILITIES.map((c) => (
                 <div
  key={c.index}
  className="cap-copy absolute inset-x-0 top-0"
  aria-hidden={CAPABILITIES[active].index !== c.index}
                 >
-                  <h3 className="text-[clamp(1.9rem,3.6vw,3.1rem)] font-extrabold uppercase leading-[0.98] tracking-[-0.01em] text-[#11141b]">
+                  <h3 className="u-display text-[clamp(1.85rem,4vw,3.6rem)] font-light leading-[1.02] tracking-[-0.015em] text-[#11141b]">
                     {c.title}
                   </h3>
-                  <p className="mt-5 max-w-sm text-[0.98rem] leading-relaxed text-[#3b4150]">
+                  <p className="mt-3 max-w-sm text-[0.92rem] leading-relaxed text-[#3b4150] sm:mt-5 sm:text-[0.98rem]">
                     {c.body}
                   </p>
                 </div>
               ))}
             </div>
 
-            <div className="mt-8">
-              <MagneticButton href="/services">Learn more</MagneticButton>
+            <div className="mt-5 sm:mt-8">
+              <MagneticButton href="/contact">Talk to us</MagneticButton>
             </div>
           </div>
         </div>

@@ -16,29 +16,29 @@ import { splitWords } from "@/lib/splitWords";
  */
 const MILESTONES = [
   {
-    year: "2009",
-    title: "The practice opens",
-    body: "Founded as a two-person drawing office taking on single-plot residential work in Lahore.",
+    year: "01",
+    title: "Survey & brief",
+    body: "We visit the plot, check the soil and the bylaws, and write down what you need from the building and what you want to spend.",
   },
   {
-    year: "2013",
-    title: "Engineering brought in-house",
-    body: "Structural calculation moved inside the practice, ending the split between what we drew and what others approved.",
+    year: "02",
+    title: "Design & 3D",
+    body: "Plans, elevations and 3D views, revised with you until the layout is right — before any construction cost is committed.",
   },
   {
-    year: "2017",
-    title: "Own site teams",
-    body: "Directly employed masons, steel fixers and joiners, so finish quality stopped depending on whoever won the tender.",
+    year: "03",
+    title: "Approvals & costing",
+    body: "Structural drawings, authority approvals and an itemised estimate, so you know the scope, the cost and the timeline in writing.",
   },
   {
-    year: "2021",
-    title: "First triple-height commissions",
-    body: "Post-tensioned slabs and column-free salons became standard rather than exceptional requests.",
+    year: "04",
+    title: "Construction",
+    body: "Grey structure and finishing by our own site teams, supervised by one project engineer, with regular updates and an open site.",
   },
   {
-    year: "Today",
-    title: "Three commissions a year",
-    body: "Deliberately capped, so the principal stays on every site and no drawing is delegated away.",
+    year: "05",
+    title: "Handover",
+    body: "Snag-checked room by room and handed over complete — keys, as-built drawings and warranties together.",
   },
 ];
 
@@ -129,16 +129,16 @@ export default function AboutTimeline() {
     <section
       ref={rootRef}
       id="trajectory"
-      className="relative bg-[#0b0d12] py-[clamp(6rem,15vh,11rem)] text-[#f4f2ee]"
+      className="relative bg-[#000000] py-[clamp(6rem,15vh,11rem)] text-[#f4f2ee]"
     >
       <div className="u-shell">
         <span className="block text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#D8B479]">
-          Trajectory
+          How We Work
         </span>
 
         <h2 className="at-head mt-12 max-w-2xl font-serif text-[clamp(1.9rem,3.8vw,3.3rem)] font-light leading-[1.16] tracking-[-0.01em]">
-          How the practice took its{" "}
-          <em className="italic text-[#D8B479]">present shape.</em>
+          Five steps from plot{" "}
+          <em className="italic text-[#D8B479]">to keys.</em>
         </h2>
 
         <div className="at-list relative mt-[clamp(4rem,10vh,7rem)] pl-10 sm:pl-16">
@@ -160,7 +160,7 @@ export default function AboutTimeline() {
               <span
                 aria-hidden="true"
                 className="at-dot absolute left-[-37px] top-[0.45rem] block h-[7px] w-[7px] rotate-45 bg-[#D8B479] sm:left-[-61px]"
-                style={{ boxShadow: "0 0 0 4px #0b0d12" }}
+                style={{ boxShadow: "0 0 0 4px #000000" }}
               />
               <div className="grid gap-y-4 lg:grid-cols-12 lg:gap-x-16">
                 <div className="lg:col-span-3">

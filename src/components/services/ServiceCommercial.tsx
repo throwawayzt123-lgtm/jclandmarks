@@ -17,19 +17,19 @@ import { splitWords } from "@/lib/splitWords";
  * path regardless of its real length and the draw needs no paid plugin.
  */
 const SECTORS = [
-  { name: "Corporate Offices", note: "Headquarters, floor plates and executive suites" },
-  { name: "Retail & Showrooms", note: "Street-front glazing and double-height display halls" },
-  { name: "Hospitality", note: "Restaurants, boutique hotels and banqueting" },
-  { name: "Mixed-Use Plazas", note: "Retail podiums with offices or apartments above" },
+  { name: "Commercial Plazas", note: "Shops at street level, offices or apartments above" },
+  { name: "Offices", note: "Office buildings and complete floors, shell to fit-out" },
+  { name: "Showrooms & Retail", note: "Glazed street fronts and open, double-height halls" },
+  { name: "Restaurants & Cafés", note: "Kitchens, services and dining areas built to code" },
 ];
 
 const DELIVERY = [
-  { no: "01", title: "Design & Build", body: "One contract for drawings, approvals and construction, so cost and programme are owned by a single party." },
-  { no: "02", title: "General Contracting", body: "Built to your architect's drawings, with our engineers checking constructability before work starts." },
-  { no: "03", title: "Structural Frame", body: "RCC and steel frames, post-tensioned slabs and long clear spans for open, flexible floors." },
-  { no: "04", title: "Facade Systems", body: "Curtain wall, stone cladding and louvre screens, detailed and installed by our own teams." },
-  { no: "05", title: "MEP Coordination", body: "Services coordinated in the drawings, not on site, so ceilings close up without surprises." },
-  { no: "06", title: "Fit-Out", body: "Shell to occupied space: partitions, ceilings, joinery and finishes on the same programme." },
+  { no: "01", title: "Design & Build", body: "Drawings, approvals and construction under one contract — one team responsible for cost and schedule." },
+  { no: "02", title: "Construction Only", body: "We build to your architect's drawings, and our engineers review them before work begins." },
+  { no: "03", title: "Structure", body: "Reinforced concrete and steel frames, designed for open floors that are easy to rearrange." },
+  { no: "04", title: "Façade", body: "Glazing, stone and cladding, detailed with the structure so the building stays weather-tight." },
+  { no: "05", title: "Electrical & Plumbing", body: "Services planned on the drawings, not worked out on site, so ceilings close without surprises." },
+  { no: "06", title: "Fit-Out", body: "From bare shell to ready to use: partitions, ceilings, joinery and finishes on one schedule." },
 ];
 
 /* ---- Elevation geometry (viewBox 0 0 480 560) ---- */
@@ -133,7 +133,7 @@ export default function ServiceCommercial() {
       ref={rootRef}
       id="commercial"
       data-chapter="0"
-      className="relative overflow-hidden bg-[#0b0d12] py-[clamp(6rem,15vh,11rem)] text-[#f4f2ee]"
+      className="relative overflow-hidden bg-[#000000] py-[clamp(6rem,15vh,11rem)] text-[#f4f2ee]"
     >
       {/* Drafting grid, faded at the edges so it never reads as a pattern fill. */}
       <div
@@ -158,9 +158,9 @@ export default function ServiceCommercial() {
             Buildings that work as hard as the businesses inside them.
           </h2>
           <p className="sc-lede col-span-full max-w-md text-[0.98rem] leading-[1.8] text-[rgba(244,242,238,0.66)] lg:col-span-4 lg:col-start-9 lg:pt-3">
-            Commercial work is judged on programme, cost certainty and how the
-            building performs the day it opens. We engineer and build to all
-            three, under one contract.
+            A commercial building is judged on three things: opening on time,
+            staying on budget and working well from day one. We plan, engineer
+            and build for all three, under one contract.
           </p>
         </div>
 

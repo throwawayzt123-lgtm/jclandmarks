@@ -21,7 +21,7 @@
   --brand-slate: #374151;        /* Crisp architectural dark slate (high contrast) */
 
   /* Cinematic tokens — deep obsidian world for hero & pinned moments */
-  --cine-ground: #07090e;        /* Deep obsidian night */
+  --cine-ground: #000000;        /* Deep obsidian night */
   --cine-text: #f7f6f2;          /* Warm silk ivory type */
   --cine-accent: #D8B479;        /* Primary Accent: Golden highlight */
   --cine-accent-soft: rgba(216, 180, 121, 0.24);
@@ -111,6 +111,8 @@
   --color-champagne-dim: var(--color-champagne-dim);
   --font-serif: var(--font-display), "Times New Roman", Times, serif;
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  /* No system monospace anywhere: "mono" labels use the site's own sans. */
+  --font-mono: var(--font-body), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -148,6 +150,15 @@
   }
 
 
+  /* Every heading is set in the display serif unless it opts out (small
+     eyebrow-style headings carry font-sans). */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), "Times New Roman", Times, serif;
+  }
+
   body {
     background-color: var(--surface);
     color: var(--on-surface);
@@ -160,9 +171,16 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* A soft gold wash that leaves the text colour alone, so selected text stays
+     readable on white, grey and dark grounds alike. */
   ::selection {
-    background-color: var(--brand-gold);
+    background-color: rgba(181, 140, 73, 0.32);
+  }
+  footer ::selection,
+  .u-dark ::selection {
+    background-color: rgba(216, 180, 121, 0.34);
     color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
   }
 
   :focus-visible {
@@ -230,24 +248,33 @@
 
 /* Directional scrim behind hero copy */
 .u-scrim-left {
-  background: linear-gradient(
-    100deg,
-    rgba(7, 9, 14, 0.52) 0%,
-    rgba(7, 9, 14, 0.34) 20%,
-    rgba(7, 9, 14, 0.08) 38%,
-    rgba(7, 9, 14, 0) 48%
-  );
+  /* The copy sits at the foot of the screen, so the shade rises from the
+     bottom as well as sweeping in from the left. */
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0, 0.62) 0%,
+      rgba(0,0,0, 0.3) 24%,
+      rgba(0,0,0, 0) 48%
+    ),
+    linear-gradient(
+      100deg,
+      rgba(0,0,0, 0.5) 0%,
+      rgba(0,0,0, 0.3) 28%,
+      rgba(0,0,0, 0.08) 52%,
+      rgba(0,0,0, 0) 66%
+    );
 }
 
 @media (max-width: 767px) {
   .u-scrim-left {
     background: linear-gradient(
       to bottom,
-      rgba(7, 9, 14, 0) 0%,
-      rgba(7, 9, 14, 0.06) 30%,
-      rgba(7, 9, 14, 0.42) 56%,
-      rgba(7, 9, 14, 0.7) 80%,
-      rgba(7, 9, 14, 0.78) 100%
+      rgba(0,0,0, 0) 0%,
+      rgba(0,0,0, 0.06) 30%,
+      rgba(0,0,0, 0.42) 56%,
+      rgba(0,0,0, 0.7) 80%,
+      rgba(0,0,0, 0.78) 100%
     );
   }
 }
@@ -255,9 +282,9 @@
 .u-scrim-center {
   background: radial-gradient(
     ellipse 65% 48% at 50% 50%,
-    rgba(7, 9, 14, 0.78) 0%,
-    rgba(7, 9, 14, 0.48) 50%,
-    rgba(7, 9, 14, 0) 82%
+    rgba(0,0,0, 0.78) 0%,
+    rgba(0,0,0, 0.48) 50%,
+    rgba(0,0,0, 0) 82%
   );
 }
 
@@ -305,7 +332,7 @@
 .u-panel {
   background-color: var(--surface-well);
   box-shadow:
-    0 20px 60px -30px rgba(7, 9, 14, 0.45);
+    0 20px 60px -30px rgba(0,0,0, 0.45);
 }
 
 .u-hair {
@@ -471,4 +498,187 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Small fade-and-rise used when a line of text is swapped in place. */
+@keyframes u-fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.u-fade-up { animation: u-fade-up 520ms var(--ease-luxe) both; }
+
+/* Panorama plate: a 130%-wide photo drifting side to side (30/130 = 23.08%). */
+@keyframes u-pan {
+  from { transform: translateX(0); }
+  to { transform: translateX(-23.08%); }
+}
+.u-pan { animation: u-pan 36s ease-in-out infinite alternate; }
+
+/*
+ * BUTTONS — one system for every call to action.
+ *
+ *   <Link className="u-btn u-btn--dark">
+ *     <span>View all services</span>
+ *     <span aria-hidden="true" className="u-btn__arrow" />
+ *   </Link>
+ *
+ * A pill in the same language as the navbar bubble, with a round "knob" at
+ * its right end that carries the arrow. On hover the knob grows until it
+ * fills the whole pill, the label changes colour, and the arrow slides on.
+ * No outlines. Variants: --dark and --line on light grounds; --gold and
+ * --light on dark ones.
+ */
+.u-btn {
+  --knob: 2.45rem;
+  --inset: 0.32rem;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.15rem;
+  min-height: calc(var(--knob) + var(--inset) * 2);
+  padding: var(--inset) var(--inset) var(--inset) 1.65rem;
+  border-radius: 999px;
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  color: var(--btn-fg);
+  background: var(--btn-bg);
+  transition: color 500ms var(--ease-luxe), background-color 200ms linear;
+}
+/* The knob's disc. It sits behind the arrow and swells to fill the pill. */
+.u-btn::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  right: var(--inset);
+  width: var(--knob);
+  height: var(--knob);
+  margin-top: calc(var(--knob) / -2);
+  border-radius: 50%;
+  background: var(--btn-knob);
+  transition: transform 750ms var(--ease-luxe);
+}
+.u-btn__arrow {
+  position: relative;
+  flex: none;
+  width: var(--knob);
+  height: var(--knob);
+  color: var(--btn-arrow);
+  overflow: hidden;
+}
+/* Shaft + head, drawn twice: one slides out to the right as the other slides in. */
+.u-btn__arrow::before,
+.u-btn__arrow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin: -0.425rem 0 0 -0.425rem;
+  transition: transform 550ms var(--ease-luxe);
+  /* shaft, then the head: two short strokes meeting at the right end */
+  background:
+    linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat,
+    linear-gradient(45deg, transparent calc(50% - 0.5px), currentColor calc(50% - 0.5px), currentColor calc(50% + 0.5px), transparent calc(50% + 0.5px)) right top / 45% 50% no-repeat,
+    linear-gradient(-45deg, transparent calc(50% - 0.5px), currentColor calc(50% - 0.5px), currentColor calc(50% + 0.5px), transparent calc(50% + 0.5px)) right bottom / 45% 50% no-repeat;
+}
+.u-btn__arrow::before { transform: translateX(0); }
+.u-btn__arrow::after { transform: translateX(-280%); }
+.u-btn--up .u-btn__arrow { transform: rotate(-90deg); }
+
+@media (hover: hover) {
+  .u-btn:hover::before { transform: scale(var(--grow, 16)); }
+  /* Once the disc has covered it, the ground takes its colour too, so no
+     rim of the old colour is left at the rounded edge. */
+  .u-btn:hover { color: var(--btn-fg-hover); background-color: var(--btn-knob); transition: color 500ms var(--ease-luxe), background-color 150ms linear 450ms; }
+  .u-btn:hover .u-btn__arrow::before { transform: translateX(280%); }
+  .u-btn:hover .u-btn__arrow::after { transform: translateX(0); }
+}
+.u-btn:active::before,
+.u-btn:focus-visible::before { transform: scale(var(--grow, 16)); }
+.u-btn:active,
+.u-btn:focus-visible { color: var(--btn-fg-hover); }
+.u-btn:focus-visible { outline: 1px solid var(--btn-knob); outline-offset: 4px; }
+
+.u-btn--dark  { --btn-bg: #11141b; --btn-fg: #f4f2ee; --btn-knob: #d8b479; --btn-arrow: #000000; --btn-fg-hover: #000000; }
+/* --line and --light are soft tints, not outlines: the site has no hard borders. */
+.u-btn--line  { --btn-bg: rgba(17, 20, 27, 0.06); --btn-fg: #11141b; --btn-knob: #11141b; --btn-arrow: #d8b479; --btn-fg-hover: #f4f2ee; }
+.u-btn--gold  { --btn-bg: #d8b479; --btn-fg: #000000; --btn-knob: #000000; --btn-arrow: #d8b479; --btn-fg-hover: #f4f2ee; }
+.u-btn--light { --btn-bg: rgba(244, 242, 238, 0.08); --btn-fg: #f4f2ee; --btn-knob: #d8b479; --btn-arrow: #000000; --btn-fg-hover: #000000; }
+.u-btn--sm { --knob: 2.05rem; --inset: 0.28rem; gap: 0.95rem; padding-left: 1.3rem; font-size: 0.6rem; }
+
+/* Indeterminate loading line. */
+@keyframes u-load {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(300%); }
+}
+
+/* Browsers tint autofilled fields yellow/blue; keep the form's own look. */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+  -webkit-text-fill-color: #11141b;
+  transition: background-color 9999s ease-out;
+}
+
+/* Loading screen play: a dropped pin pings outward, and its label fades away. */
+@keyframes ld-ring {
+  from { transform: scale(0.2); opacity: 1; }
+  to   { transform: scale(1.9); opacity: 0; }
+}
+@keyframes ld-pin-label {
+  0%   { opacity: 0; transform: translateY(4px); }
+  12%  { opacity: 1; transform: translateY(0); }
+  78%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+.ld-ring { animation: ld-ring 900ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.ld-pin-label { animation: ld-pin-label 2.5s ease both; }
+@media (prefers-reduced-motion: reduce) {
+  .ld-ring, .ld-pin-label { animation: none; }
+}
+
+/* Parent company band: a ring of gold light that turns, a shimmer across the name. */
+@property --pc-a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.pc-ring {
+  background: conic-gradient(from var(--pc-a), rgba(216, 180, 121, 0) 0deg, #f1d9a4 60deg, rgba(216, 180, 121, 0.15) 140deg, rgba(216, 180, 121, 0) 200deg, #d8b479 290deg, rgba(216, 180, 121, 0) 360deg);
+  filter: drop-shadow(0 0 18px rgba(216, 180, 121, 0.55));
+  animation: pc-turn 9s linear infinite;
+}
+@keyframes pc-turn {
+  to { --pc-a: 360deg; }
+}
+.pc-logo {
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.55)) drop-shadow(0 0 22px rgba(216, 180, 121, 0.45));
+}
+.pc-name {
+  background: linear-gradient(100deg, #b58c49 0%, #d8b479 30%, #fff4dc 46%, #d8b479 60%, #b58c49 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 24px rgba(216, 180, 121, 0.35));
+  animation: pc-shimmer 6s ease-in-out infinite;
+  transition: filter 500ms ease;
+}
+a.pc-name:hover {
+  filter: drop-shadow(0 0 34px rgba(216, 180, 121, 0.7));
+}
+@keyframes pc-shimmer {
+  0%, 100% { background-position: 100% 0; }
+  50% { background-position: 0% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pc-ring, .pc-name { animation: none; }
 }

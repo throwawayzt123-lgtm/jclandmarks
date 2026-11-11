@@ -30,6 +30,15 @@ export function smoothScrollTo(y: number) {
  * Lenis drives wheel scrolling itself, so `overflow: hidden` alone would not
  * stop it — it has to be paused too.
  */
+/**
+ * How far (in viewport heights) the scroll target may run ahead of the page
+ * on screen — see the speed governor in the Lenis options. At lerp 0.09 a
+ * lead of 0.45vh caps travel near 40px a frame inside the hero (about two
+ * film frames per screen refresh); the rest of the page may run twice that.
+ */
+const HERO_LEAD = 0.45;
+const PAGE_LEAD = 0.9;
+
 /** Everything currently holding the scroll lock (e.g. "loader", "menu"). */
 const lockHolders = new Set<string>();
 const lockWanted = () => lockHolders.size > 0;
@@ -106,6 +115,36 @@ export default function SmoothScrollProvider() {
       // costs far more than it gives.
  syncTouch: false,
  autoRaf: false,
+      /**
+       * Speed governor. Lenis glides toward a target, and every wheel event
+       * pushes that target further on — so a frantic flick could queue up
+       * thousands of pixels and the page would then race through them,
+       * skipping hero frames faster than they can decode and flinging past
+       * the pinned sections. Here the target may only run so far ahead of
+       * what is on screen: ordinary scrolling is untouched, a violent flick
+       * becomes a fast but continuous glide. The lead is tighter inside the
+       * hero, where every scroll pixel is a film frame.
+       */
+ virtualScroll: (data) => {
+ if (!data.event.type.includes("wheel")) return true;
+ const lead = lenis.targetScroll - lenis.animatedScroll;
+ const sameWay = lead === 0 || Math.sign(data.deltaY) === Math.sign(lead);
+        // Reversing direction is never limited.
+ if (!sameWay) return true;
+
+ const hero = ScrollTrigger.getById("hero-sequence-pin");
+ const inHero = !!hero && lenis.animatedScroll < hero.end;
+ const maxLead = window.innerHeight * (inHero ? HERO_LEAD : PAGE_LEAD);
+ const room = maxLead - Math.abs(lead);
+ if (room <= 0) {
+          // Swallow the event entirely (a zero delta would fall through to
+          // a native scroll that fights Lenis).
+ if (data.event.cancelable) data.event.preventDefault();
+ return false;
+        }
+ data.deltaY = Math.sign(data.deltaY) * Math.min(Math.abs(data.deltaY), room);
+ return true;
+      },
     });
 
  activeLenis = lenis;

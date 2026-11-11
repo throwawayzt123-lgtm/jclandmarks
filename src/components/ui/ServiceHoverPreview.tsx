@@ -124,7 +124,7 @@ export default function ServiceHoverPreview({
  style={{ objectPosition: s.position ??"center" }}
             />
             {/* Ambient luxury gradient & frame tag */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(7,9,14,0.8)] via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.8)] via-transparent to-transparent" />
             <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[0.58rem] tracking-[0.2em] uppercase text-[rgba(247,246,242,0.85)]">
               <span className="text-[var(--cine-accent)]">Perspective {i + 1}</span>
               <span>4K Cine Plate</span>

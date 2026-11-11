@@ -76,24 +76,21 @@ export default function HeroOverlay({
         { yPercent: -12, opacity: 0, duration: 0.22 },
         0.04
       )
+        // The scrim only fades; it must not travel with the text, or its
+        // bottom edge lifts and exposes an unshaded strip.
+        .to(".hero-scrim", { opacity: 0, duration: 0.22 }, 0.04)
         .to(".hero-cue", { opacity: 0, duration: 0.08 }, 0)
 
-        // Act 2 — The Threshold
-        .fromTo(
-".hero-act-2",
-          { opacity: 0, y: 24, scale: 0.98 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.09 },
-          0.3
-        )
-        .to(".hero-act-2", { opacity: 0, y: -24, duration: 0.09 }, 0.46)
+        // Act 2 — The Threshold. The panel (with its full-screen shade) only
+        // fades; just the text moves, so the shade never shows an edge.
+        .fromTo(".hero-act-2", { opacity: 0 }, { opacity: 1, duration: 0.09 }, 0.3)
+        .fromTo(".hero-act-2 .hero-text", { y: 24 }, { y: 0, duration: 0.09 }, 0.3)
+        .to(".hero-act-2", { opacity: 0, duration: 0.09 }, 0.46)
+        .to(".hero-act-2 .hero-text", { y: -24, duration: 0.09 }, 0.46)
 
-        // Act 3 — The Grand Interior
-        .fromTo(
-".hero-act-3",
-          { opacity: 0, y: 32, scale: 0.97 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.12 },
-          0.62
-        )
+        // Act 3 — The Handover
+        .fromTo(".hero-act-3", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 0.62)
+        .fromTo(".hero-act-3 .hero-text", { y: 32 }, { y: 0, duration: 0.12 }, 0.62)
         .to(".hero-act-3", { opacity: 0, duration: 0.08 }, 0.94);
     }, root);
 
@@ -103,43 +100,33 @@ export default function HeroOverlay({
  return (
     <div
  ref={rootRef}
- className="pointer-events-none absolute inset-0 z-10 flex items-end md:items-center"
+ className="pointer-events-none absolute inset-0 z-10 flex items-end"
     >
       {/* Directional Scrim */}
       <div
  aria-hidden="true"
- className="hero-act-1 u-scrim-left absolute inset-0 pointer-events-none"
+ className="hero-scrim u-scrim-left absolute inset-0 pointer-events-none"
       />
 
       {/* ---------- Act 1 — The Approach ---------- */}
-      <div className="hero-act-1 u-shell relative w-full pb-24 md:pb-0">
-        <div className="max-w-[50rem]">
-          <div className="flex items-center gap-3 overflow-hidden">
-            <span className="hero-reveal u-eyebrow flex items-center gap-2.5 text-[var(--cine-accent)]">
-              <span className="h-1.5 w-1.5 rotate-45 bg-[var(--cine-accent)] shadow-[0_0_8px_var(--cine-accent)]" />
-              Design · Build · Deliver
+      <div className="hero-act-1 u-shell relative w-full pb-[clamp(6.5rem,16vh,9.5rem)]">
+        {/* Just the headline: large, light, and left to carry the screen. */}
+        <h1
+          className="u-display text-[clamp(2.6rem,6.2vw,6.75rem)] leading-[0.95] tracking-[-0.025em] text-[var(--cine-text)] [text-shadow:0_2px_40px_rgba(0,0,0,0.45)]"
+        >
+          <span className="block overflow-hidden pb-[0.1em]">
+            <span className="hero-reveal block font-light">Where Landmarks</span>
+          </span>
+          <span className="block overflow-hidden pb-[0.12em]">
+            <span className="hero-reveal block pl-[0.06em] font-light italic text-[#EBD2A0] [text-shadow:0_2px_36px_rgba(0,0,0,0.75),0_0_2px_rgba(0,0,0,0.35)]">
+              Begin.
             </span>
-          </div>
-
-          <h1 className="u-display mt-6 text-display text-[var(--cine-text)] leading-[0.94]">
-            <span className="block overflow-hidden pb-[0.08em]">
-              <span className="hero-reveal block font-light">We Build</span>
-            </span>
-            <span className="block overflow-hidden pb-[0.08em]">
-              <span className="hero-reveal block italic text-[rgba(247,246,242,0.92)]">
-                What Others Draw
-              </span>
-            </span>
-          </h1>
-
-          <p className="hero-fade mt-6 max-w-sm text-pretty text-[0.82rem] leading-relaxed text-[rgba(247,246,242,0.72)] sm:text-sm md:mt-8 md:max-w-md md:text-base">
-            From foundation to final finish — engineered, built and handed
- over by our own teams.
-          </p>
-
-          {/* Quick specs badge strip */}
-          
-        </div>
+          </span>
+        </h1>
+        <span
+          aria-hidden="true"
+          className="hero-fade mt-7 block h-px w-24 bg-[linear-gradient(to_right,#D8B479,rgba(216,180,121,0))] md:mt-10"
+        />
       </div>
 
       {/* ---------- Scroll Cue ---------- */}
@@ -155,31 +142,32 @@ export default function HeroOverlay({
         </a>
       </div>
 
-      {/* ---------- Act 2 — The Threshold ---------- */}
-      <div className="hero-act-2 absolute inset-0 flex flex-col items-center justify-center px-[var(--gutter)] text-center opacity-0 pointer-events-none">
-        <div aria-hidden="true" className="u-scrim-center absolute inset-0" />
-        <span className="u-eyebrow relative mb-4 text-[var(--cine-accent)]">
-          Chapter II · The Threshold
-        </span>
-        <h2 className="u-display relative max-w-[22ch] text-h2 text-[var(--cine-text)]">
-          Crossing into the living volume
-        </h2>
+      {/* ---------- Act 2 — The Threshold (bottom-left, clear of the view) ---------- */}
+      <div className="hero-act-2 absolute inset-0 flex items-end opacity-0 pointer-events-none">
+        <div aria-hidden="true" className="u-scrim-left absolute inset-0" />
+        <div className="hero-text u-shell relative w-full pb-[clamp(6.5rem,16vh,9.5rem)] text-left">
+          <span className="u-eyebrow mb-4 block text-[var(--cine-accent)]">Step Inside</span>
+          <h2 className="u-display max-w-[16ch] text-h2 text-[var(--cine-text)] [text-shadow:0_2px_36px_rgba(0,0,0,0.6)]">
+            Every room, planned with you
+          </h2>
+        </div>
       </div>
 
-      {/* ---------- Act 3 — The Grand Interior ---------- */}
-      <div className="hero-act-3 absolute inset-0 flex flex-col items-start justify-end px-[var(--gutter)] pb-[12vh] opacity-0 pointer-events-none">
-        <div
- aria-hidden="true"
- className="absolute inset-0 bg-[linear-gradient(to_top,rgba(7,9,14,0.86)_0%,rgba(7,9,14,0.45)_26%,rgba(7,9,14,0)_52%)]"
-        />
-        <span className="u-eyebrow relative mb-3 text-[var(--cine-accent)]">
-          Chapter III · The Horizon
-        </span>
-        <h2 className="u-display relative max-w-[20ch] text-h2 text-[var(--cine-text)] leading-[1.08]">
-          Where architecture
-          <br />
-          <span className="italic text-[rgba(247,246,242,0.92)]">gives way to the horizon</span>
-        </h2>
+      {/* ---------- Act 3 — The Handover (bottom-left) ---------- */}
+      <div className="hero-act-3 absolute inset-0 flex items-end opacity-0 pointer-events-none">
+        <div aria-hidden="true" className="u-scrim-left absolute inset-0" />
+        <div className="hero-text u-shell relative w-full pb-[clamp(6.5rem,16vh,9.5rem)] text-left">
+          <span className="u-eyebrow mb-5 block text-[var(--cine-accent)]">The Handover</span>
+          <h2 className="u-display max-w-[18ch] text-h2 leading-[1.1] text-[var(--cine-text)] [text-shadow:0_2px_36px_rgba(0,0,0,0.6)]">
+            Built to be lived in.
+            <br />
+            <span className="italic text-[rgba(247,246,242,0.92)]">Made to last generations.</span>
+          </h2>
+          <span aria-hidden="true" className="mt-7 block h-px w-14 bg-[var(--cine-accent)]" />
+          <p className="mt-6 max-w-md text-[0.9rem] leading-relaxed text-[rgba(247,246,242,0.82)] sm:text-[0.98rem]">
+            Every home we build is handed over complete — keys, drawings and guarantees in one hand.
+          </p>
+        </div>
       </div>
     </div>
   );

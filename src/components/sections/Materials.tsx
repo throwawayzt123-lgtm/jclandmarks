@@ -17,27 +17,27 @@ interface Material {
 
 const MATERIALS: Material[] = [
   {
- label:"Book-Matched Polish Marble",
- origin:"Tuscany & Verona Quarry Slabs",
- detail:"Seamless floor cladding with continuous veining across the great salon and central lightwell gallery.",
+ label:"Wood & Textured Wall Finishes",
+ origin:"Interiors · Dining & living",
+ detail:"Wood-finish panelling and textured wallpaper add warmth to large rooms, paired with marble-finish tiles that are easy to keep.",
  still: INTERIORS.diningGrand,
   },
   {
- label:"Monolithic Charcoal Stone & Bronze Fins",
- origin:"Architectural Exterior Masonry",
- detail:"Bespoke angled sun louvers integrated into thermal massing stone, sculpted for passive climate resilience.",
+ label:"Stone Cladding & Glazing",
+ origin:"Exterior · Front elevation",
+ detail:"Natural and engineered stone over a reinforced concrete frame, with aluminium-framed glazing sized for light and privacy.",
  still: FACADES.prismMonolith,
   },
   {
- label:"Acoustic Vertical Fluted Walnut",
- origin:"Appalachian Hardwood Atelier",
- detail:"Concealed ambient LED illumination and precision-milled acoustic wood slats for optimal acoustic warmth.",
+ label:"Lighting & Ceiling Work",
+ origin:"Interiors · Bedrooms",
+ detail:"False ceilings with concealed LED, pendants and wall lights — planned with the electrical layout, not added at the end.",
  still: INTERIORS.mediaAcoustic,
   },
   {
- label:"Artisanal Plaster & Boucle Textures",
- origin:"Italian Plaster & Textile Studio",
- detail:"Hand-applied mineral wall niches and tailored curved boucle seating curated for tactile tranquility.",
+ label:"Flooring & Soft Finishes",
+ origin:"Interiors · Lounges",
+ detail:"Large-format porcelain and marble-finish flooring, full-height curtains and fitted furniture, chosen with you and installed by our team.",
  still: INTERIORS.salonCurved,
   },
 ];
@@ -118,21 +118,21 @@ export default function Materials() {
  className="py-[var(--section-y)] bg-white text-[#11141b] relative overflow-hidden"
     >
       <div className="u-shell">
-        <SectionLabel label="Materiality & Craft" />
+        <SectionLabel label="Materials & Finishes" />
 
         <div className="mt-12 flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4">
           <div className="max-w-xl">
             <span className="mat-eyebrow text-xs sm:text-sm tracking-[0.28em] uppercase text-[#b58c49] font-bold block mb-3">
-              Noble Material Palette
+              What Goes Into a Home
             </span>
             <TextReveal
  as="h2"
  className="u-display text-3xl sm:text-4xl lg:text-5xl text-[#11141b] font-normal leading-[1.08]"
- lines={["Materials of", <em key="e" className="font-serif italic font-normal text-[#D8B479]">distinction.</em>]}
+ lines={["Materials you", <em key="e" className="font-serif italic font-normal text-[#D8B479]">can trust.</em>]}
             />
           </div>
           <p className="mat-desc max-w-md text-lg sm:text-xl text-[#1f2937] font-normal leading-relaxed">
-            Every surface is authentic, tactile, and selected to mature with graceful nobility over generations.
+            We use tested materials from approved suppliers, and you choose every visible finish with us before it is ordered.
           </p>
         </div>
 
@@ -160,18 +160,23 @@ export default function Materials() {
               </div>
 
               {/* Caption Block with dark, readable text */}
-              <figcaption className="p-6 sm:p-8 flex flex-col flex-1 justify-between bg-[#ffffff]">
+              <figcaption className="relative isolate overflow-hidden p-6 sm:p-8 flex flex-col flex-1 justify-between bg-[#ffffff]">
+                {/* Dark fill that drops down from the top edge on hover */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 -z-10 origin-top bg-[#000000] [transform:scaleY(0)] transition-transform duration-[700ms] ease-[var(--ease-luxe)] group-hover:[transform:scaleY(1)]"
+                />
                 <div>
-                  <h3 className="u-display text-2xl sm:text-3xl text-[#11141b] font-normal font-serif group-hover:text-[#b58c49] transition-colors">
+                  <h3 className="u-display text-2xl sm:text-3xl text-[#11141b] font-normal font-serif transition-colors duration-500 group-hover:text-white">
                     {m.label}
                   </h3>
-                  <p className="mt-3 text-base sm:text-lg text-[#1f2937] font-normal leading-relaxed">
+                  <p className="mt-3 text-base sm:text-lg text-[#1f2937] font-normal leading-relaxed transition-colors duration-500 group-hover:text-[rgba(255,255,255,0.82)]">
                     {m.detail}
                   </p>
                 </div>
                 <div className="mt-6 flex items-center gap-3 pt-4 border-t border-[rgba(216,180,121,0.25)]">
                   <span aria-hidden="true" className="h-[6px] w-[6px] rotate-45 bg-[#D8B479]" />
-                  <span className="text-xs tracking-[0.2em] uppercase text-[#4b5563] font-semibold">
+                  <span className="text-xs tracking-[0.2em] uppercase text-[#4b5563] font-semibold transition-colors duration-500 group-hover:text-[#D8B479]">
                     {m.origin}
                   </span>
                 </div>

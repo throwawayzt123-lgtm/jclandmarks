@@ -19,7 +19,7 @@ const SERVICES = [
     no: "01",
     id: "commercial",
     title: "Commercial Construction",
-    note: "Offices · Retail · Hospitality · Mixed-use",
+    note: "Offices · Showrooms · Plazas",
     still: FACADES.prismMonolith,
   },
   {
@@ -33,7 +33,7 @@ const SERVICES = [
     no: "03",
     id: "real-estate",
     title: "Real Estate",
-    note: "Homes for sale · Purchase · Valuation",
+    note: "Buy · Sell · Valuation",
     still: FACADES.spanishEstate,
   },
 ];
@@ -138,7 +138,7 @@ export default function ServicesHero() {
   return (
     <section
       ref={rootRef}
-      className="relative isolate overflow-hidden bg-[#0b0d12] text-[#f4f2ee]"
+      className="relative isolate overflow-hidden bg-[#000000] text-[#f4f2ee]"
     >
       <div aria-hidden="true" className="sh-bg-wrap absolute inset-0">
         {SERVICES.map((s, i) => (
@@ -154,8 +154,8 @@ export default function ServicesHero() {
             />
           </div>
         ))}
-        <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(11,13,18,0.94)_0%,rgba(11,13,18,0.78)_45%,rgba(11,13,18,0.5)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0b0d12] to-transparent" />
+        <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(0,0,0,0.94)_0%,rgba(0,0,0,0.78)_45%,rgba(0,0,0,0.5)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#000000] to-transparent" />
       </div>
 
       <div className="u-shell relative pb-[clamp(4rem,9vh,7rem)] pt-[clamp(9rem,20vh,13rem)]">
@@ -164,7 +164,7 @@ export default function ServicesHero() {
         </span>
 
         <h1 className="sh-head mt-8 max-w-3xl font-serif text-[clamp(2.2rem,5vw,4.3rem)] font-light leading-[1.1] tracking-[-0.01em]">
-          Three ways we put landmarks on the ground.
+          Design, construction and real estate — under one roof.
         </h1>
 
         <nav aria-label="Services" className="mt-[clamp(3.5rem,9vh,6rem)]">

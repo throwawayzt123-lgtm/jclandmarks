@@ -28,22 +28,22 @@ interface Project {
 
 const PROJECTS: Project[] = [
   {
- title: ["Phase 7","Cantilever Villa"],
- body:"A 1-kanal residence built around a cantilevered upper floor, reflection terraces and full-height structural glazing.",
+ title: ["12-V","Stone Residence"],
+ body:"A 1 Kanal home in DHA Phase 7 — cream stone, a double-height glazed stairwell and a covered car porch with a terrace above.",
  centre: INTERIORS.loungeDoubleHeight,
  left: FACADES.phase7Villa,
  right: INTERIORS.diningGrand,
   },
   {
  title: ["464-D","Prism Monolith"],
- body:"Dry-clad charcoal stone over a reinforced concrete frame, with bronze louvres and a concealed services spine.",
+ body:"A 5 Marla home that makes every metre count — dark stone, a white stone fin, a glass balcony and an angled roof canopy.",
  centre: INTERIORS.salonCurved,
  left: FACADES.prismMonolith,
  right: INTERIORS.staircaseCantilever,
   },
   {
  title: ["483-Y","Glass Curtain"],
- body:"Unitised curtain-wall glazing and travertine terraces, delivered turnkey from foundation to final finish.",
+ body:"A 1 Kanal home in DHA Phase 7 with a double-height glass front, a grey stone frame and a roof terrace — built turnkey, foundation to finish.",
  centre: INTERIORS.atriumApex,
  left: FACADES.phase7Curtain,
  right: INTERIORS.foyerGallery,
@@ -125,7 +125,7 @@ export default function Handpicked() {
     <section
  ref={rootRef}
  id="handpicked"
- className="relative bg-[#15171a] text-[#f2f0ec]"
+ className="relative bg-[#000000] text-[#f2f0ec]"
     >
       <div className="pj-stage relative h-[100svh] overflow-hidden">
         {/* ---- Section label + pagination ---- */}
@@ -212,9 +212,10 @@ export default function Handpicked() {
               </p>
               <Link
  href="/projects"
- className="shrink-0 shadow-[inset_0_0_0_1px_rgba(20,33,61,0.07),0_18px_44px_-28px_rgba(20,33,61,0.3)] px-7 py-3 text-[0.68rem] tracking-[0.18em] uppercase text-[#f2f0ec] transition-colors duration-500 hover:border-[#f2f0ec] hover:bg-white hover:text-[#15171a]"
+ className="u-btn u-btn--light u-btn--sm shrink-0"
               >
-                Learn more
+                <span>Learn more</span>
+                <span aria-hidden="true" className="u-btn__arrow" />
               </Link>
             </div>
           </article>

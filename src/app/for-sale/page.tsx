@@ -27,7 +27,7 @@ export default function ForSalePage() {
           eyebrow="For Sale"
           title="Homes ready"
           accent="to move into."
-          lede="Residences built by our own teams and available now — each one sold with its full construction record, so you know exactly what you are buying."
+          lede="Homes built by our own teams and ready now. We can show you how each one was built, so you know exactly what you are buying."
           crumbs={[{ label: "Home", href: "/" }, { label: "For Sale" }]}
           still={INTERIORS.salonCurved}
         />
@@ -49,7 +49,7 @@ export default function ForSalePage() {
                 const reserved = l.status === "Reserved";
                 return (
                   <article key={l.slug} className="group flex flex-col">
-                    <div data-r="plate" className="relative aspect-[4/3] overflow-hidden bg-[#0b0d12]">
+                    <div data-r="plate" className="relative aspect-[4/3] overflow-hidden bg-[#000000]">
                       <div data-r-img className="absolute inset-0">
                         <Image
                           src={l.cover.src}
@@ -102,10 +102,10 @@ export default function ForSalePage() {
                       <div className="mt-auto flex flex-wrap items-center gap-x-7 gap-y-4 pt-7">
                         <Link
                           href={enquiryHref("buy", l.title)}
-                          className="group/btn inline-flex items-center gap-3 bg-[#11141b] px-7 py-4 text-[0.62rem] uppercase tracking-[0.24em] text-[#f4f2ee] transition-colors duration-500 hover:bg-[#b58c49]"
+                          className="u-btn u-btn--dark u-btn--sm"
                         >
-                          {reserved ? "Join the waiting list" : "Enquire about this home"}
-                          <span aria-hidden="true" className="transition-transform duration-500 group-hover/btn:translate-x-1">→</span>
+                          <span>{reserved ? "Join the waiting list" : "Enquire about this home"}</span>
+                          <span aria-hidden="true" className="u-btn__arrow" />
                         </Link>
                         <a href={CONTACT.phoneHref} className="text-[0.62rem] uppercase tracking-[0.24em] text-[#11141b] underline decoration-[#b58c49] decoration-1 underline-offset-[6px] transition-colors hover:text-[#b58c49]">
                           Call us
@@ -127,7 +127,7 @@ export default function ForSalePage() {
                 Selling a home?
               </span>
               <h2 data-r="words" className="mt-6 font-serif text-[clamp(1.8rem,3.4vw,2.8rem)] font-light leading-[1.16]">
-                We value, present and sell homes — or buy them directly.
+                We value, market and sell homes for their owners.
               </h2>
             </div>
             <div data-r="stagger" className="col-span-full flex flex-col items-start gap-6 lg:col-span-4 lg:col-start-9">

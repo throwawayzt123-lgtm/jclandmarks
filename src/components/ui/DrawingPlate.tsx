@@ -91,7 +91,7 @@ export default function DrawingPlate({ kind = "tower", className = "", label = "
   // well would win the cascade and collapse the plate to zero height.
   const position = /\b(absolute|fixed)\b/.test(className) ? "" : "relative";
   return (
-    <div className={`${position} overflow-hidden bg-[#0b0d12] ${className}`}>
+    <div className={`${position} overflow-hidden bg-[#000000] ${className}`}>
       <div
         aria-hidden="true"
         className="absolute inset-0"

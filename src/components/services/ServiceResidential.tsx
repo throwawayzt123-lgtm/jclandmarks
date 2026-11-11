@@ -26,12 +26,12 @@ const OPTIONS = [
   },
   {
     name: "Grey Structure",
-    includes: "Excavation, foundations, RCC frame, brickwork, roof slabs, and plumbing and electrical conduits.",
+    includes: "Excavation, foundations, concrete frame, brickwork, roof slabs, and the pipes and conduits for plumbing and wiring.",
     suits: "Owners who want to manage finishing themselves.",
   },
   {
     name: "Turnkey",
-    includes: "Grey structure plus finishes, joinery, kitchens, bathrooms, MEP and landscaping — keys on handover.",
+    includes: "Grey structure plus flooring, woodwork, kitchens, bathrooms, electrics, plumbing and landscaping — ready to move in.",
     suits: "Owners who want one contract and one handover date.",
   },
   {
@@ -161,20 +161,20 @@ export default function ServiceResidential() {
 
         <div className="mt-12 grid gap-y-10 lg:grid-cols-12 lg:gap-x-20">
           <h2 className="sr-head col-span-full font-serif text-[clamp(1.9rem,3.8vw,3.3rem)] font-light leading-[1.16] tracking-[-0.01em] lg:col-span-7">
-            Homes built exactly as they were{" "}
+            Your home, built exactly as it was{" "}
             <em className="italic text-[#b58c49]">drawn.</em>
           </h2>
           <p className="sr-lede col-span-full max-w-md text-[0.98rem] leading-[1.8] text-[#4b5563] lg:col-span-4 lg:col-start-9 lg:pt-3">
-            From a single plot to a full estate, we take a residence from survey
-            to handover with our own engineers and site teams — and one person
-            accountable for the whole of it.
+            From 5 marla to 4 kanal, we take a home from the first site survey
+            to the day you get the keys — with our own engineers on site and one
+            project manager answerable to you throughout.
           </p>
         </div>
       </div>
 
       {/* Aperture plate */}
       <div className="u-shell mt-[clamp(4rem,10vh,7rem)]">
-        <figure className="sr-aperture relative h-[clamp(24rem,78vh,46rem)] overflow-hidden bg-[#0b0d12]">
+        <figure className="sr-aperture relative h-[clamp(24rem,78vh,46rem)] overflow-hidden bg-[#000000]">
           <Image
             src={FACADES.phase7Villa.src}
             alt={FACADES.phase7Villa.alt}
@@ -184,10 +184,10 @@ export default function ServiceResidential() {
             className="sr-aperture-img object-cover"
             style={{ objectPosition: FACADES.phase7Villa.position }}
           />
-          <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_top,rgba(11,13,18,0.7)_0%,rgba(11,13,18,0)_42%)]" />
+          <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0)_42%)]" />
           <figcaption className="sr-aperture-cap absolute bottom-0 left-0 p-6 text-[#f4f2ee] sm:p-10">
-            <span className="block text-[0.62rem] uppercase tracking-[0.26em] text-[#D8B479]">Residence · Phase 7</span>
-            <span className="mt-3 block font-serif text-[clamp(1.3rem,2.2vw,1.9rem)] font-light">1 Kanal contemporary home</span>
+            <span className="block text-[0.62rem] uppercase tracking-[0.26em] text-[#D8B479]">DHA Phase 7 · 1 Kanal</span>
+            <span className="mt-3 block font-serif text-[clamp(1.3rem,2.2vw,1.9rem)] font-light">Contemporary stone home</span>
           </figcaption>
         </figure>
       </div>

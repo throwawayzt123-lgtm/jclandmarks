@@ -19,27 +19,27 @@ interface Chapter {
 
 const CHAPTERS: Chapter[] = [
   {
- category:"The Vision",
- title:"A brief written in light.",
- body:"Every landmark commission begins as a fundamental inquiry into volume and heritage — exploring how classical proportions, arched portals, and sweeping forecourts harmonize with private retreat.",
- meta:"Concept Stage",
- detail:"Architecture · 2 Kanal Spanish Estate",
+ category:"Design",
+ title:"It starts on paper.",
+ body:"We survey the plot, listen to how you want to live, and draw a home that suits both — plans, elevations and 3D views you can walk through before a single brick is laid.",
+ meta:"Stage 01",
+ detail:"Architecture · Plans, elevations & 3D",
  still: FACADES.spanishEstate,
   },
   {
- category:"The Structure",
- title:"Structure made quiet.",
- body:"Post-tensioned cantilevers float the upper master suites so the ground salon can remain completely free of load-bearing bulk. Monolithic marble floor slabs and full-height structural glass erase boundaries between interior sanctuaries and outdoor gardens.",
- meta:"Engineering Flow",
- detail:"Engineering · Monolithic Marble Floor Flow",
+ category:"Structure",
+ title:"Built right where no one looks.",
+ body:"Our engineers design the foundations and frame from a soil test of your plot. Graded steel, tested concrete and supervised pours give you a structure that stays sound for generations.",
+ meta:"Stage 02",
+ detail:"Engineering · Foundations & frame",
  still: INTERIORS.diningGrand,
   },
   {
- category:"The Experience",
- title:"Arrival as a choreography.",
- body:"The progression through the residence is deliberately meditative: private landscaped gates, sculptural foyer alcoves, and release into soaring double-height salons tailored for tranquil leisure.",
- meta:"Spatial Delivery",
- detail:"Choreography · Double-Height Grand Salon",
+ category:"Finishing",
+ title:"Finished like it is our own.",
+ body:"Flooring, joinery, lighting, kitchens and bathrooms — fitted by our own finishing teams, checked room by room, and handed over complete with drawings and warranties.",
+ meta:"Stage 03",
+ detail:"Finishing · Interiors & handover",
  still: INTERIORS.loungeDoubleHeight,
   },
 ];
@@ -146,11 +146,10 @@ export default function Story() {
           <TextReveal
  as="h2"
  className="u-display col-span-full text-3xl sm:text-4xl lg:text-5xl text-[#11141b] font-normal leading-[1.08] lg:col-span-7"
- lines={["The architecture","behind the", <em key="e" className="font-serif italic font-normal text-[#D8B479]">sanctuary.</em>]}
+ lines={["How a home","comes", <em key="e" className="font-serif italic font-normal text-[#D8B479]">together.</em>]}
           />
           <p className="st-desc col-span-full max-w-prose text-lg sm:text-xl text-[#1f2937] font-normal leading-relaxed lg:col-span-5 lg:col-start-8">
-            Four years in conception and engineering. A singular governing vision — that
- pure spatial volume, rather than mere square footage, defines true architectural nobility.
+            Every project follows the same three stages, managed by one team. You always know what is happening on site, what it costs, and what comes next.
           </p>
         </div>
 
@@ -224,7 +223,7 @@ export default function Story() {
                       ].join(" ")}
                     >
                       <span className="text-xs uppercase tracking-[0.25em] text-[#b58c49] font-bold block mb-2.5">
-                        Design Focus
+                        {c.category}
                       </span>
                       <h3 className="u-display text-2xl sm:text-3xl lg:text-4xl text-[#11141b] font-normal font-serif leading-tight">
                         {c.title}
@@ -238,7 +237,7 @@ export default function Story() {
  className="block h-0.5 w-8 bg-[#D8B479]"
                         />
                         <span className="text-xs tracking-[0.2em] uppercase text-[#4b5563] font-semibold">
-                          Architectural Chronicle
+                          {c.detail}
                         </span>
                       </div>
                     </div>

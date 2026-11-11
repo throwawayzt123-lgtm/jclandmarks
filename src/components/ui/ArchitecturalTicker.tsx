@@ -5,43 +5,43 @@ import { gsap, prefersReducedMotion } from"@/lib/gsap";
 import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 const ROW_ONE = [
-"MONUMENTAL VOLUMES",
+"ARCHITECTURE",
 "✦",
-"TRIPLE-HEIGHT LIGHTWELLS",
+"STRUCTURAL ENGINEERING",
 "✦",
-"TUSCAN BOOKMATCHED MARBLE",
+"APPROVALS",
 "✦",
-"SOUTH-WEST DAYLIGHT PATH",
+"GREY STRUCTURE",
 "✦",
-"CANTILEVERED STRUCTURE",
+"FINISHING",
 "✦",
-"SINGLE-SOURCE PROVENANCE",
+"TURNKEY HOMES",
 "✦",
-"MONUMENTAL VOLUMES",
+"ARCHITECTURE",
 "✦",
-"TRIPLE-HEIGHT LIGHTWELLS",
+"STRUCTURAL ENGINEERING",
 "✦",
-"TUSCAN BOOKMATCHED MARBLE",
+"APPROVALS",
 ];
 
 const ROW_TWO = [
-"TIMELESS SECLUSION",
+"RESIDENTIAL",
 "✦",
-"32-FT ATRIUM APEX",
+"COMMERCIAL",
 "✦",
-"ARTISANAL WALNUT JOINERY",
+"RENOVATION",
 "✦",
-"HORIZON WATER BASINS",
+"INTERIORS",
 "✦",
-"PRIVATE ESTATE MONOGRAPH",
+"BUY & SELL",
 "✦",
-"ARCHITECTURAL ATELIER",
+"LAHORE",
 "✦",
-"TIMELESS SECLUSION",
+"RESIDENTIAL",
 "✦",
-"32-FT ATRIUM APEX",
+"COMMERCIAL",
 "✦",
-"ARTISANAL WALNUT JOINERY",
+"RENOVATION",
 ];
 
 export default function ArchitecturalTicker() {
@@ -93,44 +93,38 @@ export default function ArchitecturalTicker() {
  return () => ctx.revert();
   }, []);
 
- return (
+  return (
     <div
- ref={rootRef}
- aria-hidden="true"
- className="relative overflow-hidden border-y border-[rgba(216,180,121,0.25)] bg-[#ffffff] py-8 sm:py-10 select-none shadow-[inset_0_1px_3px_rgba(0,0,0,0.02)]"
+      ref={rootRef}
+      aria-hidden="true"
+      className="relative select-none overflow-hidden bg-[#ffffff] py-[clamp(4.5rem,9vw,8rem)]"
     >
-      {/* Ambient gold glow along hairlines */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#D8B479] to-transparent opacity-60" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#D8B479] to-transparent opacity-60" />
-
-      {/* Track 1 — Leftward Scrub */}
-      <div
- ref={track1Ref}
- className="flex w-max shrink-0 whitespace-nowrap will-change-transform gap-8 text-[0.85rem] sm:text-[1.05rem] md:text-[1.2rem] tracking-[0.32em] uppercase font-light text-[#11141b]"
-      >
-        {[...ROW_ONE, ...ROW_ONE, ...ROW_ONE].map((phrase, idx) => (
-          <span
- key={`r1-${idx}`}
- className={`shrink-0 ${phrase === "✦" ? "text-[#D8B479] font-normal" : "font-serif"}`}
-          >
-            {phrase}
-          </span>
-        ))}
+      {/* Stripe 1 - dark band, tilted up to the right */}
+      <div className="relative z-10 -mx-[6%] origin-center rotate-[-2.2deg] bg-[#1b1c1f] py-[clamp(1.1rem,2.2vw,1.9rem)] shadow-[0_24px_50px_-24px_rgba(0,0,0,0.45)]">
+        <div
+          ref={track1Ref}
+          className="flex w-max shrink-0 items-center gap-10 whitespace-nowrap font-light uppercase tracking-[0.3em] text-[#f4f1ea] will-change-transform text-[0.85rem] sm:text-[1.05rem] md:text-[1.25rem]"
+        >
+          {[...ROW_ONE, ...ROW_ONE, ...ROW_ONE].map((phrase, idx) => (
+            <span key={`r1-${idx}`} className={`shrink-0 ${phrase === "✦" ? "font-normal text-[#D8B479]" : "font-serif"}`}>
+              {phrase}
+            </span>
+          ))}
+        </div>
       </div>
 
-      {/* Track 2 — Rightward Scrub */}
-      <div
- ref={track2Ref}
- className="mt-3 flex w-max shrink-0 whitespace-nowrap will-change-transform gap-8 text-[0.75rem] sm:text-[0.95rem] md:text-[1.05rem] tracking-[0.28em] uppercase text-[#374151]"
-      >
-        {[...ROW_TWO, ...ROW_TWO, ...ROW_TWO].map((phrase, idx) => (
-          <span
- key={`r2-${idx}`}
- className={`shrink-0 ${phrase === "✦" ? "text-[#D8B479] font-normal" : ""}`}
-          >
-            {phrase}
-          </span>
-        ))}
+      {/* Stripe 2 - gold band, tilted the other way and laid over the first */}
+      <div className="relative z-20 -mx-[6%] -mt-[clamp(0.6rem,1.4vw,1.2rem)] origin-center rotate-[2.6deg] bg-[#D8B479] py-[clamp(1.1rem,2.2vw,1.9rem)] shadow-[0_24px_50px_-22px_rgba(0,0,0,0.4)]">
+        <div
+          ref={track2Ref}
+          className="flex w-max shrink-0 items-center gap-10 whitespace-nowrap font-medium uppercase tracking-[0.26em] text-[#000000] will-change-transform text-[0.78rem] sm:text-[0.95rem] md:text-[1.08rem]"
+        >
+          {[...ROW_TWO, ...ROW_TWO, ...ROW_TWO].map((phrase, idx) => (
+            <span key={`r2-${idx}`} className="shrink-0">
+              {phrase}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );

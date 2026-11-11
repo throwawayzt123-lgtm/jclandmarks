@@ -92,7 +92,7 @@ export default function AboutHero() {
   return (
     <section
       ref={rootRef}
-      className="relative isolate flex min-h-[clamp(34rem,82vh,46rem)] items-end overflow-hidden bg-[#0b0d12] text-[#f4f2ee]"
+      className="relative isolate flex min-h-[clamp(34rem,82vh,46rem)] items-end overflow-hidden bg-[#000000] text-[#f4f2ee]"
     >
       <div className="absolute inset-0">
         <Image
@@ -104,31 +104,30 @@ export default function AboutHero() {
           className="ah-plate-img object-cover"
           style={{ objectPosition: "center 42%" }}
         />
-        <div className="ah-veil absolute inset-0 bg-gradient-to-t from-[#0b0d12] via-[rgba(11,13,18,0.72)] to-[rgba(11,13,18,0.52)]" />
+        <div className="ah-veil absolute inset-0 bg-gradient-to-t from-[#000000] via-[rgba(0,0,0,0.72)] to-[rgba(0,0,0,0.52)]" />
       </div>
 
       <div className="u-shell relative w-full pb-[clamp(3.5rem,8vh,6rem)] pt-[clamp(8rem,18vh,12rem)]">
         <span className="ah-eyebrow block text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#D8B479]">
-          About Us · The Atelier
+          About JC Landmarks
         </span>
 
         <h1 className="ah-head mt-8 max-w-4xl font-serif text-[clamp(2.3rem,5.4vw,4.6rem)] font-light leading-[1.1] tracking-[-0.01em]">
-          Builders of landmarks, and of the quiet that lives inside them.
+          Designers and builders of homes and commercial buildings in Lahore.
         </h1>
 
         <div className="mt-12 grid gap-y-10 lg:grid-cols-12 lg:gap-x-20">
           <p className="ah-lede col-span-full max-w-xl text-[1.02rem] leading-[1.8] text-[rgba(244,242,238,0.74)] lg:col-span-5">
-            JC Landmarks is an architecture, engineering and construction
-            practice. We draw a residence, we calculate it, and we build it with
-            our own site teams — one continuous responsibility from first survey
-            to handover.
+            JC Landmarks is a design-and-build construction company. We draw the
+            building, engineer it, get it approved and build it with our own site
+            teams — one company responsible from the first survey to handover.
           </p>
 
           <dl className="ah-meta col-span-full grid grid-cols-2 gap-x-8 gap-y-8 self-end lg:col-span-5 lg:col-start-8 lg:grid-cols-3">
             {[
-              ["Founded", "2009"],
+              ["Part of", "JUST & CONST"],
               ["Discipline", "Design · Build"],
-              ["Practice", "Lahore, PK"],
+              ["Based in", "Lahore, PK"],
             ].map(([k, v]) => (
               <div key={k}>
                 <dt className="text-[0.62rem] uppercase tracking-[0.2em] text-[rgba(244,242,238,0.44)]">

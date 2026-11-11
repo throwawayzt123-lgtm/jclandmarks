@@ -2,49 +2,52 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { gsap, prefersReducedMotion } from "@/lib/gsap";
-import { CONTACT, NAV, SOCIAL, isActive } from "@/lib/site";
+import { gsap } from "@/lib/gsap";
+import { CONTACT, NAV, OFFICES, SOCIAL, directionsUrl, isActive } from "@/lib/site";
+import { FACADES, INTERIORS, type Still } from "@/lib/media";
 import SocialIcon from "@/components/ui/SocialIcon";
 import { setScrollLocked } from "@/components/SmoothScrollProvider";
 
 /**
- * BUBBLE NAVIGATION
+ * HEADER — logo on the left, a "MENU" control on the right.
  *
- * A floating glass pill of links with a gold "bubble" that rests behind the
- * current page and glides to whichever link is pointed at or focused. Because
- * the navbar persists across client-side navigation, the bubble also slides
- * from the old page to the new one when the route changes.
+ * One quiet bar on every screen size: the Jay-Cee mark, and the word MENU
+ * beside two fine lines. It opens a full-screen black menu with the pages
+ * set large in the display serif, and contact details alongside.
  *
- * The logo sits in its own glass disc with a gold ring, without the wordmark
- * text beside it — the logo already carries the name.
- *
- * Rounded shapes are intentional here (the client asked for a bubble menu);
- * the rest of the site keeps its sharp corners.
- *
- * Behaviour kept from before: hides while scrolling down, returns on scroll
- * up; "Projects" opens on hover and on keyboard focus.
+ * Transparent over the hero; once the page scrolls it sits on a black bar.
+ * Hides while scrolling down and returns on scroll up.
  */
-const CTA = NAV.find((n) => n.href === "/contact");
-const PILL = NAV.filter((n) => n.href !== "/contact");
+/** What each page is, for the menu: a short tag beside the link, and the
+ *  photograph and line shown on the plate when the link is pointed at. */
+const PAGE_INFO: Record<string, { tag: string; line: string; still: Still }> = {
+  "/": { tag: "Start here", line: "Design & build in Lahore", still: FACADES.phase7Villa },
+  "/about": { tag: "Who we are", line: "One team, from plot to keys", still: INTERIORS.staircaseCantilever },
+  "/services": { tag: "What we build", line: "Homes, commercial & real estate", still: FACADES.phase7Curtain },
+  "/projects": { tag: "Our work", line: "Homes we have delivered", still: FACADES.spanishEstate },
+  "/ongoing": { tag: "On site now", line: "Being built across Lahore", still: FACADES.prismMonolith },
+  "/for-sale": { tag: "Homes available", line: "Ready to move into", still: INTERIORS.loungeDoubleHeight },
+  "/contact": { tag: "Talk to us", line: "Start your project", still: INTERIORS.diningGrand },
+};
 
 export default function Navbar() {
   const barRef = useRef<HTMLElement>(null);
-  const pillRef = useRef<HTMLUListElement>(null);
-  const bubbleRef = useRef<HTMLSpanElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
-  const [settled, setSettled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastYRef = useRef(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  // The page shown on the menu's plate: the link pointed at, else this page.
+  const [preview, setPreview] = useState<string | null>(null);
+  const shown = preview ?? NAV.find((n) => isActive(n, pathname))?.href ?? "/";
+  const office = OFFICES[0];
 
   /* ---------- Hide on scroll down, return on scroll up ---------- */
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      setSettled(y > 80);
       // 6px dead-zone stops sub-pixel jitter and Lenis easing tails from
       // flickering the bar; above 120px it always stays visible.
       const delta = y - lastYRef.current;
@@ -60,71 +63,21 @@ export default function Navbar() {
 
   /* ---------- Entrance, once ---------- */
   useEffect(() => {
+    // Unscoped: the logo and the MENU control sit on separate layers.
     const ctx = gsap.context(() => {
       gsap.fromTo(".nav-item", { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 1.1, stagger: 0.1, ease: "power3.out", delay: 0.3 });
-    }, barRef);
+    });
     return () => ctx.revert();
   }, []);
 
-  /* ---------- The bubble ---------- */
-  useLayoutEffect(() => {
-    const pill = pillRef.current;
-    const bubble = bubbleRef.current;
-    if (!pill || !bubble) return;
-    const reduced = prefersReducedMotion();
-
-    const activeItem = () => pill.querySelector<HTMLElement>("li[data-pill][data-active]");
-    const place = (li: HTMLElement | null, animate: boolean) => {
-      const duration = animate && !reduced ? 0.55 : 0;
-      if (!li) {
-        gsap.to(bubble, { opacity: 0, scale: 0.9, duration, ease: "power3.out", overwrite: true });
-        return;
-      }
-      gsap.to(bubble, {
-        x: li.offsetLeft,
-        width: li.offsetWidth,
-        opacity: 1,
-        scale: 1,
-        duration,
-        ease: "power3.out",
-        overwrite: true,
-      });
-    };
-
-    // Start where the bubble already was (so a route change glides), else snap.
-    const firstPlacement = !bubble.style.width;
-    place(activeItem(), !firstPlacement);
-
-    const itemFrom = (e: Event) => (e.target as HTMLElement).closest<HTMLElement>("li[data-pill]");
-    const onOver = (e: PointerEvent) => place(itemFrom(e), true);
-    const onFocus = (e: FocusEvent) => place(itemFrom(e), true);
-    const home = () => place(activeItem(), true);
-    const onFocusOut = (e: FocusEvent) => {
-      if (!pill.contains(e.relatedTarget as Node | null)) home();
-    };
-    const onResize = () => place(activeItem(), false);
-
-    pill.addEventListener("pointerover", onOver);
-    pill.addEventListener("pointerleave", home);
-    pill.addEventListener("focusin", onFocus);
-    pill.addEventListener("focusout", onFocusOut);
-    window.addEventListener("resize", onResize);
-    // Web fonts change link widths once they load.
-    document.fonts?.ready.then(onResize).catch(() => {});
-
-    return () => {
-      pill.removeEventListener("pointerover", onOver);
-      pill.removeEventListener("pointerleave", home);
-      pill.removeEventListener("focusin", onFocus);
-      pill.removeEventListener("focusout", onFocusOut);
-      window.removeEventListener("resize", onResize);
-    };
-  }, [pathname]);
-
-  /* ---------- Mobile menu ---------- */
-  useEffect(() => {
+  /* ---------- Menu ---------- */
+  // Close the menu when the page changes (adjusting state during render,
+  // rather than in an effect).
+  const [menuPath, setMenuPath] = useState(pathname);
+  if (menuPath !== pathname) {
+    setMenuPath(pathname);
     setMenuOpen(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     setScrollLocked("menu", menuOpen);
@@ -138,158 +91,105 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  const glass = settled
-    ? "bg-[#0b0d12]/90 shadow-[0_14px_40px_-14px_rgba(0,0,0,0.65),inset_0_0_0_1px_rgba(255,255,255,0.09)]"
-    : "bg-[#0b0d12]/72 shadow-[0_14px_40px_-18px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.12)]";
-  // No backdrop-filter on the always-visible bubbles: re-blurring everything
-  // that scrolls beneath them every frame was a measurable share of scroll cost.
+  // The bar itself is transparent and click-through; only the logo and the
+  // MENU control take the pointer.
+  const barCls = [
+    "pointer-events-none fixed inset-x-0 top-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+    hidden && !menuOpen ? "-translate-y-[130%]" : "translate-y-0",
+  ].join(" ");
+  const rowCls = [
+    // Set down from the top edge; the same at every scroll position, and the
+    // MENU row uses the same classes so the two always line up.
+    "relative mx-auto flex w-full max-w-[1680px] items-center justify-between gap-6 px-5 pt-5 sm:px-8 sm:pt-7 lg:px-12 lg:pt-9",
+  ].join(" ");
+  const logoSize = [
+    "transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+    "h-[4.5rem] w-[4.5rem] sm:h-[5.5rem] sm:w-[5.5rem] lg:h-[6.5rem] lg:w-[6.5rem]",
+  ].join(" ");
 
   return (
     <>
-    <header
-      ref={barRef}
-      className={[
-        // The header itself is click-through; only the bubbles take pointer events.
-        "pointer-events-none fixed inset-x-0 top-0 z-[100] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
-        // The menu panel is rendered outside the header (below), so this
-        // slide can never resize it. Stays visible while the menu is open.
-        hidden && !menuOpen ? "-translate-y-[130%]" : "translate-y-0",
-      ].join(" ")}
-    >
-      <nav
-        aria-label="Primary"
-        className={[
-          "relative z-10 mx-auto flex w-full max-w-[1680px] items-center justify-between gap-6 px-4 transition-[padding] duration-500 sm:px-8 lg:px-12",
-          settled ? "pt-3" : "pt-5",
-        ].join(" ")}
-      >
-        {/* Logo disc */}
-        <Link
-          href="/"
-          aria-label="Jay-Cee Landmarks — home"
-          className="nav-item group pointer-events-auto relative grid h-16 w-16 shrink-0 place-items-center rounded-full bg-[#0b0d12] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.04] sm:h-[4.75rem] sm:w-[4.75rem] lg:h-[5.25rem] lg:w-[5.25rem]"
-          style={{
-            boxShadow:
-              "inset 0 0 0 1.5px rgba(216,180,121,0.7), 0 0 0 5px rgba(216,180,121,0.1), 0 0 40px -2px rgba(216,180,121,0.45), 0 16px 36px -12px rgba(0,0,0,0.75)",
-          }}
-        >
-          <span aria-hidden="true" className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_38%,rgba(216,180,121,0.2),transparent_68%)] opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
-          <span className="relative block h-[2.9rem] w-[2.9rem] sm:h-[3.45rem] sm:w-[3.45rem] lg:h-[3.9rem] lg:w-[3.9rem]">
-            <Image
-              src="/logo-gold.png"
-              alt="Jay-Cee Landmarks"
-              fill
-              priority
-              sizes="(max-width: 640px) 48px, (max-width: 1024px) 56px, 64px"
-              className="object-contain drop-shadow-[0_0_10px_rgba(216,180,121,0.45)]"
-            />
-          </span>
-        </Link>
+      <header ref={barRef} className={`${barCls} z-[100]`}>
+        <nav aria-label="Primary" className={rowCls}>
+          {/* Logo */}
+          <Link
+            href="/"
+            aria-label="Jay-Cee Landmarks — home"
+            className={`nav-item pointer-events-auto relative grid shrink-0 place-items-center rounded-full bg-[#000000] hover:scale-[1.04] ${logoSize}`}
+            style={{
+              boxShadow:
+                "inset 0 0 0 1.5px rgba(216,180,121,0.7), 0 0 0 5px rgba(216,180,121,0.1), 0 0 34px -4px rgba(216,180,121,0.4), 0 16px 36px -12px rgba(0,0,0,0.75)",
+            }}
+          >
+            <span className="relative block h-[72%] w-[72%] overflow-hidden rounded-full">
+              <Image
+                src="/images/jc-logo-gold.png"
+                alt="Jay-Cee Landmarks"
+                fill
+                priority
+                sizes="(max-width: 640px) 56px, (max-width: 1024px) 64px, 80px"
+                className="object-contain"
+              />
+            </span>
+          </Link>
+        </nav>
+      </header>
 
-        {/* Desktop: pill + Contact */}
-        <div className="nav-item pointer-events-auto hidden items-center gap-3 lg:flex">
-          <ul ref={pillRef} className={`relative flex items-center rounded-full p-1.5 transition-[background-color,box-shadow] duration-500 ${glass}`}>
-            {/* The bubble */}
-            <span
-              ref={bubbleRef}
-              aria-hidden="true"
-              className="pointer-events-none absolute bottom-1.5 left-0 top-1.5 rounded-full bg-[rgba(216,180,121,0.16)] opacity-0 shadow-[inset_0_0_0_1px_rgba(216,180,121,0.45),0_0_22px_-6px_rgba(216,180,121,0.55)]"
-            />
-
-            {PILL.map((item) => {
-              const on = isActive(item, pathname);
-              const linkCls = [
-                "relative z-10 inline-flex items-center gap-1.5 rounded-full px-3.5 py-2.5 text-[0.64rem] font-medium uppercase tracking-[0.16em] transition-colors duration-300 xl:px-5 xl:text-[0.68rem] xl:tracking-[0.2em]",
-                on ? "text-[#D8B479]" : "text-white/80 hover:text-white",
-              ].join(" ");
-
-              if (!item.children) {
-                return (
-                  <li key={item.href} data-pill="" data-active={on ? "" : undefined}>
-                    <Link href={item.href} aria-current={on ? "page" : undefined} className={linkCls}>
-                      {item.label}
-                    </Link>
-                  </li>
-                );
-              }
-
-              return (
-                <li key={item.href} data-pill="" data-active={on ? "" : undefined} className="group/dd relative">
-                  <Link href={item.href} aria-current={pathname === item.href ? "page" : undefined} aria-haspopup="true" className={linkCls}>
-                    {item.label}
-                    <svg aria-hidden="true" className="h-3 w-3 transition-transform duration-300 group-hover/dd:rotate-180 group-focus-within/dd:rotate-180" viewBox="0 0 12 12" fill="none">
-                      <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </Link>
-                  {/* Visibility flips on instantly (Tab reaches the links on the
-                      first frame) and off only after the fade. */}
-                  <div className="invisible absolute left-1/2 top-full -translate-x-1/2 pt-3 opacity-0 [transition:opacity_220ms,visibility_0s_linear_220ms] group-hover/dd:visible group-hover/dd:opacity-100 group-hover/dd:[transition-delay:0s] group-focus-within/dd:visible group-focus-within/dd:opacity-100 group-focus-within/dd:[transition-delay:0s]">
-                    <ul className="w-60 rounded-[1.4rem] bg-[#0b0d12]/92 p-2 shadow-[0_24px_50px_-14px_rgba(0,0,0,0.7),inset_0_0_0_1px_rgba(255,255,255,0.09)] backdrop-blur-xl">
-                      {item.children.map((c) => {
-                        const cOn = pathname === c.href || (c.href !== item.href && pathname.startsWith(`${c.href}/`));
-                        return (
-                          <li key={c.href}>
-                            <Link
-                              href={c.href}
-                              aria-current={cOn ? "page" : undefined}
-                              className={[
-                                "flex items-center justify-between rounded-full px-4 py-3 text-[0.64rem] uppercase tracking-[0.18em] transition-colors",
-                                cOn ? "bg-[rgba(216,180,121,0.14)] text-[#D8B479]" : "text-white/80 hover:bg-white/[0.06] hover:text-white",
-                              ].join(" ")}
-                            >
-                              {c.label}
-                              <span aria-hidden="true" className="text-[#D8B479]">→</span>
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-
-          {CTA && (
-            <Link
-              href={CTA.href}
-              aria-current={pathname === CTA.href ? "page" : undefined}
-              className="group inline-flex items-center gap-2.5 rounded-full bg-[#D8B479] px-5 py-[0.95rem] text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-[#11141b] shadow-[0_12px_30px_-10px_rgba(216,180,121,0.6)] transition-[background-color,transform] duration-300 hover:-translate-y-px hover:bg-[#e6c58d] xl:px-6 xl:text-[0.68rem]"
-            >
-              {CTA.label}
-              <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
-            </Link>
-          )}
+      {/* MENU — the word and two fine lines. It sits on its own layer with a
+          "difference" blend, so with no bar behind it, it reads white over the
+          dark hero and black sections and turns black over white ones. */}
+      <div className={`${barCls} z-[101] mix-blend-difference`}>
+        <div className={rowCls}>
+          {/* Holds the logo's place so the control lines up with it */}
+          <span aria-hidden="true" className={`block shrink-0 ${logoSize}`} />
+          <button
+            type="button"
+            onClick={() => {
+              setPreview(null);
+              setMenuOpen((v) => !v);
+            }}
+            aria-expanded={menuOpen}
+            aria-controls="site-menu"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            className="nav-item group pointer-events-auto flex items-center gap-4 py-3 pl-3 text-white focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-white"
+          >
+            <span className="relative block h-[1.1em] overflow-hidden text-[0.8rem] font-medium uppercase leading-[1.1] tracking-[0.2em] sm:text-[0.86rem]">
+              <span className={`block transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${menuOpen ? "-translate-y-1/2" : ""}`}>
+                <span className="block">Menu</span>
+                <span className="block">Close</span>
+              </span>
+            </span>
+            <span aria-hidden="true" className="relative block h-[9px] w-9 sm:w-11">
+              <span
+                className={`absolute right-0 top-0 block h-[1.5px] origin-center bg-current transition-[transform,width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  menuOpen ? "w-7 -translate-x-1 translate-y-[3.75px] rotate-45" : "w-full"
+                }`}
+              />
+              <span
+                className={`absolute bottom-0 right-0 block h-[1.5px] origin-center bg-current transition-[transform,width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  menuOpen ? "w-7 -translate-x-1 -translate-y-[3.75px] -rotate-45" : "w-full group-hover:w-2/3"
+                }`}
+              />
+            </span>
+          </button>
         </div>
+      </div>
 
-        {/* Mobile menu button */}
-        <button
-          type="button"
-          onClick={() => setMenuOpen((v) => !v)}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          className={`nav-item pointer-events-auto grid h-12 w-12 place-items-center rounded-full text-white transition-colors hover:text-[#D8B479] lg:hidden ${glass}`}
-        >
-          <span className="relative block h-3 w-5">
-            <span className={`absolute left-0 top-0 block h-[1.5px] w-5 bg-current transition-transform duration-300 ${menuOpen ? "translate-y-[5px] rotate-45" : ""}`} />
-            <span className={`absolute left-0 top-[5px] block h-[1.5px] w-5 bg-current transition-opacity duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`absolute left-0 top-[10px] block h-[1.5px] w-5 bg-current transition-transform duration-300 ${menuOpen ? "-translate-y-[5px] -rotate-45" : ""}`} />
-          </span>
-        </button>
-      </nav>
+      {/* The menu — full screen, slides in from the right. It stays mounted
+          (inert while closed) so it can animate both ways.
 
-    </header>
-      {/* Mobile menu — a full-height panel that slides in from the right.
-          It stays mounted (inert while closed) so it can animate both ways. */}
+          Plain black, set out like a drawing sheet: a faint drafting grid,
+          and on desktop a "plate" beside the links — a photograph framed by
+          gold crop marks under a dimension line, which changes to match
+          whichever page is pointed at. */}
       <div
         ref={drawerRef}
-        id="mobile-menu"
+        id="site-menu"
         aria-label="Site menu"
         aria-hidden={!menuOpen}
         inert={!menuOpen}
         className={[
-          "fixed inset-0 z-[99] flex flex-col overflow-y-auto overscroll-contain bg-[#0b0d12] lg:hidden",
+          "fixed inset-0 z-[99] flex flex-col overflow-y-auto overscroll-contain bg-[#000000]",
           // Tailwind v4's translate-* utilities set the CSS `translate` property,
           // so that is what must transition. Visibility switches on at once when
           // opening (so focus can land), and off only after the slide-out.
@@ -299,23 +199,27 @@ export default function Navbar() {
           "motion-reduce:[transition:none]",
         ].join(" ")}
       >
-        {/* Fine drafting grid, as on the loading sheet */}
+        {/* Drafting grid, fading out toward the links */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(216,180,121,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(216,180,121,0.05) 1px, transparent 1px)",
-            backgroundSize: "44px 44px",
-            maskImage: "radial-gradient(ellipse 90% 70% at 70% 30%, #000 20%, transparent 75%)",
-            WebkitMaskImage: "radial-gradient(ellipse 90% 70% at 70% 30%, #000 20%, transparent 75%)",
+              "linear-gradient(rgba(216,180,121,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(216,180,121,0.06) 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+            maskImage: "radial-gradient(ellipse 55% 75% at 78% 45%, #000 15%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(ellipse 55% 75% at 78% 45%, #000 15%, transparent 75%)",
           }}
         />
 
-        <nav aria-label="Mobile" className="relative flex min-h-full flex-col px-6 pb-7 pt-[6.25rem] sm:px-10 sm:pt-[7.5rem]">
-          <ul className="flex flex-col">
+        <nav
+          aria-label="Site"
+          className="relative mx-auto flex min-h-full w-full max-w-[1680px] flex-col px-6 pb-7 pt-[7.5rem] sm:px-10 sm:pt-[9.5rem] lg:grid lg:grid-cols-12 lg:gap-x-12 lg:px-12 lg:pb-12 lg:pt-[11rem]"
+        >
+          <ul className="flex flex-col lg:col-span-6" onPointerLeave={() => setPreview(null)}>
             {NAV.map((item, i) => {
               const on = isActive(item, pathname);
+              const info = PAGE_INFO[item.href];
               // Each row slides in after the panel, one after another.
               const delay = menuOpen ? `${260 + i * 55}ms` : "0ms";
               return (
@@ -327,17 +231,32 @@ export default function Navbar() {
                   <Link
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
+                    onPointerEnter={() => setPreview(item.href)}
+                    // Only keyboard focus moves the plate — not the focus placed on the
+                    // first link when the menu opens.
+                    onFocus={(e) => e.currentTarget.matches(":focus-visible") && setPreview(item.href)}
                     aria-current={pathname === item.href ? "page" : undefined}
-                    className="group flex items-baseline gap-4 border-b border-white/[0.07] py-[clamp(0.55rem,1.55vh,0.95rem)]"
+                    className="group relative flex items-baseline gap-4 py-[clamp(0.55rem,1.5vh,0.9rem)] lg:gap-6"
                   >
+                    <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-white/[0.07]" />
+                    {/* Gold rule that draws across on hover */}
+                    <span aria-hidden="true" className="absolute bottom-0 left-0 h-px w-full origin-left bg-[#D8B479] [transform:scaleX(0)] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:[transform:scaleX(1)] group-focus-visible:[transform:scaleX(1)]" />
                     <span className="w-6 text-[0.6rem] tabular-nums tracking-[0.2em] text-[#D8B479]/70">{String(i + 1).padStart(2, "0")}</span>
-                    <span className={`font-serif text-[clamp(1.45rem,5.8vw,2rem)] font-light leading-none transition-colors ${on ? "italic text-[#D8B479]" : "text-[#f4f2ee] group-hover:text-[#D8B479]"}`}>
+                    <span
+                      className={`font-serif text-[clamp(1.45rem,5.8vw,2rem)] font-light leading-none transition-[color,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-2 lg:text-[clamp(1.9rem,4.8vh,3.2rem)] ${
+                        on ? "italic text-[#D8B479]" : "text-[#f4f2ee] group-hover:text-[#D8B479]"
+                      }`}
+                    >
                       {item.label}
                     </span>
-                    {on && <span aria-hidden="true" className="ml-auto h-1.5 w-1.5 self-center rounded-full bg-[#D8B479]" />}
+                    {info && (
+                      <span className="ml-auto hidden self-center text-[0.58rem] uppercase tracking-[0.24em] text-white/35 transition-colors duration-500 group-hover:text-[#D8B479] sm:block">
+                        {info.tag}
+                      </span>
+                    )}
                   </Link>
                   {item.children && (
-                    <ul className="flex gap-6 pb-2 pl-10 pt-1.5">
+                    <ul className="flex gap-6 pb-2 pl-10 pt-2.5 lg:pl-12">
                       {item.children
                         .filter((c) => c.href !== item.href)
                         .map((c) => (
@@ -345,6 +264,7 @@ export default function Navbar() {
                             <Link
                               href={c.href}
                               onClick={() => setMenuOpen(false)}
+                              onPointerEnter={() => setPreview(item.href)}
                               className={`inline-flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.2em] transition-colors ${
                                 pathname.startsWith(c.href) ? "text-[#D8B479]" : "text-white/60 hover:text-white"
                               }`}
@@ -361,48 +281,95 @@ export default function Navbar() {
             })}
           </ul>
 
-          {/* Direct contact + enquiry, pinned to the bottom of the panel */}
+          {/* Right column: the plate (desktop), then contact */}
           <div
-            className={`mt-auto pt-8 transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+            className={`mt-auto pt-8 transition-[opacity,translate] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none lg:col-span-5 lg:col-start-8 lg:mt-0 lg:flex lg:flex-col lg:pt-1 ${
+              menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+            }`}
             style={{ transitionDelay: menuOpen ? `${260 + NAV.length * 55}ms` : "0ms" }}
           >
-            {/* Very short screens (e.g. iPhone SE) keep just the enquiry button. */}
-            <div className="grid grid-cols-2 gap-x-6 gap-y-3.5 text-[0.78rem] [@media(max-height:620px)]:hidden">
-              <a href={CONTACT.phoneHref} className="block">
-                <span className="block text-[0.56rem] uppercase tracking-[0.22em] text-white/40">Call</span>
-                <span className="mt-1 block text-white/85">{CONTACT.phone}</span>
-              </a>
-              <a href={CONTACT.whatsappHref} className="block">
-                <span className="block text-[0.56rem] uppercase tracking-[0.22em] text-white/40">WhatsApp</span>
-                <span className="mt-1 block text-white/85">{CONTACT.whatsapp}</span>
-              </a>
-              <a href={`mailto:${CONTACT.email}`} className="col-span-2 block">
-                <span className="block text-[0.56rem] uppercase tracking-[0.22em] text-white/40">Email</span>
-                <span className="mt-1 block text-white/85">{CONTACT.email}</span>
-              </a>
-            </div>
-            {/* Enquiry + social: slim and on one line, divided by a hairline */}
-            <div className="mt-5 flex items-center gap-3 border-t border-white/[0.07] pt-5">
-              <Link
-                href="/contact"
-                onClick={() => setMenuOpen(false)}
-                className="group inline-flex h-[2.6rem] flex-1 items-center justify-between gap-3 whitespace-nowrap rounded-full px-5 text-[0.62rem] font-medium uppercase tracking-[0.22em] text-[#D8B479] shadow-[inset_0_0_0_1px_rgba(216,180,121,0.55)] transition-colors duration-300 hover:bg-[#D8B479] hover:text-[#11141b] active:bg-[#D8B479] active:text-[#11141b]"
-              >
-                Start an enquiry
-                <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
-              </Link>
-              {SOCIAL.map((s) => (
-                <a
-                  key={s.href}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`JC Landmarks on ${s.label}`}
-                  className="grid h-[2.6rem] w-[2.6rem] shrink-0 place-items-center rounded-full text-white/70 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)] transition-colors duration-300 hover:text-[#D8B479] hover:shadow-[inset_0_0_0_1px_rgba(216,180,121,0.55)]"
-                >
-                  <SocialIcon name={s.icon} className="h-[15px] w-[15px]" />
+            <figure aria-hidden="true" className="hidden lg:block">
+              {/* Dimension line */}
+              <div className="flex items-center gap-3 text-[0.55rem] uppercase tracking-[0.26em] text-[#D8B479]/75">
+                <span className="h-2.5 w-px bg-[#D8B479]/60" />
+                <span className="h-px flex-1 bg-[#D8B479]/35" />
+                <span className="tabular-nums">Sheet {String(NAV.findIndex((n) => n.href === shown) + 1).padStart(2, "0")}</span>
+                <span className="h-px flex-1 bg-[#D8B479]/35" />
+                <span className="h-2.5 w-px bg-[#D8B479]/60" />
+              </div>
+              {/* Plate with crop marks */}
+              <div className="relative mt-5 h-[clamp(12rem,37vh,24rem)]">
+                {[
+                  "left-0 top-0 border-l border-t",
+                  "right-0 top-0 border-r border-t",
+                  "bottom-0 left-0 border-b border-l",
+                  "bottom-0 right-0 border-b border-r",
+                ].map((c) => (
+                  <span key={c} className={`absolute z-10 -m-2.5 h-5 w-5 border-[#D8B479]/80 ${c}`} />
+                ))}
+                <div className="absolute inset-0 overflow-hidden bg-[#0a0a0a]">
+                  {Object.entries(PAGE_INFO).map(([href, p]) => (
+                    <Image
+                      key={href}
+                      src={p.still.src}
+                      alt=""
+                      fill
+                      sizes="40vw"
+                      className={`object-cover transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                        href === shown ? "scale-100 opacity-100" : "scale-[1.04] opacity-0"
+                      }`}
+                      style={{ objectPosition: p.still.position ?? "center" }}
+                    />
+                  ))}
+                </div>
+              </div>
+              <figcaption className="mt-5 flex items-baseline justify-between gap-6">
+                <span className="font-serif text-[1.35rem] font-light italic text-[#f4f2ee]">{PAGE_INFO[shown]?.line}</span>
+                <span className="shrink-0 text-[0.55rem] uppercase tracking-[0.24em] text-white/35">JC Landmarks · Lahore</span>
+              </figcaption>
+            </figure>
+
+            <div className="lg:mt-auto">
+              {/* Very short screens (e.g. iPhone SE) keep just the enquiry button. */}
+              <div className="grid grid-cols-2 gap-x-6 gap-y-3.5 text-[0.78rem] lg:grid-cols-3 lg:pt-8 lg:text-[0.84rem] [@media(max-height:620px)]:hidden">
+                {office && (
+                  <a href={directionsUrl(office)} target="_blank" rel="noopener noreferrer" className="hidden transition-colors hover:text-[#D8B479] lg:block">
+                    <span className="block text-[0.56rem] uppercase tracking-[0.22em] text-white/40">{office.name}</span>
+                    <span className="mt-1 block leading-[1.6] text-white/85">{office.lines.slice(0, 2).join(", ")}</span>
+                  </a>
+                )}
+                <a href={CONTACT.phoneHref} className="block transition-colors hover:text-[#D8B479]">
+                  <span className="block text-[0.56rem] uppercase tracking-[0.22em] text-white/40">Call</span>
+                  <span className="mt-1 block text-white/85">{CONTACT.phone}</span>
                 </a>
-              ))}
+                <a href={`mailto:${CONTACT.email}`} className="block transition-colors hover:text-[#D8B479]">
+                  <span className="block text-[0.56rem] uppercase tracking-[0.22em] text-white/40">Email</span>
+                  <span className="mt-1 block text-white/85">{CONTACT.email}</span>
+                </a>
+              </div>
+              {/* Enquiry + social */}
+              <div className="mt-5 flex items-center gap-3 border-t border-white/[0.07] pt-5 lg:mt-7 lg:pt-7">
+                <Link
+                  href="/contact"
+                  onClick={() => setMenuOpen(false)}
+                  className="group inline-flex h-[2.6rem] flex-1 items-center justify-between gap-3 whitespace-nowrap rounded-full px-5 text-[0.62rem] font-medium uppercase tracking-[0.22em] text-[#D8B479] shadow-[inset_0_0_0_1px_rgba(216,180,121,0.55)] transition-colors duration-300 hover:bg-[#D8B479] hover:text-[#11141b] active:bg-[#D8B479] active:text-[#11141b] lg:h-12"
+                >
+                  Start an enquiry
+                  <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+                </Link>
+                {SOCIAL.map((s) => (
+                  <a
+                    key={s.href}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`JC Landmarks on ${s.label}`}
+                    className="grid h-[2.6rem] w-[2.6rem] shrink-0 place-items-center rounded-full text-white/70 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)] transition-colors duration-300 hover:text-[#D8B479] hover:shadow-[inset_0_0_0_1px_rgba(216,180,121,0.55)] lg:h-12 lg:w-12"
+                  >
+                    <SocialIcon name={s.icon} className="h-[15px] w-[15px]" />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </nav>

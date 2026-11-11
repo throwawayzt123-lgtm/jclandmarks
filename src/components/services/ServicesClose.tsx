@@ -14,7 +14,7 @@ import Link from "next/link";
  * out which door is theirs.
  */
 const ROUTES = [
-  { label: "Commercial project", note: "Offices, retail, hospitality", topic: "commercial" },
+  { label: "Commercial project", note: "Plazas, offices, showrooms", topic: "commercial" },
   { label: "Residential build", note: "New home, grey structure, turnkey", topic: "residential" },
   { label: "Buy or sell a home", note: "Listings, valuation, purchase", topic: "buy" },
 ];
@@ -74,14 +74,14 @@ export default function ServicesClose() {
     <section
       ref={rootRef}
       id="services-close"
-      className="relative bg-[#0b0d12] py-[clamp(6rem,15vh,11rem)] text-[#f4f2ee]"
+      className="relative bg-[#000000] py-[clamp(6rem,15vh,11rem)] text-[#f4f2ee]"
     >
       <div className="u-shell">
         <span className="block text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#D8B479]">
-          Begin a Conversation
+          Start Your Project
         </span>
         <h2 className="scl-head mt-10 max-w-3xl font-serif text-[clamp(2rem,4.4vw,3.8rem)] font-light leading-[1.12] tracking-[-0.01em]">
-          Tell us what you are planning to build, buy or sell.
+          Building, buying or selling? Let’s talk.
         </h2>
 
         <ul className="scl-routes mt-[clamp(3.5rem,9vh,6rem)] grid gap-y-2 lg:grid-cols-3 lg:gap-x-10">

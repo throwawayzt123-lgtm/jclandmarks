@@ -105,7 +105,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[cate
         <RevealScope as="section" className="bg-[#ffffff] pb-[clamp(6rem,14vh,10rem)] text-[#11141b]">
           <div className="u-shell">
             {p.cover && (
-              <figure data-r="plate" className="relative h-[clamp(22rem,78vh,44rem)] overflow-hidden bg-[#0b0d12]">
+              <figure data-r="plate" className="relative h-[clamp(22rem,78vh,44rem)] overflow-hidden bg-[#000000]">
                 <div data-r-img className="absolute inset-0">
                   <div data-r="drift" className="absolute inset-x-0 -inset-y-[7%]">
                     <Image
@@ -129,7 +129,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[cate
                     <figure
                       key={g.src + i}
                       data-r="plate"
-                      className={`relative overflow-hidden bg-[#0b0d12] ${wide ? "aspect-[16/9] sm:col-span-2" : "aspect-[4/5]"}`}
+                      className={`relative overflow-hidden bg-[#000000] ${wide ? "aspect-[16/9] sm:col-span-2" : "aspect-[4/5]"}`}
                     >
                       <div data-r-img className="absolute inset-0">
                         <Image
@@ -178,7 +178,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[cate
                     <span aria-hidden="true" className="text-[#b58c49] transition-transform duration-500 group-hover:translate-x-2">→</span>
                   </span>
                 </div>
-                <div data-r="plate" className="relative col-span-full aspect-[16/10] overflow-hidden bg-[#0b0d12] lg:col-span-5 lg:col-start-8">
+                <div data-r="plate" className="relative col-span-full aspect-[16/10] overflow-hidden bg-[#000000] lg:col-span-5 lg:col-start-8">
                   <div data-r-img className="absolute inset-0">
                     {next.cover ? (
                       <Image

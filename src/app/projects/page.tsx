@@ -29,9 +29,9 @@ export default function ProjectsPage() {
       <main id="top">
         <PageHero
           eyebrow="Our Projects"
-          title="Work that stands"
-          accent="behind its drawings."
-          lede="A complete portfolio of the homes and commercial buildings we have designed, engineered and built — every one delivered by our own teams."
+          title="Homes and buildings"
+          accent="we have delivered."
+          lede="Houses and commercial buildings we have designed, engineered and built in and around Lahore — each one handed over complete."
           crumbs={[{ label: "Home", href: "/" }, { label: "Projects" }]}
           still={FACADES.spanishEstate}
         />
@@ -43,7 +43,7 @@ export default function ProjectsPage() {
               Browse by type
             </span>
             <h2 data-r="words" className="mt-8 max-w-2xl font-serif text-[clamp(1.9rem,3.8vw,3.2rem)] font-light leading-[1.16] tracking-[-0.01em]">
-              Two disciplines, one standard of finish.
+              Residential and commercial, built to one standard.
             </h2>
 
             <div className="mt-[clamp(3.5rem,8vh,5.5rem)] grid gap-14 lg:grid-cols-2 lg:gap-12">
@@ -52,7 +52,7 @@ export default function ProjectsPage() {
                 const lead = list.find((p) => p.cover) ?? list[0];
                 return (
                   <Link key={cat} href={`/projects/${cat}`} className="group block outline-none">
-                    <div data-r="plate" className="relative aspect-[4/3] overflow-hidden bg-[#0b0d12]">
+                    <div data-r="plate" className="relative aspect-[4/3] overflow-hidden bg-[#000000]">
                       <div data-r-img className="absolute inset-0">
                         {lead?.cover ? (
                           <Image

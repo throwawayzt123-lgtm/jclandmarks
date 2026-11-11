@@ -18,45 +18,45 @@ interface SpaceItem {
 
 const SPACES: SpaceItem[] = [
   {
- tag:"Arrival Foyer",
- title:"Arrival & Private Gallery Foyer",
- subtitle:"Cantilevered Marble & Glass Balustrade",
- spec:"Bookmatched Marble Feature Wall · Autumn Floral Arrangement · Polished Stone",
+ tag:"Upper Lounge",
+ title:"Family Lounge & Upper Hall",
+ subtitle:"Open-plan sitting area off the main corridor",
+ spec:"False ceiling with cove lighting · Porcelain flooring · Feature wall panelling",
  still: INTERIORS.foyerGallery,
   },
   {
- tag:"Great Salon",
- title:"Double-Height Grand Salon",
- subtitle:"30-Foot Drapery & Sculptural Lighting",
- spec:"Vertical Pendant Chandelier · Modular Lounge Seating · Cognac Leather Accents",
+ tag:"Drawing Room",
+ title:"Formal Drawing Room",
+ subtitle:"Full-height windows and sheer curtains",
+ spec:"Custom sofas & centre tables · Layered lighting · Marble-finish flooring",
  still: INTERIORS.salonCurved,
   },
   {
- tag:"Dining & Fireside",
- title:"Fireside Library & Dining Salon",
- subtitle:"Curved Boucle Lounges & Bespoke Joinery",
- spec:"Fluted Timber Feature Wall · Intimate Dining Setting · Concealed LED Glow",
+ tag:"Dining",
+ title:"Dining & Living",
+ subtitle:"One open space for meals and guests",
+ spec:"Textured wallpaper feature wall · Ring chandelier · Curved lounge seating",
  still: INTERIORS.libraryFireside,
   },
   {
- tag:"Feature Staircase",
- title:"Cantilevered Marble Staircase",
- subtitle:"Floating Steps & Walnut Panelling",
- spec:"Solid Marble Treads · Artisan Stone Console · Botanical Art Installation",
+ tag:"Staircase",
+ title:"Entrance Staircase",
+ subtitle:"Floating steps with a glass balustrade",
+ spec:"Marble treads · Wood-panelled wall · Stone console & feature lighting",
  still: INTERIORS.staircaseCantilever,
   },
   {
- tag:"Master Sanctuary",
- title:"Executive Master Suite Sanctuary",
- subtitle:"Camel Tufted Headboard & Tailored Platform",
- spec:"Geometric Headboard Geometry · Woven Silk Wallpaper · Ambient Warm Pendants",
+ tag:"Master Bedroom",
+ title:"Master Bedroom Suite",
+ subtitle:"Panelled headboard wall and warm lighting",
+ spec:"Upholstered bed wall · Textured wallpaper · Concealed LED & pendants",
  still: INTERIORS.bedMaster,
   },
   {
- tag:"Executive Study",
- title:"Private Executive Study",
- subtitle:"Equestrian Oil Canvas & Fluted Desk",
- spec:"Warm Brass Reading Lamp · Bespoke Fluted Joinery · Curated Art Library",
+ tag:"Study",
+ title:"Home Study",
+ subtitle:"A quiet room to work from home",
+ spec:"Built-in desk & cabinetry · Accent armchairs · Statement artwork",
  still: INTERIORS.studyEquestrian,
   },
 ];
@@ -152,7 +152,7 @@ export default function Experience() {
         <div className="mt-12 grid gap-y-8 lg:grid-cols-12 lg:gap-x-16 items-end">
           <div className="col-span-full lg:col-span-6">
             <span className="exp-eyebrow text-xs sm:text-sm tracking-[0.28em] uppercase text-[#b58c49] font-bold block mb-3">
-              Spatial Choreography
+              Inside Our Homes
             </span>
             <TextReveal
  as="h2"
@@ -163,8 +163,7 @@ export default function Experience() {
 
           <div className="col-span-full lg:col-span-6">
             <p className="exp-desc text-lg sm:text-xl text-[#1f2937] font-normal leading-relaxed">
-              An architectural commission is more than structural geometry. It is a comprehensive suite
- of tactile sanctuaries sculpted from Italian marble, warm walnut joinery, and filtered daylight.
+              A home is more than its structure. These are rooms from homes we have built and finished — every ceiling, floor, wall finish and light fitted by our own teams.
             </p>
           </div>
         </div>
@@ -254,21 +253,6 @@ export default function Experience() {
  className="object-cover transition-transform duration-700 hover:scale-105"
  style={{ objectPosition: SPACES[activeSpace].still.position ??"center" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[rgba(17,20,27,0.88)] via-[rgba(17,20,27,0.2)] to-transparent pointer-events-none" />
-
-              <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between text-white">
-                <div>
-                  <span className="text-xs text-[#D8B479] uppercase tracking-[0.22em] font-bold block">
-                    {SPACES[activeSpace].tag} · Interior Monograph
-                  </span>
-                  <h4 className="u-display text-3xl sm:text-4xl mt-1.5 text-white font-normal font-serif">
-                    {SPACES[activeSpace].title}
-                  </h4>
-                  <p className="text-sm sm:text-base text-[rgba(247,246,242,0.95)] mt-2 leading-relaxed max-w-md font-normal">
-                    {SPACES[activeSpace].spec}
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </div>

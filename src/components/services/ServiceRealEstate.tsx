@@ -31,16 +31,16 @@ interface Listing {
 /* Placeholder set drawn from the practice's own photography. Availability is
    not stated on purpose — every card routes to an enquiry. */
 const LISTINGS: Listing[] = [
-  { title: "Contemporary Residence", area: "Phase 7", plot: "1 Kanal", features: "Reflection pool · Cantilevered terrace", still: FACADES.phase7Villa },
-  { title: "Spanish Estate", area: "Sheikhupura", plot: "2 Kanal", features: "Arched portals · Sweeping forecourt", still: FACADES.spanishEstate },
-  { title: "Glass Pavilion Residence", area: "Phase 7", plot: "On request", features: "Double-height glazing · Travertine terraces", still: FACADES.phase7Curtain },
-  { title: "Monolith Residence", area: "Phase 9 Prism", plot: "On request", features: "Charcoal stone · Bronze louvres", still: FACADES.prismMonolith },
+  { title: "Contemporary Residence", area: "DHA Phase 7", plot: "1 Kanal", features: "Cream stone · Glazed stairwell · Car porch", still: FACADES.phase7Villa },
+  { title: "Classical Residence", area: "Sheikhupura", plot: "2 Kanal", features: "Arched windows · Balconies · Columned porch", still: FACADES.spanishEstate },
+  { title: "Glass Pavilion Residence", area: "DHA Phase 7", plot: "1 Kanal", features: "Double-height glass · Roof terrace", still: FACADES.phase7Curtain },
+  { title: "Monolith Residence", area: "Phase 9 Prism", plot: "5 Marla", features: "Dark stone · Glass balcony · Roof canopy", still: FACADES.prismMonolith },
 ];
 
 const SELL_STEPS = [
-  { no: "01", title: "Valuation", body: "A site visit and a written valuation grounded in recent sales and the real build quality of the house — not just its plot size." },
-  { no: "02", title: "Presentation", body: "Architectural photography, a measured floor plan and a short written account of how the house was built, shown to qualified buyers only." },
-  { no: "03", title: "Transfer", body: "Negotiation, documentation and transfer handled end to end. Where it suits both sides, we will also make a direct offer." },
+  { no: "01", title: "Valuation", body: "We visit the house and give you a written valuation based on recent sales and how well it is built — not just the size of the plot." },
+  { no: "02", title: "Marketing", body: "Good photographs, a clear floor plan and honest details about the construction, shown to serious buyers." },
+  { no: "03", title: "Transfer", body: "Negotiation, paperwork and transfer handled for you from start to finish, with legal support from our parent group." },
 ];
 
 export default function ServiceRealEstate() {
@@ -165,7 +165,7 @@ export default function ServiceRealEstate() {
   const card = (l: Listing) => (
     <article key={l.title} className="re-item group">
       <Link href={enquiryHref("buy", l.title)} className="block outline-none">
-        <div className="re-media relative aspect-[5/4] overflow-hidden bg-[#0b0d12]">
+        <div className="re-media relative aspect-[5/4] overflow-hidden bg-[#000000]">
           <div className="re-media-img absolute inset-0">
             <Image
               src={l.still.src}
@@ -212,13 +212,13 @@ export default function ServiceRealEstate() {
 
         <div className="mt-12 grid gap-y-10 lg:grid-cols-12 lg:gap-x-20">
           <h2 className="re-head col-span-full font-serif text-[clamp(1.9rem,3.8vw,3.3rem)] font-light leading-[1.16] tracking-[-0.01em] lg:col-span-7">
-            Buying or selling a home, with builders on your side of the table.
+            Buy or sell a home with builders on your side.
           </h2>
           <div className="re-intro col-span-full lg:col-span-4 lg:col-start-9 lg:pt-3">
             <p className="max-w-md text-[0.98rem] leading-[1.8] text-[#4b5563]">
-              Because we build, we can tell you what a house is really made of —
-              the structure behind the finishes, and what it will cost to keep.
-              That changes what a fair price looks like.
+              Because we build houses, we can tell you what one is really made
+              of — the structure behind the finishes, and what it will cost to
+              maintain. That is how you know a price is fair.
             </p>
           </div>
         </div>
@@ -283,7 +283,7 @@ export default function ServiceRealEstate() {
           className="mt-[clamp(3rem,7vh,5rem)]"
         >
           <div className="grid gap-y-14 lg:grid-cols-12 lg:gap-x-20">
-            <div className="re-item relative col-span-full aspect-[4/5] overflow-hidden bg-[#0b0d12] lg:col-span-5">
+            <div className="re-item relative col-span-full aspect-[4/5] overflow-hidden bg-[#000000] lg:col-span-5">
               <Image
                 src={INTERIORS.salonCurved.src}
                 alt={INTERIORS.salonCurved.alt}
@@ -297,7 +297,7 @@ export default function ServiceRealEstate() {
 
             <div className="col-span-full lg:col-span-6 lg:col-start-7">
               <h3 className="re-item font-serif text-[clamp(1.6rem,2.8vw,2.4rem)] font-light leading-[1.2]">
-                Sell your home to the right buyer — or to us.
+                Sell your home at the right price.
               </h3>
               <ol className="mt-12">
                 {SELL_STEPS.map((s) => (
@@ -313,10 +313,10 @@ export default function ServiceRealEstate() {
               </ol>
               <Link
                 href={enquiryHref("sell")}
-                className="re-item group mt-6 inline-flex items-center gap-4 bg-[#11141b] px-9 py-5 text-[0.66rem] uppercase tracking-[0.26em] text-[#f4f2ee] transition-colors duration-500 hover:bg-[#b58c49]"
+                className="re-item u-btn u-btn--dark mt-6"
               >
-                Request a valuation
-                <span aria-hidden="true" className="transition-transform duration-500 group-hover:translate-x-1.5">→</span>
+                <span>Request a valuation</span>
+                <span aria-hidden="true" className="u-btn__arrow" />
               </Link>
             </div>
           </div>

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { gsap, prefersReducedMotion, revealStart } from "@/lib/gsap";
-import { smoothScrollTo } from "@/components/SmoothScrollProvider";
 import { FACADES, INTERIORS, type Still } from "@/lib/media";
 import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
@@ -17,10 +16,8 @@ import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
  * right-to-left for a left-hand one.
  * The page scrolls normally — nothing pins.
  *
- * The left panel lists all three titles, as in an index; the section's own
- * title is set dark and italic, the others in gold, and every title links to
- * its section. Below a hairline sit the counter, the tenet's detail and its
- * figure.
+ * The panel is kept deliberately quiet: a counter, one title, one sentence
+ * and one figure, centred in a lot of white space.
  *
  * On phones each section becomes its photograph followed by its copy.
  */
@@ -28,8 +25,7 @@ interface Tenet {
   id: string;
   tag: string;
   title: string;
-  tagline: string;
-  description: string;
+  body: string;
   metric: string;
   metricLabel: string;
   still: Still;
@@ -37,36 +33,30 @@ interface Tenet {
 
 const TENETS: Tenet[] = [
   {
-    id: "tenet-light",
-    tag: "Spatial Volumetrics",
-    title: "Sculpted Light & Volume",
-    tagline: "Architecture defined by light and void, not square footage.",
-    description:
-      "We begin every commission by carving spatial volumes rather than drafting floor plates. Triple-height lightwells, column-free spans and cantilevered planes carry daylight into the deepest interior rooms.",
-    metric: "32 FT",
-    metricLabel: "Maximum continuous ceiling void",
+    id: "tenet-engineering",
+    tag: "Engineering",
+    title: "Engineered to last.",
+    body: "Our own engineers design every frame and foundation from a soil test of your plot, and inspect each pour before concrete is placed.",
+    metric: "In-house",
+    metricLabel: "Structural & site engineers",
     still: INTERIORS.atriumApex,
   },
   {
-    id: "tenet-material",
-    tag: "Geological Materiality",
-    title: "Noble Natural Provenance",
-    tagline: "Raw materials selected to age with generational nobility.",
-    description:
-      "We source directly from heritage quarries, artisan metal workshops and sustainably managed walnut forests. Every surface is monolithic, authentic, and chosen to acquire a dignified patina across decades.",
-    metric: "100%",
-    metricLabel: "Single-source provenance materials",
+    id: "tenet-materials",
+    tag: "Materials",
+    title: "Quality you can inspect.",
+    body: "Graded steel, approved cement, tested concrete and branded fittings — and your site stays open to you at every stage.",
+    metric: "Open site",
+    metricLabel: "Visit at any stage",
     still: FACADES.prismMonolith,
   },
   {
-    id: "tenet-water",
-    tag: "Water & Horizon",
-    title: "Reflection & Seclusion",
-    tagline: "Cascading reflection pools and cantilevered terraces.",
-    description:
-      "To preserve fidelity of craftsmanship, the atelier accepts only three private commissions each year. The principal architect oversees every structural calculation and stonemason joint from inception to handover.",
-    metric: "03",
-    metricLabel: "Commissions accepted per year",
+    id: "tenet-delivery",
+    tag: "Delivery",
+    title: "One team, plot to keys.",
+    body: "Design, approvals, construction and finishing under one contract, with one project manager and an itemised cost.",
+    metric: "1 contract",
+    metricLabel: "Design, build & handover",
     still: FACADES.phase7Villa,
   },
 ];
@@ -120,13 +110,8 @@ export default function TenetsSplit() {
     return () => ctx.revert();
   }, []);
 
-  const jump = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) smoothScrollTo(el.getBoundingClientRect().top + window.scrollY);
-  };
-
   return (
-    <div ref={rootRef} aria-label="The core tenets of our atelier" role="region">
+    <div ref={rootRef} aria-label="Our approach to building" role="region">
       {TENETS.map((t, i) => {
         const left = i % 2 === 1; // the middle section puts its photograph on the left
         return (
@@ -138,7 +123,7 @@ export default function TenetsSplit() {
         >
           {/* Photograph — full bleed, alternating sides (always first on phones) */}
           <div className={`relative aspect-[4/3] overflow-hidden bg-white sm:aspect-[16/9] lg:aspect-auto ${left ? "lg:order-1" : "lg:order-2"}`}>
-            <div className="ts-frame absolute inset-0 overflow-hidden bg-[#0b0d12]">
+            <div className="ts-frame absolute inset-0 overflow-hidden bg-[#000000]">
             <div className="ts-drift absolute inset-x-0 -inset-y-[5%]">
               <div className="ts-img absolute inset-0">
                 <Image
@@ -158,61 +143,29 @@ export default function TenetsSplit() {
           {/* Panel — its outer edge lines up with the site's content column */}
           <div
             className={[
-              "flex flex-col justify-between px-[var(--gutter)] py-[clamp(3rem,8vh,4.5rem)] lg:pb-[clamp(2.5rem,7vh,4.5rem)] lg:pt-[clamp(6rem,14vh,9rem)]",
+              "flex flex-col justify-center px-[var(--gutter)] py-[clamp(3.5rem,9vh,5rem)] lg:py-[clamp(5rem,12vh,8rem)]",
               left
                 ? "lg:order-2 lg:pl-[clamp(3rem,5vw,6rem)] lg:[padding-right:var(--ts-edge)]"
                 : "lg:order-1 lg:pr-[clamp(3rem,5vw,6rem)] lg:[padding-left:var(--ts-edge)]",
             ].join(" ")}
             style={{ ["--ts-edge" as string]: SHELL_EDGE }}
           >
-            <div>
-              <span className="ts-rise block text-[0.66rem] font-semibold uppercase tracking-[0.34em] text-[#b58c49]">
-                Curatorial Philosophy · The Core Tenets
-              </span>
+            <div className="max-w-[30rem]">
+              {/* Counter: number, hairline, tag */}
+              <div className="ts-rise flex items-center gap-4">
+                <span className="font-serif text-[1.05rem] italic tabular-nums text-[#b58c49]">{pad(i + 1)}</span>
+                <span aria-hidden="true" className="ts-rule block h-px w-12 origin-left bg-[rgba(181,140,73,0.5)]" />
+                <span className="text-[0.62rem] font-semibold uppercase tracking-[0.32em] text-[#11141b]">{t.tag}</span>
+              </div>
 
-              {/* Index of all tenets — this section's own title in dark italic */}
-              <ul className="mt-[clamp(1.25rem,3.5vh,2.5rem)] hidden lg:block">
-                {TENETS.map((other) => {
-                  const own = other.id === t.id;
-                  return (
-                    <li key={other.id} className="ts-rise">
-                      <button
-                        type="button"
-                        onClick={() => jump(other.id)}
-                        aria-current={own ? "true" : undefined}
-                        className={[
-                          "block py-[0.1em] text-left font-serif text-[clamp(2rem,3.3vw,3.3rem)] font-light leading-[1.12] tracking-[-0.01em] transition-colors duration-500",
-                          own ? "italic text-[#11141b]" : "text-[#b58c49]/75 hover:text-[#b58c49]",
-                        ].join(" ")}
-                      >
-                        {other.title}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-
-              {/* Phones: just this tenet's title */}
-              <h3 className="ts-rise mt-4 font-serif text-[clamp(1.8rem,6.5vw,2.5rem)] font-light italic leading-[1.15] lg:hidden">
+              <h3 className="ts-rise mt-[clamp(1.5rem,4vh,2.25rem)] font-serif text-[clamp(2rem,3.4vw,3.1rem)] font-light leading-[1.12] tracking-[-0.01em] text-[#11141b]">
                 {t.title}
               </h3>
-            </div>
+              <p className="ts-rise mt-6 text-[1rem] leading-[1.85] text-[#4b5563]">{t.body}</p>
 
-            <div className="mt-10 lg:mt-0">
-              <div className="ts-rise flex items-center gap-5">
-                <span className="text-[0.62rem] tabular-nums uppercase tracking-[0.24em] text-[#8a8f9a]">
-                  <span className="text-[#11141b]">{pad(i + 1)}</span> / {pad(TENETS.length)}
-                </span>
-                <span aria-hidden="true" className="ts-rule block h-px flex-1 origin-left bg-[rgba(181,140,73,0.35)]" />
-              </div>
-              <span className="ts-rise mt-[clamp(1.5rem,3.5vh,2.5rem)] block text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-[#b58c49]">
-                {t.tag}
-              </span>
-              <p className="ts-rise mt-4 font-serif text-[1.12rem] font-light italic leading-[1.5] text-[#b58c49]">{t.tagline}</p>
-              <p className="ts-rise mt-4 max-w-[34rem] text-[0.98rem] leading-[1.8] text-[#374151]">{t.description}</p>
-              <div className="ts-rise mt-7 flex items-baseline gap-5">
-                <span className="font-serif text-[2rem] font-light leading-none text-[#11141b]">{t.metric}</span>
-                <span className="text-[0.64rem] uppercase tracking-[0.2em] text-[#8a8f9a]">{t.metricLabel}</span>
+              <div className="ts-rise mt-[clamp(2.25rem,6vh,3.5rem)] flex items-baseline gap-4 pt-6 shadow-[inset_0_1px_0_rgba(20,33,61,0.1)]">
+                <span className="font-serif text-[1.6rem] font-light leading-none text-[#11141b]">{t.metric}</span>
+                <span className="text-[0.6rem] uppercase tracking-[0.22em] text-[#6b7280]">{t.metricLabel}</span>
               </div>
             </div>
           </div>

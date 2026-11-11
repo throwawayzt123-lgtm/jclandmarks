@@ -18,22 +18,22 @@ const DISCIPLINES = [
   {
     no: "01",
     title: "Architecture",
-    body: "Concept, massing and detailed drawings produced in-house. We design to the constraints of the site rather than to a house style, and we draw every joint we intend to build.",
+    body: "Plans, elevations, 3D views and working drawings produced in-house — designed around your plot, your family and your budget rather than a fixed house style.",
   },
   {
     no: "02",
     title: "Structural Engineering",
-    body: "Post-tensioned slabs, column-free spans and cantilevers calculated by the same team that drew them. Nothing is value-engineered after the fact by a third party.",
+    body: "Foundations, columns, beams and slabs designed by our own structural engineers from a soil test of your plot — by the same team that drew the building.",
   },
   {
     no: "03",
     title: "Construction",
-    body: "Directly employed site teams and long-standing stone, steel and joinery subcontractors. One site engineer stays with a commission from excavation to snag list.",
+    body: "Our own site teams and trusted trades for steel, stone and joinery. One site engineer stays with your project from excavation to the final snag list.",
   },
   {
     no: "04",
     title: "Finishing & Handover",
-    body: "Stone setting, metalwork, joinery and MEP commissioning run under one programme, so the finish is sequenced rather than rushed at the end.",
+    body: "Plaster, flooring, electrical, plumbing, joinery and paint run to one programme, so the finishing is planned stage by stage rather than rushed at the end.",
   },
 ];
 
@@ -168,7 +168,7 @@ export default function AboutPractice() {
           </h2>
 
           <p className="ap-lede col-span-full max-w-md text-[0.98rem] leading-[1.8] text-[#4b5563] lg:col-span-4 lg:col-start-9 lg:pt-3">
-            Most residences pass through four companies and lose something at
+            Most homes pass through four companies and lose something at
             every handover. We hold all four in-house, so the drawing that is
             approved is the building that gets made.
           </p>
@@ -178,7 +178,7 @@ export default function AboutPractice() {
           {/* Sticky plate — fixed aspect, so it can never stretch. */}
           <div className="col-span-full lg:col-span-5">
             <div className="lg:sticky lg:top-[14vh]">
-              <div className="ap-plate relative aspect-[4/5] overflow-hidden bg-[#0b0d12]">
+              <div className="ap-plate relative aspect-[4/5] overflow-hidden bg-[#000000]">
                 <Image
                   src={INTERIORS.foyerGallery.src}
                   alt={INTERIORS.foyerGallery.alt}

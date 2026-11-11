@@ -17,6 +17,15 @@ export const CONTACT = {
   hours: "Monday – Saturday · 10:00 – 18:00",
 } as const;
 
+/** The parent company — its name, website and logo appear in the footer band. */
+export const PARENT = {
+  name: "JUST & CONST",
+  url: "https://justandconst.com/",
+  instagram: "https://www.instagram.com/just_and_const",
+  instagramHandle: "@just_and_const",
+  logo: "/images/just-const-logo.png",
+} as const;
+
 export interface Office {
   name: string;
   /** Postal address, one line per row. */

@@ -61,10 +61,10 @@ export const PROJECTS: Project[] = [
     category: "residential",
     title: "Contemporary Residence",
     location: "Phase 7, Lahore",
-    summary: "A 1 Kanal home of cantilevered planes, stone cladding and a reflection pool along its frontage.",
+    summary: "A 1 Kanal family home in cream stone, with a double-height glazed stairwell, a timber-clad entrance and a covered car porch.",
     story: [
-      "The brief asked for a family home that would feel calm from the street and generous inside. The answer was a composition of horizontal planes — a deep cantilevered canopy over the entrance, and an upper volume clad in stone that shades the glazing beneath it.",
-      "Inside, a double-height arrival hall connects the two floors and pulls daylight into the centre of the plan. Joinery, stone and lighting were detailed together so that every surface finishes cleanly against the next.",
+      "The brief was a family home that looks calm from the street and feels generous inside. The front is kept simple: cream stone, timber-finish panels around the entrance, and a deep car porch with a terrace above.",
+      "A double-height glazed stairwell brings daylight into the middle of the house and links both floors. Stone, joinery and lighting were planned together, so every finish meets the next one cleanly.",
     ],
     facts: [
       { label: "Plot", value: "1 Kanal" },
@@ -77,14 +77,14 @@ export const PROJECTS: Project[] = [
     gallery: [INTERIORS.foyerGallery, INTERIORS.salonCurved, INTERIORS.bedMaster],
   },
   {
-    slug: "spanish-estate-sheikhupura",
+    slug: "classical-residence-sheikhupura",
     category: "residential",
-    title: "Spanish Estate",
+    title: "Classical Residence",
     location: "Sheikhupura",
-    summary: "A 2 Kanal classical estate with arched portals, a sweeping forecourt and hand-carved detailing.",
+    summary: "A 2 Kanal classical home with arched windows, iron-railed balconies, a columned car porch and an arched entrance.",
     story: [
-      "A classical language is unforgiving: proportions have to be right, and every moulding has to meet the next one exactly. The arches, cornices and balustrades of this estate were set out on site from full-size templates before any stone was fixed.",
-      "Behind the formal façade the plan is relaxed and family-scaled, organised around a grand salon and a dining room that opens onto the garden.",
+      "Classical design leaves no room for error: the proportions have to be right, and every moulding has to line up with the next. The arches, cornices and columns were set out carefully on site before any finish was applied.",
+      "Behind the formal front, the house is planned around family life — a drawing room, a dining room that opens to the lawn, and bedrooms upstairs behind the balconies.",
     ],
     facts: [
       { label: "Plot", value: "2 Kanal" },
@@ -92,7 +92,7 @@ export const PROJECTS: Project[] = [
       { label: "Scope", value: "Construction & finishing" },
       { label: "Status", value: "Completed" },
     ],
-    scope: ["Grey structure", "Stone façade", "Finishing & joinery", "MEP"],
+    scope: ["Grey structure", "Classical façade", "Finishing & joinery", "Electrical & plumbing"],
     cover: FACADES.spanishEstate,
     gallery: [INTERIORS.libraryFireside, INTERIORS.studyEquestrian, INTERIORS.bedGuest],
     credit: "Design: Asad Afzal",
@@ -102,17 +102,17 @@ export const PROJECTS: Project[] = [
     category: "residential",
     title: "Monolith Residence",
     location: "Phase 9 Prism, Lahore",
-    summary: "Charcoal stone, bronze louvres and a sculpted triple-height atrium at the heart of the plan.",
+    summary: "A compact modern home in dark stone, with a white stone fin, a glass balcony and an angled roof canopy.",
     story: [
-      "The street elevation is deliberately quiet — a single stone mass broken by a vertical screen of bronze louvres that filters light into the stair behind.",
-      "The drama is kept for the inside: a triple-height atrium rises through the house, lit from above, with every floor opening onto it.",
+      "On a smaller plot, every metre counts. The front is a single dark stone block, cut by a white stone fin and a tall glass bay that brings light into the stair and living room.",
+      "An angled canopy crowns the roof, and slim lines of light trace the edges at night — simple details that make a compact house look distinctive.",
     ],
     facts: [
       { label: "Type", value: "Private residence" },
       { label: "Scope", value: "Design & build" },
       { label: "Status", value: "Completed" },
     ],
-    scope: ["Architecture", "Structural design", "Façade systems", "Finishing & joinery"],
+    scope: ["Architecture", "Structural design", "Stone cladding", "Finishing & joinery"],
     cover: FACADES.prismMonolith,
     gallery: [INTERIORS.atriumApex, INTERIORS.mediaAcoustic, INTERIORS.bedMinimal],
   },
@@ -121,17 +121,17 @@ export const PROJECTS: Project[] = [
     category: "residential",
     title: "Glass Pavilion Residence",
     location: "Phase 7, Lahore",
-    summary: "Double-height glazing and travertine terraces that open the living spaces fully to the garden.",
+    summary: "A modern home with a double-height glass front, a grey stone frame traced in light, vertical fins and a roof terrace.",
     story: [
-      "Full-height glass is easy to draw and hard to build well. The curtain wall here was engineered with the structure, so its frames align with the slab edges and the travertine terraces run straight through from inside to out.",
-      "The result is a living space that reads as one volume with the garden whenever the doors are open.",
+      "Full-height glass is easy to draw and hard to build well. Here the glazing was planned with the structure, so its frames line up with the slab edges and the double-height living room stays bright all day.",
+      "A grey stone frame wraps the upper floor, with vertical fins for shade and a glass-railed terrace on the roof. At night, lines of light pick out the frame.",
     ],
     facts: [
       { label: "Type", value: "Private residence" },
       { label: "Scope", value: "Design & build" },
       { label: "Status", value: "Completed" },
     ],
-    scope: ["Architecture", "Curtain wall", "Stone terraces", "Finishing & joinery"],
+    scope: ["Architecture", "Glazing", "Stone cladding", "Finishing & joinery"],
     cover: FACADES.phase7Curtain,
     gallery: [INTERIORS.staircaseCantilever, INTERIORS.diningGrand],
   },
@@ -144,7 +144,7 @@ export const PROJECTS: Project[] = [
     location: "Lahore",
     summary: "A mid-rise office building with a two-level podium, column-free floor plates and a curtain-wall tower.",
     story: [
-      "Open, flexible floors were the priority, so the frame uses long post-tensioned spans that leave each office level free of internal columns.",
+      "Open, flexible floors were the priority, so the frame uses long spans that keep each office level as free of columns as possible.",
       "The podium holds the reception, meeting suites and a café, with the curtain-wall tower above set back to give the entrance a generous canopy.",
     ],
     facts: [
@@ -203,74 +203,47 @@ export const findProject = (category: string, slug: string) =>
 
 export const projectHref = (p: Pick<Project, "category" | "slug">) => `/projects/${p.category}/${p.slug}`;
 
-/* ---------------------------------- Ongoing ---------------------------------- */
+/* ---------------------------------- Sites ---------------------------------- */
+/**
+ * The client's own project list (supplied 2026-10). One entry per plot;
+ * "status" is as the client gave it — entries supplied without a status are
+ * listed as ongoing. Credits are reproduced exactly as supplied.
+ */
+export type SiteStatus = "ongoing" | "completed";
 
-export const STAGES = ["Design & Approvals", "Foundations", "Grey Structure", "Finishing", "Handover"] as const;
-
-export interface OngoingSite {
-  slug: string;
-  category: Category;
-  title: string;
-  location: string;
-  /** Index into STAGES. */
-  stage: number;
-  /** 0–100. */
-  progress: number;
-  summary: string;
-  specs: Fact[];
-  preview?: Still;
-  drawing?: DrawingKind;
+export interface Site {
+  /** Plot / address as it is known locally, e.g. "12-V". */
+  plot: string;
+  /** Area or society, e.g. "DHA Phase 7". */
+  area: string;
+  size: string;
+  type: Category;
+  status: SiteStatus;
+  /** Free-form note (e.g. a project name, or what the plot comprises). */
+  note?: string;
+  credits?: string[];
+  photo?: Still;
 }
 
-export const ONGOING: OngoingSite[] = [
-  {
-    slug: "courtyard-residence",
-    category: "residential",
-    title: "Courtyard Residence",
-    location: "Lahore",
-    stage: 2,
-    progress: 48,
-    summary: "A family home arranged around a planted inner courtyard. The frame is up to the first-floor slab.",
-    specs: [
-      { label: "Plot", value: "1 Kanal" },
-      { label: "Storeys", value: "Ground + 1" },
-      { label: "Scope", value: "Turnkey" },
-      { label: "Handover", value: "Est. 2027" },
-    ],
-    preview: FACADES.phase7Curtain,
-  },
-  {
-    slug: "boulevard-commercial-plaza",
-    category: "commercial",
-    title: "Boulevard Commercial Plaza",
-    location: "Lahore",
-    stage: 1,
-    progress: 22,
-    summary: "A retail podium with offices above. Excavation is complete and the raft foundation is being poured.",
-    specs: [
-      { label: "Type", value: "Mixed-use" },
-      { label: "Storeys", value: "Basement + G + 5" },
-      { label: "Scope", value: "Design & build" },
-      { label: "Handover", value: "Est. 2028" },
-    ],
-    drawing: "podium",
-  },
-  {
-    slug: "garden-villa",
-    category: "residential",
-    title: "Garden Villa",
-    location: "Sheikhupura",
-    stage: 3,
-    progress: 81,
-    summary: "Stone setting and joinery are under way; the landscape works begin next month.",
-    specs: [
-      { label: "Plot", value: "2 Kanal" },
-      { label: "Storeys", value: "Ground + 1" },
-      { label: "Scope", value: "Finishing" },
-      { label: "Handover", value: "Est. 2026" },
-    ],
-    preview: FACADES.spanishEstate,
-  },
+export const SITES: Site[] = [
+  { plot: "12-V", area: "DHA Phase 7", size: "1 Kanal", type: "residential", status: "ongoing", photo: FACADES.phase7Villa },
+  { plot: "483-Y", area: "DHA Phase 7", size: "1 Kanal", type: "residential", status: "ongoing", photo: FACADES.phase7Curtain },
+  { plot: "464-D", area: "9 Town", size: "5 Marla", type: "residential", status: "ongoing", photo: FACADES.prismMonolith },
+  { plot: "Muridke", area: "Muridke", size: "2 Kanal", type: "residential", status: "ongoing", photo: FACADES.spanishEstate },
+  { plot: "2166-Y", area: "DHA Phase 7", size: "10 Marla", type: "residential", status: "ongoing" },
+  { plot: "3-G", area: "Valencia Town", size: "4 Kanal", type: "residential", status: "ongoing", note: "2 Kanal house + 2 Kanal lawn" },
+  { plot: "21 Commercial", area: "Fazaia Housing Society", size: "8 Marla", type: "commercial", status: "ongoing", note: "Commercial plaza", credits: ["Design: Just&Const"] },
+  { plot: "342-U", area: "DHA Phase 7", size: "1 Kanal", type: "residential", status: "ongoing", note: "Aura’26", credits: ["Design: Mohsin Ali", "Tiles: Architects World"] },
+  { plot: "784-R", area: "DHA Phase 7", size: "1 Kanal", type: "residential", status: "ongoing", credits: ["Design: Mansoor Nabi", "Construction: Just&Const"] },
+  { plot: "1314-T", area: "DHA Phase 7", size: "1 Kanal", type: "residential", status: "ongoing", credits: ["Construction: Just&Const"] },
+  { plot: "32/44-D", area: "DHA Phase 6", size: "1 Kanal", type: "residential", status: "ongoing", credits: ["Design: Just&Const"] },
+  { plot: "328-B", area: "DHA Phase 5", size: "1 Kanal", type: "residential", status: "ongoing", credits: ["Design: Just&Const"] },
+  { plot: "108-D Commercial", area: "DHA Phase 8", size: "8 Marla", type: "commercial", status: "ongoing", credits: ["Construction: Just&Const"] },
+  { plot: "203-G", area: "Valencia Town", size: "2 Kanal", type: "residential", status: "ongoing", credits: ["Design: Mansoor Nabi"] },
+  { plot: "174-F", area: "Fazaia Housing Society", size: "1 Kanal", type: "residential", status: "ongoing", credits: ["Design: Adnan Asmi", "Tiles: Architects World & HVERSE"] },
+  { plot: "269-A", area: "EME Society", size: "1 Kanal", type: "residential", status: "ongoing", note: "EME House", credits: ["Design: Just&Const"] },
+  { plot: "154-G", area: "DHA Phase 5", size: "1 Kanal", type: "residential", status: "completed" },
+  { plot: "28/32 M3", area: "DHA Rahbar", size: "5 Marla", type: "residential", status: "completed" },
 ];
 
 /* --------------------------------- For sale --------------------------------- */
@@ -299,7 +272,7 @@ export const LISTINGS: Listing[] = [
       { label: "Bathrooms", value: "6" },
       { label: "Built", value: "2025" },
     ],
-    features: ["Double-height living room", "Travertine terraces", "Basement"],
+    features: ["Double-height glass living room", "Roof terrace", "Covered car porch"],
     cover: FACADES.phase7Curtain,
   },
   {
@@ -309,17 +282,17 @@ export const LISTINGS: Listing[] = [
     status: "Available",
     price: "Price on request",
     specs: [
-      { label: "Plot", value: "1 Kanal" },
-      { label: "Bedrooms", value: "5" },
-      { label: "Bathrooms", value: "6" },
+      { label: "Plot", value: "5 Marla" },
+      { label: "Bedrooms", value: "3" },
+      { label: "Bathrooms", value: "4" },
       { label: "Built", value: "2025" },
     ],
-    features: ["Triple-height atrium", "Home cinema", "Rooftop terrace"],
+    features: ["Dark stone façade", "Glass balcony", "Roof canopy"],
     cover: FACADES.prismMonolith,
   },
   {
-    slug: "reflection-pool-home",
-    title: "Reflection Pool Home",
+    slug: "contemporary-stone-home",
+    title: "Contemporary Stone Home",
     location: "Phase 7, Lahore",
     status: "Reserved",
     price: "Price on request",
@@ -329,7 +302,7 @@ export const LISTINGS: Listing[] = [
       { label: "Bathrooms", value: "7" },
       { label: "Built", value: "2024" },
     ],
-    features: ["Reflection pool", "Cantilevered terrace", "Staff quarters"],
+    features: ["Double-height glazed stairwell", "Covered car porch", "Staff quarters"],
     cover: FACADES.phase7Villa,
   },
 ];

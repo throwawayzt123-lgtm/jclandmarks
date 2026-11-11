@@ -94,7 +94,9 @@ export default function RevealScope({ as: Tag = "div", className, id, children }
           v: end,
           duration: 1.6,
           ease: "power3.out",
-          scrollTrigger: once(el, "top 90%"),
+          // Counts the moment the number is on screen at all: it reads "0"
+          // until then, so it must never sit visible and unstarted.
+          scrollTrigger: { trigger: el, start: "top bottom", once: true },
           onUpdate: () => {
             el.textContent = `${Math.round(state.v)}${suffix}`;
           },

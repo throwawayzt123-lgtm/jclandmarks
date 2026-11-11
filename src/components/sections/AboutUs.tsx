@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { gsap, prefersReducedMotion, revealStart, isMobileViewport } from "@/lib/gsap";
 import { splitWords } from "@/lib/splitWords";
 import TenetsSplit from "@/components/sections/TenetsSplit";
+import StatsScatter, { type Stat } from "@/components/ui/StatsScatter";
 import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 import Link from "next/link";
@@ -20,11 +21,12 @@ import Link from "next/link";
  * paper. Nothing is boxed; the rhythm comes from whitespace.
  */
 
-const STUDIO_METRICS = [
-  { value: "20+", label: "Years of practice" },
-  { value: "42", label: "Private sanctuaries" },
-  { value: "03", label: "Annual commissions" },
-  { value: "19", label: "Architectural citations" },
+/* Figures are placeholders until the client confirms the real numbers. */
+const STUDIO_METRICS: Stat[] = [
+  { value: "20", unit: "+ yrs", caption: "of designing and building homes across Lahore." },
+  { value: "42", caption: "private residences, each built for the family that lives in it." },
+  { value: "150k", unit: "sq. ft.", caption: "of homes and buildings designed, built and handed over." },
+  { value: "01", unit: "team", caption: "from first drawing to final key — one contract, one point of contact." },
 ];
 
 export default function AboutUs() {
@@ -61,56 +63,6 @@ export default function AboutUs() {
           stagger: 0.14,
           ease: "power3.out",
           scrollTrigger: { trigger: ".abt-open", start: revealStart("top 78%"), once: true },
-        }
-      );
-
-      /* ---------- 3. Metrics count up as they arrive ---------- */
-      gsap.utils.toArray<HTMLElement>(".abt-metric").forEach((el, i) => {
-        const figure = el.querySelector<HTMLElement>(".abt-figure");
-        const raw = figure?.dataset.value ?? "";
-        // Only animate a real number; "20+" keeps its suffix, "03" its padding.
-        const target = parseInt(raw, 10);
-        const pad = /^0\d/.test(raw);
-        const suffix = raw.replace(/[\d]/g, "");
-
-        gsap.fromTo(
-          el,
-          { opacity: 0, y: 28 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            delay: i * 0.08,
-            ease: "power3.out",
-            scrollTrigger: { trigger: ".abt-metrics", start: revealStart("top 85%"), once: true },
-          }
-        );
-
-        if (figure && !Number.isNaN(target)) {
-          const counter = { n: 0 };
-          gsap.to(counter, {
-            n: target,
-            duration: 1.6,
-            delay: i * 0.08,
-            ease: "power2.out",
-            scrollTrigger: { trigger: ".abt-metrics", start: revealStart("top 85%"), once: true },
-            onUpdate: () => {
-              const v = Math.round(counter.n);
-              figure.textContent = (pad ? String(v).padStart(2, "0") : String(v)) + suffix;
-            },
-          });
-        }
-      });
-
-      // The rule above the metrics draws itself in.
-      gsap.fromTo(
-        ".abt-metrics-rule",
-        { scaleX: 0 },
-        {
-          scaleX: 1,
-          duration: 1.5,
-          ease: "power3.inOut",
-          scrollTrigger: { trigger: ".abt-metrics", start: revealStart("top 88%"), once: true },
         }
       );
 
@@ -164,50 +116,32 @@ export default function AboutUs() {
       {/* ============ Opening statement ============ */}
       <div className="u-shell pt-[clamp(6rem,14vh,11rem)]">
         <span className="block text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#b58c49]">
-          About Us · The Atelier
+          About Us
         </span>
 
         <div className="abt-open mt-12 grid gap-y-12 lg:grid-cols-12 lg:gap-x-20">
           <h2 className="abt-head col-span-full font-serif text-[clamp(2.1rem,4.4vw,3.9rem)] font-light leading-[1.14] tracking-[-0.01em] lg:col-span-7">
-            We sculpt spaces where monumentality meets{" "}
-            <em className="italic text-[#b58c49]">human intimacy.</em>
+            We build homes people are proud to{" "}
+            <em className="italic text-[#b58c49]">come home to.</em>
           </h2>
 
           <div className="abt-lede col-span-full lg:col-span-4 lg:col-start-9 lg:pt-3">
             <p className="text-[1.02rem] leading-[1.75] text-[#3b4150]">
-              JC Landmarks is an independent architectural atelier and private
-              estate practice — building singular, one-of-one residences
-              designed to endure across generations.
+              JC Landmarks is a Lahore construction company. We design and build
+              private homes and commercial buildings, and help families buy and
+              sell property — all under one roof.
             </p>
             <p className="mt-6 text-[0.95rem] leading-[1.75] text-[#6b7280]">
-              Every commission is a dialogue between geological stone,
-              structural steel and the shifting daylight of its own latitude.
+              Our own architects, engineers and site teams carry each project from
+              the first drawing to handover, so nothing is lost between hands.
             </p>
           </div>
         </div>
       </div>
 
-      {/* ============ Metrics band ============ */}
-      <div className="u-shell mt-[clamp(5rem,11vh,9rem)]">
-        <div className="abt-metrics relative grid grid-cols-2 gap-y-12 pt-12 lg:grid-cols-4 lg:gap-x-10">
-          <span
-            aria-hidden="true"
-            className="abt-metrics-rule absolute inset-x-0 top-0 h-px origin-left bg-[rgba(20,33,61,0.12)]"
-          />
-          {STUDIO_METRICS.map((m) => (
-            <div key={m.label} className="abt-metric">
-              <span
-                className="abt-figure block font-serif text-[clamp(2.4rem,4vw,3.4rem)] font-light leading-none text-[#11141b]"
-                data-value={m.value}
-              >
-                {m.value}
-              </span>
-              <span className="mt-4 block text-[0.68rem] uppercase tracking-[0.2em] text-[#8a8f9a]">
-                {m.label}
-              </span>
-            </div>
-          ))}
-        </div>
+      {/* ============ Figures — black band, scattered ============ */}
+      <div className="mt-[clamp(5rem,11vh,9rem)]">
+        <StatsScatter stats={STUDIO_METRICS} eyebrow="By the numbers" title="Two decades of homes, built by one team." />
       </div>
 
       {/* ============ Core tenets: full-height split screen ============ */}
@@ -219,14 +153,14 @@ export default function AboutUs() {
       <div className="u-shell mt-[clamp(6rem,16vh,13rem)] pb-[clamp(6rem,14vh,11rem)]">
         <div className="abt-manifesto mx-auto max-w-3xl text-center">
           <span className="block text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#b58c49]">
-            Founder&rsquo;s Manifesto
+            Our Promise
           </span>
 
           <blockquote className="abt-quote mt-10 font-serif text-[clamp(1.4rem,2.7vw,2.3rem)] font-light italic leading-[1.5] text-[#11141b]">
-            &ldquo;A true landmark is never imposed upon its environment; it
-            emerges from it. We do not build houses for admiration — we build
-            sanctuaries that change how one experiences light, shadow and
-            time.&rdquo;
+            &ldquo;A home is the biggest thing most families ever build. We
+            treat it that way — honest costs, sound structure, careful finishing,
+            and a team that answers for every stage until the keys are in your
+            hand.&rdquo;
           </blockquote>
 
           <div className="abt-sign mt-12 flex flex-col items-center gap-1">
@@ -235,10 +169,10 @@ export default function AboutUs() {
               className="mb-7 block h-px w-14 bg-[#D8B479]"
             />
             <p className="font-serif text-[1.05rem] text-[#11141b]">
-              Julian Castlereagh, AIA
+              JC Landmarks
             </p>
             <p className="text-[0.66rem] uppercase tracking-[0.2em] text-[#8a8f9a]">
-              Founder &amp; Principal Architect
+              Lahore · Design &amp; Build
             </p>
           </div>
 
@@ -247,7 +181,7 @@ export default function AboutUs() {
             className="group mt-12 inline-flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-[#11141b]"
           >
             <span className="relative">
-              Commission an inquiry
+              Start your project
               <span
                 aria-hidden="true"
                 className="absolute -bottom-1.5 left-0 h-px w-full origin-left scale-x-100 bg-[#D8B479] transition-transform duration-500 ease-[var(--ease-luxe)] group-hover:scale-x-0"

@@ -1,30 +1,44 @@
 import type { Metadata, Viewport } from"next";
-import { Cormorant_Garamond, Inter } from"next/font/google";
+import localFont from"next/font/local";
 import"./globals.css";
 import Navbar from"@/components/navigation/Navbar";
 import SmoothScrollProvider from"@/components/SmoothScrollProvider";
+import WhatsAppButton from"@/components/ui/WhatsAppButton";
+import SandTrail from "@/components/ui/SandTrail";
 
-/** Editorial serif for display type. */
-const display = Cormorant_Garamond({
+/**
+ * Both families are the client's own files in ./fonts (variable fonts, so one
+ * file covers every weight), served from the site itself — no request to
+ * Google, and next/font preloads them with a size-matched fallback so text
+ * does not jump when they arrive.
+ */
+
+/** Cormorant Garamond — the editorial serif for headings and display type. */
+const display = localFont({
  variable:"--font-display",
- subsets: ["latin"],
- weight: ["300","400","500"],
- style: ["normal","italic"],
+ src: [
+    { path:"./fonts/CormorantGaramond-Variable.woff2", weight:"300 700", style:"normal" },
+    { path:"./fonts/CormorantGaramond-Italic-Variable.woff2", weight:"300 700", style:"italic" },
+  ],
  display:"swap",
+ fallback: ["Times New Roman","Times","serif"],
 });
 
-/** Neutral grotesque for UI and body copy. */
-const body = Inter({
+/** DM Sans — clean sans for body copy, labels and buttons. */
+const body = localFont({
  variable:"--font-body",
- subsets: ["latin"],
+ src:"./fonts/DMSans-Variable.woff2",
+ weight:"100 1000",
+ style:"normal",
  display:"swap",
+ fallback: ["ui-sans-serif","system-ui","sans-serif"],
 });
 
 const SITE_URL ="https://jclandmarks.com";
 const SITE_NAME ="JC Landmarks";
-const TITLE ="JC Landmarks — Architecture Beyond Expectation";
+const TITLE ="JC Landmarks — Design & Build Construction in Lahore";
 const DESCRIPTION =
-"A contemporary private residence of triple-height volume, refined materials and full-height light. Explore the architecture, interiors and private amenities.";
+"JC Landmarks is a Lahore construction company. We design and build private homes and commercial buildings — architecture, engineering, approvals, construction and finishing under one contract.";
 
 export const metadata: Metadata = {
  metadataBase: new URL(SITE_URL),
@@ -35,11 +49,11 @@ export const metadata: Metadata = {
  description: DESCRIPTION,
  applicationName: SITE_NAME,
  keywords: [
-"luxury real estate",
-"private residence",
-"architectural villa",
-"contemporary architecture",
-"prime property",
+"construction company Lahore",
+"house construction",
+"design and build",
+"commercial construction",
+"real estate Lahore",
 "JC Landmarks",
   ],
  authors: [{ name: SITE_NAME }],
@@ -57,7 +71,7 @@ export const metadata: Metadata = {
  url:"/images/frames5/ezgif-frame-001.jpg",
  width: 1280,
  height: 720,
- alt:"The JAY-CEE residence seen from above, with its pool terrace and mountain backdrop",
+ alt:"A JC Landmarks residence seen from above, with its pool terrace",
       },
     ],
   },
@@ -92,7 +106,7 @@ const jsonLd = {
  description: DESCRIPTION,
  url: SITE_URL,
  image: `${SITE_URL}/images/frames5/ezgif-frame-001.jpg`,
- logo: `${SITE_URL}/logo-gold.png`,
+ logo: `${SITE_URL}/images/jc-logo-gold.png`,
  address: {
 "@type":"PostalAddress",
  streetAddress:"Plaza 112, 4th Floor, CCA-1, Phase 6, DHA",
@@ -115,6 +129,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SmoothScrollProvider />
         <Navbar />
         {children}
+        <WhatsAppButton />
+        <SandTrail />
         <script
  type="application/ld+json"
           // Static, author-controlled object — no user input reaches this.

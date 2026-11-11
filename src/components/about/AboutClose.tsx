@@ -73,8 +73,8 @@ export default function AboutClose() {
           </span>
 
           <blockquote className="ac-quote mt-10 font-serif text-[clamp(1.4rem,2.7vw,2.3rem)] font-light italic leading-[1.5]">
-            &ldquo;We would rather build three residences a year that hold their
-            detail for forty years than thirty that look finished on handover
+            &ldquo;We would rather build a home that still looks right in
+            twenty years than one that only looks finished on handover
             day.&rdquo;
           </blockquote>
 
@@ -84,11 +84,11 @@ export default function AboutClose() {
               className="block h-px w-14 bg-[rgba(20,33,61,0.16)]"
             />
             <p className="max-w-md text-[0.95rem] leading-[1.8] text-[#4b5563]">
-              If you are planning a residence and want the people who draw it to
-              be the people who build it, we would be glad to talk.
+              If you are planning a home or a commercial building and want the people
+              who design it to be the people who build it, we would be glad to talk.
             </p>
             <MagneticButton href="/contact">
-              Arrange a conversation
+              Talk to our team
             </MagneticButton>
           </div>
         </div>

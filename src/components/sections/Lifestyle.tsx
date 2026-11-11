@@ -64,7 +64,7 @@ export default function Lifestyle() {
  className="overflow-hidden py-[var(--section-y)] bg-white text-[#11141b] relative"
     >
       <div className="u-shell">
-        <SectionLabel label="Living & Horizon" />
+        <SectionLabel label="Living in It" />
 
         {/* Row 1 — tall plate against the statement */}
         <div className="mt-12 grid items-center gap-y-10 lg:grid-cols-12 lg:gap-x-16">
@@ -75,30 +75,30 @@ export default function Lifestyle() {
  parallax={10}
  hoverZoom={true}
  sizes="(max-width: 1024px) 100vw, 42vw"
- caption="The Grand Salon · Double-Height Proportions & Sculptural Art"
+ caption="Double-height lounge · Pendant lighting & full-height curtains"
             />
           </div>
 
           <div className="lf-drift col-span-full lg:col-span-6 lg:col-start-7" data-dir="up">
             <span className="lf-eyebrow text-[0.72rem] tracking-[0.28em] uppercase text-[#D8B479] font-medium block mb-3">
-              Atmospheric Sanctuary
+              Built for Everyday Life
             </span>
             <TextReveal
  as="h2"
  className="u-display text-3xl sm:text-4xl lg:text-5xl text-[#11141b] font-normal leading-[1.08]"
- lines={["More than a home —", <em key="e" className="font-serif italic font-normal text-[#D8B479]">an enduring retreat.</em>]}
+ lines={["Beautiful to look at —", <em key="e" className="font-serif italic font-normal text-[#D8B479]">easy to live in.</em>]}
             />
             <p className="lf-desc mt-6 text-base sm:text-lg text-[#2d333f] font-normal leading-relaxed">
-              A private micro-climate framed by mature olive canopies and water cascades.
-              Conceived for tranquil dawn swims, intimate fireside evenings, and uninterrupted connection to nature.
+              We plan homes around how families actually live — rooms that catch the light,
+              storage where you need it, quiet bedrooms, and finishes that stay good-looking with daily use.
             </p>
 
             <div className="lf-quote mt-8 border-l-4 border-[#D8B479] bg-[#ffffff] p-6 shadow-sm">
               <p className="font-serif italic text-lg sm:text-xl text-[#11141b] leading-relaxed">
-                &ldquo;Architecture should not conquer the landscape; it should welcome it inside.&rdquo;
+                &ldquo;A good home is one you never have to think about fixing.&rdquo;
               </p>
               <span className="text-xs uppercase tracking-[0.2em] text-[#b58c49] font-medium mt-3 block">
-                Principal Architectural Philosophy
+                How We Build
               </span>
             </div>
           </div>
@@ -113,7 +113,7 @@ export default function Lifestyle() {
  parallax={-8}
  hoverZoom={true}
  sizes="(max-width: 1024px) 100vw, 56vw"
- caption="Double-Height Architectural Curtain Wall at Twilight"
+ caption="Front elevation · Glazed double-height entrance"
             />
           </div>
 
@@ -124,7 +124,7 @@ export default function Lifestyle() {
  parallax={10}
  hoverZoom={true}
  sizes="(max-width: 1024px) 100vw, 36vw"
- caption="Minimalist Private Bedroom Sanctuary · Quiet Dawn"
+ caption="Bedroom · Textured stone feature wall & sheer curtains"
             />
           </div>
         </div>

@@ -259,7 +259,7 @@ export default function ImageSequenceHero({
         {/* Atmospheric grade — depth without touching the architecture. */}
         <div
  aria-hidden="true"
- className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(11,13,18,0.3)_0%,rgba(11,13,18,0)_18%,rgba(11,13,18,0)_66%,rgba(11,13,18,0.26)_100%)]"
+ className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.3)_0%,rgba(0,0,0,0)_18%,rgba(0,0,0,0)_66%,rgba(0,0,0,0.26)_100%)]"
         />
 
         <HeroOverlay sectionRef={sectionRef} active={curtainGone} scrollLengthVh={scrollLengthVh} />
@@ -275,10 +275,7 @@ export default function ImageSequenceHero({
 
         {/* The sequence is decorative; this is its accessible equivalent. */}
         <p className="u-sr-only">
-          A cinematic aerial approach to a coastal private estate: the camera
- descends over the black-marble villa, its infinity pool and the sea
- beyond, passes the pool terrace, and settles inside the arrival hall
- beneath a sculptural chandelier, facing the Jay-Cee Landmarks wall.
+          A walkthrough of a JC Landmarks residence: the camera descends over the house and its pool terrace, passes the front entrance, and settles inside the double-height living room.
         </p>
       </section>
     </>

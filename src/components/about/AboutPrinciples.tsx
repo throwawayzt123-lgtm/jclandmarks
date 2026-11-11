@@ -22,13 +22,13 @@ const PRINCIPLES = [
   },
   {
     no: "02",
-    title: "Materials are chosen once",
-    body: "Stone, metal and timber are selected at the outset from a single source, so a run of cladding matches along its whole length years later.",
+    title: "Costs are agreed up front",
+    body: "You receive an itemised estimate before work starts. If something changes, the change and its cost are agreed with you in writing first.",
   },
   {
     no: "03",
-    title: "Three commissions a year",
-    body: "A deliberate cap. It is the only way the principal can be on every site often enough to catch the things drawings do not show.",
+    title: "One team answers for it",
+    body: "Design, structure and construction sit with one company, so there is never a question of who is responsible for getting it right.",
   },
 ];
 
@@ -149,25 +149,27 @@ export default function AboutPrinciples() {
 
         <div className="mt-[clamp(4rem,10vh,7rem)] grid gap-y-16 lg:grid-cols-12 lg:gap-x-20">
           {/* Offset plate pair */}
-          <div className="pr-plates col-span-full lg:col-span-6">
-            <div className="grid grid-cols-5 gap-5">
-              <div className="pr-plate relative col-span-3 aspect-[3/4] overflow-hidden bg-[#0b0d12]">
+          {/* Fills the screen height and stays pinned beside the principles
+              while they scroll past, so the column never runs empty. */}
+          <div className="pr-plates col-span-full lg:col-span-7">
+            <div className="flex h-[min(118vw,36rem)] gap-4 sm:gap-5 lg:sticky lg:top-[12vh] lg:h-[76vh] lg:max-h-[52rem]">
+              <div className="pr-plate relative h-full w-[60%] overflow-hidden bg-[#000000]">
                 <Image
                   src={INTERIORS.atriumApex.src}
                   alt={INTERIORS.atriumApex.alt}
                   fill
-                  sizes="(max-width: 1024px) 60vw, 28vw"
+                  sizes="(max-width: 1024px) 60vw, 35vw"
                   loading="lazy"
                   className="object-cover"
                   style={{ objectPosition: "center 45%" }}
                 />
               </div>
-              <div className="pr-plate relative col-span-2 mt-[14%] aspect-[3/4] self-start overflow-hidden bg-[#0b0d12]">
+              <div className="pr-plate relative mt-[16%] h-[76%] w-[40%] overflow-hidden bg-[#000000]">
                 <Image
                   src={FACADES.prismMonolith.src}
                   alt={FACADES.prismMonolith.alt}
                   fill
-                  sizes="(max-width: 1024px) 40vw, 18vw"
+                  sizes="(max-width: 1024px) 40vw, 24vw"
                   loading="lazy"
                   className="object-cover"
                   style={{ objectPosition: "center 50%" }}
@@ -177,9 +179,9 @@ export default function AboutPrinciples() {
           </div>
 
           {/* Principles */}
-          <div className="col-span-full lg:col-span-5 lg:col-start-8">
+          <div className="col-span-full lg:col-span-5 lg:col-start-8 lg:pl-4">
             {PRINCIPLES.map((p) => (
-              <article key={p.no} className="pr-item pb-11 pt-11 first:pt-0">
+              <article key={p.no} className="pr-item pb-11 pt-11 first:pt-0 lg:pb-[12vh]">
                 <span
                   aria-hidden="true"
                   className="pr-rule mb-9 block h-px origin-left bg-[rgba(20,33,61,0.12)]"

@@ -31,7 +31,6 @@ export default function ContactPage() {
           <div className="mt-12 flex flex-wrap gap-x-12 gap-y-6">
             {[
               { label: "Call", value: CONTACT.phone, href: CONTACT.phoneHref },
-              { label: "WhatsApp", value: CONTACT.whatsapp, href: CONTACT.whatsappHref },
               { label: "Email", value: CONTACT.email, href: `mailto:${CONTACT.email}` },
             ].map((c) => (
               <a key={c.label} href={c.href} className="group block">

@@ -21,29 +21,29 @@ interface ChevronItem {
 const CHEVRONS: ChevronItem[] = [
   {
  id:"chv-1",
- src:"/images/touse/frontfasades/483Y phase 7.png",
- alt:"483-Y Phase 7 luxury villa facade showcasing double-height glass curtain wall",
+ src:"/images/touse/frontsquaresized/front2.webp",
+ alt:"Contemporary residence by JC Landmarks with a double-height glazed front and lit entrance",
  position:"center 22%",
  leftPercent: 0,
   },
   {
  id:"chv-2",
- src:"/images/touse/interiors/bed1.jpg",
- alt:"Executive master bedroom suite with bespoke fluted panelling and warm pendants",
+ src:"/images/touse/landscapeimgs/bed2.webp",
+ alt:"Finished master bedroom with a panelled headboard wall and warm lighting",
  position:"center 48%",
  leftPercent: 23.653,
   },
   {
  id:"chv-3",
- src:"/images/touse/interiors/l3.jpg",
- alt:"Monumental double-height grand drawing room with vertical chandelier and 30-foot drapery",
+ src:"/images/touse/landscapeimgs/tvlounge-doubleheight.webp",
+ alt:"Double-height lounge with full-height curtains and a pendant chandelier",
  position:"center 42%",
  leftPercent: 47.307,
   },
   {
  id:"chv-4",
- src:"/images/touse/frontfasades/2 Kanal Spanish design by Asad Afzal at Sheikhupura.png",
- alt:"2 Kanal Spanish classical estate featuring grand arches and sweeping forecourt",
+ src:"/images/touse/frontsquaresized/front1.webp",
+ alt:"Classical-style 2-kanal residence with arched windows and a covered porch",
  position:"center 30%",
  leftPercent: 70.96,
   },
@@ -178,10 +178,10 @@ export default function IdentityStatement() {
     >
       {/* Top Statement Header */}
       <div className="id-header u-shell text-center">
-        <h2 className="id-head text-[clamp(2.1rem,4.5vw,4.25rem)] font-normal tracking-tight text-[#11141b] leading-[1.08]">
-          This isn’t just{""}
+        <h2 className="id-head u-display text-[clamp(2.1rem,4.5vw,4.25rem)] font-light tracking-[-0.015em] text-[#11141b] leading-[1.08]">
+          We don’t just build houses.{" "}
           <span className="font-light text-[#949aa8]">
- about real estate.
+ We build homes that last.
           </span>
         </h2>
       </div>
@@ -223,12 +223,12 @@ export default function IdentityStatement() {
       {/* Bottom Narrative Statement */}
       <div className="id-footer mt-10 sm:mt-14 lg:mt-16 u-shell text-center max-w-2xl mx-auto space-y-2.5">
         <p className="text-base sm:text-xl md:text-2xl text-[#11141b] font-medium tracking-tight leading-snug">
-          It’s about identity. Progress. Getting unstuck.
+          From an empty plot to the day you move in.
         </p>
         <p className="text-sm sm:text-lg md:text-xl text-[#11141b] font-normal leading-relaxed">
-          You’re not just looking for a place.{""}
+          Design, approvals, construction and finishing —{" "}
           <span className="text-[#949aa8] font-light">
-            You’re looking for alignment. That’s what we help you find.
+            handled by one team, to one standard, under one contract.
           </span>
         </p>
 
@@ -236,7 +236,7 @@ export default function IdentityStatement() {
         <div className="pt-6 flex items-center justify-center gap-3">
           <span className="h-px w-8 bg-[rgba(216,180,121,0.4)]" />
           <span className="text-[0.65rem] tracking-[0.28em] uppercase text-[#D8B479] font-medium">
-            JC Landmarks · Monograph Vision
+            JC Landmarks · Design &amp; Build
           </span>
           <span className="h-px w-8 bg-[rgba(216,180,121,0.4)]" />
         </div>

@@ -72,7 +72,7 @@ export default function Atrium() {
  ref={rootRef}
  id="atrium"
  data-depth="well"
- className="relative min-h-[90vh] lg:min-h-screen flex items-center justify-center overflow-hidden bg-[#07090e] py-20"
+ className="relative min-h-[90vh] lg:min-h-screen flex items-center justify-center overflow-hidden bg-[#000000] py-20"
     >
       {/* Background Architectural Canvas */}
       <div
@@ -90,11 +90,11 @@ export default function Atrium() {
         {/* Layered atmospheric vignetting for optimal text legibility and depth */}
         <div
  aria-hidden="true"
- className="absolute inset-0 bg-gradient-to-t from-[rgba(7,9,14,0.92)] via-[rgba(7,9,14,0.5)] to-[rgba(7,9,14,0.7)]"
+ className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.92)] via-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0.7)]"
         />
         <div
  aria-hidden="true"
- className="absolute inset-0 bg-[radial-gradient(ellipse_75%_65%_at_50%_50%,rgba(7,9,14,0.2)_0%,rgba(7,9,14,0.85)_100%)]"
+ className="absolute inset-0 bg-[radial-gradient(ellipse_75%_65%_at_50%_50%,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.85)_100%)]"
         />
       </div>
 
@@ -106,7 +106,7 @@ export default function Atrium() {
         <div className="inline-flex items-center gap-3 mb-8 [text-shadow:0_1px_14px_rgba(0,0,0,0.6)]">
           <span className="h-2 w-2 rotate-45 bg-[#D8B479] shadow-[0_0_8px_#D8B479]" />
           <span className="text-[0.72rem] tracking-[0.3em] uppercase text-[#D8B479] font-medium">
-            Architectural Apex
+            Double-Height Living
           </span>
         </div>
 
@@ -114,34 +114,32 @@ export default function Atrium() {
  as="h2"
  className="u-display text-[clamp(2.75rem,6.5vw,5.5rem)] leading-[0.95] text-white font-normal"
  lines={[
-            <span>
-              The Grand{""}
+            <span key="l1">
+              Room to{" "}
               <span className="font-serif italic text-[#D8B479]">
-                Atrium
+                breathe
               </span>
             </span>,
           ]}
         />
 
         <p className="mt-6 font-serif italic text-xl sm:text-2xl text-[rgba(247,246,242,0.95)] max-w-xl leading-relaxed">
-          Three storeys of uninterrupted vertical freedom, crowned by a bespoke
- spiraling amber glass chandelier.
+          A double-height lounge, open to the floor above, lit by a cascade of pendant lights.
         </p>
 
         <p className="mt-4 text-base sm:text-lg text-[rgba(247,246,242,0.8)] max-w-xl leading-relaxed font-normal">
-          Natural light descends from a continuous perimeter skylight into the heart of the residence,
- illuminating bookmatched Italian marble slabs and floating mezzanine galleries.
+          Tall volumes need careful engineering — longer spans, stronger slabs and well-planned lighting. We design them so the space feels open, bright and calm, not empty.
         </p>
 
         {/* Architectural Details Ribbon */}
         <div className="mt-10 flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-xs tracking-[0.25em] uppercase text-[rgba(247,246,242,0.85)] font-medium [text-shadow:0_1px_14px_rgba(0,0,0,0.6)]">
-          <span>32-Foot Void</span>
+          <span>Double-Height Void</span>
           <span className="text-[#D8B479]">·</span>
-          <span>Amber Chandelier</span>
+          <span>Pendant Cascade</span>
           <span className="text-[#D8B479]">·</span>
-          <span>Mezzanine Promenade</span>
+          <span>Open Upper Gallery</span>
           <span className="text-[#D8B479] hidden sm:inline">·</span>
-          <span className="hidden sm:inline">Travertine Flooring</span>
+          <span className="hidden sm:inline">Full-Height Glazing</span>
         </div>
       </div>
     </section>

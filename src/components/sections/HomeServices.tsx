@@ -17,15 +17,15 @@ import Link from "next/link";
  * reads as one composition and still gives each service room to speak.
  * Each panel links to its chapter on /services.
  *
- * Below 1024px the panels stack and show their detail permanently: there is
- * no hover on touch, and a hidden-until-tapped layout would bury the content.
+ * Below 1024px the panels stack as a 16:9 photograph with the detail written
+ * beneath it, shown permanently: there is no hover on touch, and text laid
+ * over a tall crop of a landscape photo would hide most of the building.
  */
+/** Kept to a title and a link: the photograph does the talking. */
 interface Service {
   id: string;
   no: string;
   title: string;
-  lede: string;
-  points: string[];
   cta: string;
   still: Still;
 }
@@ -35,8 +35,6 @@ const SERVICES: Service[] = [
     id: "commercial",
     no: "01",
     title: "Commercial Construction",
-    lede: "Offices, retail, hospitality and mixed-use plazas — engineered and built under a single contract.",
-    points: ["Design & build", "Structural frame & facades", "Fit-out"],
     cta: "Explore commercial",
     still: FACADES.prismMonolith,
   },
@@ -44,8 +42,6 @@ const SERVICES: Service[] = [
     id: "residential",
     no: "02",
     title: "Residential Construction",
-    lede: "Custom homes from grey structure to turnkey, built by our own engineers and site teams.",
-    points: ["Design & build", "Grey structure", "Turnkey & renovation"],
     cta: "Explore residential",
     still: FACADES.phase7Villa,
   },
@@ -53,14 +49,19 @@ const SERVICES: Service[] = [
     id: "real-estate",
     no: "03",
     title: "Real Estate",
-    lede: "Homes for sale, valuations and purchase — advised by people who know how a house is built.",
-    points: ["Homes for sale", "Valuation", "Sell or purchase"],
     cta: "Explore real estate",
     still: FACADES.spanishEstate,
   },
 ];
 
-const ACTIVE_GROW = 2.6;
+/**
+ * The open panel takes 3/5 of the row, and the row's height follows the
+ * screen width (29vw), which keeps the open panel close to 16:9 — the shape
+ * of the photographs — so a landscape facade shows whole instead of losing
+ * its sides to the crop. (A CSS aspect-ratio here would let the minimum
+ * height widen the row past the screen on smaller laptops.)
+ */
+const ACTIVE_GROW = 3;
 const DEFAULT_ACTIVE = 1;
 
 export default function HomeServices() {
@@ -172,9 +173,9 @@ export default function HomeServices() {
         gsap.utils.toArray<HTMLElement>(".hs-drift").forEach((el) => {
           gsap.fromTo(
             el,
-            { yPercent: -5 },
+            { yPercent: -2.5 },
             {
-              yPercent: 5,
+              yPercent: 2.5,
               ease: "none",
               scrollTrigger: { trigger: el.closest(".hs-panel"), start: "top bottom", end: "bottom top", scrub: true, invalidateOnRefresh: true },
             }
@@ -240,32 +241,35 @@ export default function HomeServices() {
         </div>
 
         {/* Panels */}
-        <div className="hs-panels mt-[clamp(3.5rem,8vh,5.5rem)] flex flex-col gap-4 lg:h-[clamp(32rem,76vh,44rem)] lg:flex-row lg:gap-3">
+        <div className="hs-panels mt-[clamp(3.5rem,8vh,5.5rem)] flex flex-col gap-6 lg:h-[clamp(26rem,29vw,42rem)] lg:flex-row lg:gap-3">
           {SERVICES.map((s, i) => (
             <article
               key={s.id}
-              className="hs-panel group relative h-[clamp(26rem,78vh,36rem)] overflow-hidden bg-[#0b0d12] text-[#f4f2ee] lg:h-auto lg:min-w-0 lg:basis-0"
+              className="hs-panel group relative flex flex-col overflow-hidden bg-[#000000] text-[#f4f2ee] lg:block lg:h-auto lg:min-w-0 lg:basis-0"
               style={{ flexGrow: i === DEFAULT_ACTIVE ? ACTIVE_GROW : 1 }}
             >
-              <div className="hs-drift absolute inset-x-0 -inset-y-[6%]">
-                <div className="hs-img absolute inset-0">
-                  <Image
-                    src={s.still.src}
-                    alt={s.still.alt}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 60vw"
-                    loading="lazy"
-                    className="object-cover"
-                    style={{ objectPosition: s.still.position ?? "center" }}
-                  />
+              {/* Photograph: a 16:9 plate on phones, the whole panel on desktop */}
+              <div className="relative aspect-video overflow-hidden lg:absolute lg:inset-0 lg:aspect-auto">
+                <div className="hs-drift absolute inset-x-0 -inset-y-[3%]">
+                  <div className="hs-img absolute inset-0">
+                    <Image
+                      src={s.still.src}
+                      alt={s.still.alt}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 60vw"
+                      loading="lazy"
+                      className="object-cover"
+                      style={{ objectPosition: s.still.position ?? "center" }}
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* Tone: darker when collapsed so the narrow panels recede */}
-              <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_top,rgba(11,13,18,0.92)_0%,rgba(11,13,18,0.5)_45%,rgba(11,13,18,0.2)_100%)]" />
+              <div aria-hidden="true" className="absolute inset-0 hidden bg-[linear-gradient(to_top,rgba(0,0,0,0.88)_0%,rgba(0,0,0,0.35)_40%,rgba(0,0,0,0.05)_100%)] lg:block" />
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-[rgba(11,13,18,0.38)] transition-opacity duration-700 lg:group-data-[active]:opacity-0 max-lg:opacity-0"
+                className="absolute inset-0 bg-[rgba(0,0,0,0.38)] transition-opacity duration-700 lg:group-data-[active]:opacity-0 max-lg:opacity-0"
               />
 
               {/* Number + collapsed hint */}
@@ -277,27 +281,15 @@ export default function HomeServices() {
               </div>
 
               {/* Content */}
-              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:p-10">
+              <div className="relative p-6 sm:p-8 lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-10">
                 <h3 className="font-serif text-[clamp(1.5rem,2.3vw,2.1rem)] font-light leading-[1.15]">
                   {s.title}
                 </h3>
 
                 <div className="hs-detail lg:w-[min(28rem,36vw)]">
-                  <span aria-hidden="true" className="mt-5 block h-px w-10 bg-[#D8B479]" />
-                  <p className="mt-5 max-w-md text-[0.95rem] leading-[1.75] text-[rgba(244,242,238,0.78)]">
-                    {s.lede}
-                  </p>
-                  <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[0.62rem] uppercase tracking-[0.22em] text-[rgba(244,242,238,0.62)]">
-                    {s.points.map((pt) => (
-                      <li key={pt} className="flex items-center gap-2">
-                        <span aria-hidden="true" className="block h-[5px] w-[5px] rotate-45 bg-[#D8B479]" />
-                        {pt}
-                      </li>
-                    ))}
-                  </ul>
                   <Link
                     href={`/services#${s.id}`}
-                    className="group/link mt-7 inline-flex items-center gap-3 text-[0.66rem] uppercase tracking-[0.26em] text-[#f4f2ee] outline-none focus-visible:text-[#D8B479]"
+                    className="group/link mt-5 inline-flex items-center gap-3 text-[0.66rem] uppercase tracking-[0.26em] text-[#f4f2ee] outline-none focus-visible:text-[#D8B479]"
                   >
                     <span className="relative">
                       {s.cta}
@@ -319,10 +311,10 @@ export default function HomeServices() {
           </p>
           <Link
             href="/services"
-            className="hs-foot-fade group inline-flex items-center gap-4 self-start bg-[#11141b] px-9 py-5 text-[0.66rem] uppercase tracking-[0.26em] text-[#f4f2ee] transition-colors duration-500 hover:bg-[#b58c49] sm:self-auto"
+            className="hs-foot-fade u-btn u-btn--dark self-start sm:self-auto"
           >
-            View all services
-            <span aria-hidden="true" className="transition-transform duration-500 group-hover:translate-x-1.5">→</span>
+            <span>View all services</span>
+            <span aria-hidden="true" className="u-btn__arrow" />
           </Link>
         </div>
       </div>
