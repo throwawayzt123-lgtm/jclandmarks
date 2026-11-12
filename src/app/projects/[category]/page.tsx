@@ -6,17 +6,17 @@ import ProjectCard from "@/components/ui/ProjectCard";
 import CtaBand from "@/components/ui/CtaBand";
 import Footer from "@/components/sections/Footer";
 import ScrollProgress from "@/components/ui/ScrollProgress";
-import { CATEGORIES, enquiryHref, projectsIn, type Category } from "@/lib/portfolio";
+import { CATEGORIES, activeCategories, enquiryHref, projectsIn, type Category } from "@/lib/portfolio";
 
 import Link from "next/link";
-/** Only the two real categories exist; anything else is a 404. */
+/** Only categories that have a project exist; anything else is a 404. */
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return (Object.keys(CATEGORIES) as Category[]).map((category) => ({ category }));
+  return activeCategories().map((category) => ({ category }));
 }
 
-const isCategory = (c: string): c is Category => c in CATEGORIES;
+const isCategory = (c: string): c is Category => activeCategories().includes(c as Category);
 
 export async function generateMetadata({ params }: PageProps<"/projects/[category]">): Promise<Metadata> {
   const { category } = await params;
@@ -55,7 +55,7 @@ export default async function CategoryPage({ params }: PageProps<"/projects/[cat
           {/* Category switch — two plain links, the current one underlined in gold */}
           <div className="u-shell">
             <nav aria-label="Project categories" className="flex items-center gap-10 pt-12 sm:gap-14">
-              {(Object.keys(CATEGORIES) as Category[]).map((k) => {
+              {activeCategories().map((k) => {
                 const on = k === category;
                 return (
                   <Link

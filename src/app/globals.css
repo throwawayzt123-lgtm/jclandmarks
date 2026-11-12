@@ -628,21 +628,15 @@ input:-webkit-autofill:focus {
   transition: background-color 9999s ease-out;
 }
 
-/* Loading screen play: a dropped pin pings outward, and its label fades away. */
-@keyframes ld-ring {
-  from { transform: scale(0.2); opacity: 1; }
-  to   { transform: scale(1.9); opacity: 0; }
+/* Loading screen: motes of gold drift up through the dark behind the mark. */
+@keyframes ld-mote {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  12%  { opacity: 0.55; }
+  85%  { opacity: 0.35; }
+  100% { transform: translateY(-112vh) translateX(26px); opacity: 0; }
 }
-@keyframes ld-pin-label {
-  0%   { opacity: 0; transform: translateY(4px); }
-  12%  { opacity: 1; transform: translateY(0); }
-  78%  { opacity: 1; }
-  100% { opacity: 0; }
-}
-.ld-ring { animation: ld-ring 900ms cubic-bezier(0.16, 1, 0.3, 1) both; }
-.ld-pin-label { animation: ld-pin-label 2.5s ease both; }
 @media (prefers-reduced-motion: reduce) {
-  .ld-ring, .ld-pin-label { animation: none; }
+  .ld-mote { animation: none !important; opacity: 0; }
 }
 
 /* Parent company band: a ring of gold light that turns, a shimmer across the name. */

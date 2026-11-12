@@ -48,7 +48,7 @@ export default function ParentCompany() {
     const root = rootRef.current;
     if (!root || prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
-      const st = { trigger: root, start: revealStart("top 85%"), once: true };
+      const st = { trigger: root, start: revealStart("top 85%"), toggleActions: "play reset play reset" };
       gsap.fromTo(".pc-mark", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 1.3, ease: "power3.out", scrollTrigger: st });
       gsap.fromTo(".pc-rise", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 1, stagger: 0.08, delay: 0.1, ease: "power3.out", scrollTrigger: st });
     }, root);

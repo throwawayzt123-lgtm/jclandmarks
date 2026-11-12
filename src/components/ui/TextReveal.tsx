@@ -50,7 +50,7 @@ export default function TextReveal({
  scrollTrigger: {
  trigger: root,
  start:"top 82%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );

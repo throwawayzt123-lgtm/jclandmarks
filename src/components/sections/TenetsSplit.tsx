@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { gsap, prefersReducedMotion, revealStart } from "@/lib/gsap";
-import { FACADES, INTERIORS, type Still } from "@/lib/media";
+import { FACADES, type Still } from "@/lib/media";
+import { PROJECTS } from "@/lib/portfolio";
 import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 /**
@@ -31,6 +32,10 @@ interface Tenet {
   still: Still;
 }
 
+/** The 342-U front elevation by day, from the project's own gallery. */
+const AURA_FRONT: Still =
+  PROJECTS[0].gallery.find((g) => g.src.endsWith("/frontfasade.webp")) ?? PROJECTS[0].cover!;
+
 const TENETS: Tenet[] = [
   {
     id: "tenet-engineering",
@@ -39,7 +44,7 @@ const TENETS: Tenet[] = [
     body: "Our own engineers design every frame and foundation from a soil test of your plot, and inspect each pour before concrete is placed.",
     metric: "In-house",
     metricLabel: "Structural & site engineers",
-    still: INTERIORS.atriumApex,
+    still: AURA_FRONT,
   },
   {
     id: "tenet-materials",
@@ -75,7 +80,7 @@ export default function TenetsSplit() {
 
     const ctx = gsap.context(() => {
       gsap.utils.toArray<HTMLElement>(".ts-section", root).forEach((sec) => {
-        const once = { trigger: sec, start: revealStart("top 70%", "top 80%"), once: true };
+        const once = { trigger: sec, start: revealStart("top 70%", "top 80%"), toggleActions: "play reset play reset" };
         const frame = sec.querySelector<HTMLElement>(".ts-frame");
         // The photograph wipes open like a curtain drawn aside — no coloured
         // overlay, just the image itself. Right-hand photo: left -> right.

@@ -107,7 +107,7 @@ export default function ContactPage() {
                               target="_blank"
                               rel="noopener noreferrer"
                               aria-label={`JC Landmarks on ${s.label}`}
-                              className="grid h-11 w-11 place-items-center bg-[#f5f6f8] text-[#11141b] transition-colors duration-300 hover:bg-[#11141b] hover:text-[#D8B479]"
+                              className="grid h-11 w-11 place-items-center rounded-full bg-[#f5f6f8] text-[#11141b] transition-colors duration-300 hover:bg-[#11141b] hover:text-[#D8B479]"
                             >
                               <SocialIcon name={s.icon} />
                             </a>

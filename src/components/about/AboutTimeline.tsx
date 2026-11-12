@@ -63,7 +63,7 @@ export default function AboutTimeline() {
           scrollTrigger: {
             trigger: ".at-head",
             start: revealStart("top 85%"),
-            once: true,
+            toggleActions: "play reset play reset",
           },
         }
       );
@@ -98,7 +98,7 @@ export default function AboutTimeline() {
             scrollTrigger: {
               trigger: item,
               start: revealStart("top 85%"),
-              once: true,
+              toggleActions: "play reset play reset",
             },
           }
         );
@@ -115,7 +115,7 @@ export default function AboutTimeline() {
             scrollTrigger: {
               trigger: item,
               start: revealStart("top 82%"),
-              once: true,
+              toggleActions: "play reset play reset",
             },
           }
         );

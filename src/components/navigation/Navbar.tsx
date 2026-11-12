@@ -27,6 +27,7 @@ const PAGE_INFO: Record<string, { tag: string; line: string; still: Still }> = {
   "/about": { tag: "Who we are", line: "One team, from plot to keys", still: INTERIORS.staircaseCantilever },
   "/services": { tag: "What we build", line: "Homes, commercial & real estate", still: FACADES.phase7Curtain },
   "/projects": { tag: "Our work", line: "Homes we have delivered", still: FACADES.spanishEstate },
+  "/journal": { tag: "Field notes", line: "What we have learned on site", still: INTERIORS.studyEquestrian },
   "/ongoing": { tag: "On site now", line: "Being built across Lahore", still: FACADES.prismMonolith },
   "/for-sale": { tag: "Homes available", line: "Ready to move into", still: INTERIORS.loungeDoubleHeight },
   "/contact": { tag: "Talk to us", line: "Start your project", still: INTERIORS.diningGrand },

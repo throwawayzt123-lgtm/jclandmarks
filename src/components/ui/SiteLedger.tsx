@@ -62,7 +62,7 @@ export default function SiteLedger({ sites }: { sites: Site[] }) {
           duration: 0.8,
           stagger: 0.05,
           ease: "power3.out",
-          scrollTrigger: { trigger: list, start: "top 85%", once: true },
+          scrollTrigger: { trigger: list, start: "top 85%", toggleActions: "play reset play reset" },
         });
       } else play();
     }, list);

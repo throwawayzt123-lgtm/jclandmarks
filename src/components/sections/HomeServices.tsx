@@ -142,7 +142,7 @@ export default function HomeServices() {
             duration: 1.2,
             stagger: 0.045,
             ease: "power4.out",
-            scrollTrigger: { trigger: ".hs-head", start: revealStart("top 85%"), once: true },
+            scrollTrigger: { trigger: ".hs-head", start: revealStart("top 85%"), toggleActions: "play reset play reset" },
           }
         );
 
@@ -154,7 +154,7 @@ export default function HomeServices() {
             y: 0,
             duration: 1.1,
             ease: "power3.out",
-            scrollTrigger: { trigger: ".hs-head", start: revealStart("top 80%"), once: true },
+            scrollTrigger: { trigger: ".hs-head", start: revealStart("top 80%"), toggleActions: "play reset play reset" },
           }
         );
 
@@ -165,7 +165,7 @@ export default function HomeServices() {
         const imgs = gsap.utils.toArray<HTMLElement>(".hs-img", root);
         gsap.set(panels, { clipPath: "inset(100% 0% 0% 0%)" });
         gsap.set(imgs, { scale: 1.22 });
-        const reveal = { trigger: ".hs-panels", start: revealStart("top 80%"), once: true };
+        const reveal = { trigger: ".hs-panels", start: revealStart("top 80%"), toggleActions: "play reset play reset" };
         gsap.to(panels, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, stagger: 0.14, ease: "power4.inOut", scrollTrigger: reveal });
         gsap.to(imgs, { scale: 1, duration: 1.9, stagger: 0.14, ease: "power3.out", scrollTrigger: { ...reveal } });
 
@@ -189,7 +189,7 @@ export default function HomeServices() {
             scaleX: 1,
             duration: 1.2,
             ease: "power3.inOut",
-            scrollTrigger: { trigger: ".hs-foot", start: revealStart("top 92%"), once: true },
+            scrollTrigger: { trigger: ".hs-foot", start: revealStart("top 92%"), toggleActions: "play reset play reset" },
           }
         );
         gsap.fromTo(
@@ -201,7 +201,7 @@ export default function HomeServices() {
             duration: 1,
             stagger: 0.1,
             ease: "power3.out",
-            scrollTrigger: { trigger: ".hs-foot", start: revealStart("top 92%"), once: true },
+            scrollTrigger: { trigger: ".hs-foot", start: revealStart("top 92%"), toggleActions: "play reset play reset" },
           }
         );
       });

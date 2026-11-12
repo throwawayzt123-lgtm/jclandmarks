@@ -1,4 +1,4 @@
-import { FACADES, INTERIORS, type Still } from "@/lib/media";
+import { FACADES, type Still } from "@/lib/media";
 
 /**
  * PORTFOLIO DATA — completed projects, ongoing sites and homes for sale.
@@ -6,11 +6,10 @@ import { FACADES, INTERIORS, type Still } from "@/lib/media";
  * Every projects, ongoing and for-sale page renders from this file: add an
  * entry and its card, gallery page and detail page appear automatically.
  *
- * PLACEHOLDER CONTENT: the entries below are built from the photography
- * already in /public/images/touse. Names, plot sizes, stages, progress and
- * property details are illustrative until the client supplies the real
- * record. The commercial entries in particular have no photography yet —
- * they render an architectural drawing plate in its place (see `drawing`).
+ * PROJECTS holds the completed-work showcase (currently project 342-U, with
+ * its own photo set). Homes for sale below are still placeholder entries —
+ * their plot sizes and property details are illustrative until the client
+ * supplies the real record.
  */
 
 export type Category = "residential" | "commercial";
@@ -39,6 +38,12 @@ export interface Fact {
   value: string;
 }
 
+/** A project photograph with the caption shown in the full-screen viewer. */
+export interface Shot extends Still {
+  title: string;
+  note: string;
+}
+
 export interface Project {
   slug: string;
   category: Category;
@@ -50,150 +55,135 @@ export interface Project {
   scope: string[];
   cover?: Still;
   drawing?: DrawingKind;
-  gallery: Still[];
+  gallery: Shot[];
   credit?: string;
 }
+
+/** Photographs of project 342-U, in /public/images/projects/residential/project1-342U. */
+const P342 = "/images/projects/residential/project1-342U";
+const still = (file: string, alt: string, position?: string): Still => ({ src: `${P342}/${file}.webp`, alt, ...(position ? { position } : {}) });
+const shot = (file: string, title: string, note: string, alt: string, position?: string): Shot => ({ ...still(file, alt, position), title, note });
 
 export const PROJECTS: Project[] = [
   /* ------------------------------ Residential ------------------------------ */
   {
-    slug: "contemporary-residence-phase-7",
+    slug: "aura-26-dha-phase-7",
     category: "residential",
-    title: "Contemporary Residence",
-    location: "Phase 7, Lahore",
-    summary: "A 1 Kanal family home in cream stone, with a double-height glazed stairwell, a timber-clad entrance and a covered car porch.",
+    title: "Aura’26",
+    location: "DHA Phase 7, Lahore",
+    summary: "A 1 Kanal family home in cream stone and timber, with a double-height lounge, a floating marble staircase and fully furnished interiors.",
     story: [
-      "The brief was a family home that looks calm from the street and feels generous inside. The front is kept simple: cream stone, timber-finish panels around the entrance, and a deep car porch with a terrace above.",
-      "A double-height glazed stairwell brings daylight into the middle of the house and links both floors. Stone, joinery and lighting were planned together, so every finish meets the next one cleanly.",
+      "Plot 342-U is a 1 Kanal family home in DHA Phase 7. From the street it is calm and clean-lined: cream stone, tall black-framed windows and vertical fins that give the front its rhythm, lit warmly at night.",
+      "Inside, the house opens around a floating marble staircase and a double-height lounge, with a drawing room, dining room, study and a fitted kitchen with an island. Upstairs are the bedroom suites, each with its own washroom, finished in textured walls, panelling and soft lighting.",
     ],
     facts: [
       { label: "Plot", value: "1 Kanal" },
+      { label: "Plot no.", value: "342-U" },
       { label: "Type", value: "Private residence" },
-      { label: "Scope", value: "Design & build" },
-      { label: "Status", value: "Completed" },
     ],
-    scope: ["Architecture", "Structural design", "Grey structure", "Finishing & joinery", "Landscape"],
-    cover: FACADES.phase7Villa,
-    gallery: [INTERIORS.foyerGallery, INTERIORS.salonCurved, INTERIORS.bedMaster],
+    scope: ["Construction", "Finishing & joinery", "Kitchen & washrooms"],
+    cover: still("frontnight-342U", "Cream stone residence at night with vertical fins, black-framed windows and a lit forecourt", "center 55%"),
+    gallery: [
+      shot("frontnight-342U", "Front elevation at night", "Lighting picks out the vertical fins and the cream stonework after dark, with lit landscaping along the boundary wall.", "Cream stone residence at night with vertical fins, black-framed windows and a lit forecourt", "center 55%"),
+      shot("frontfasade", "Front elevation by day", "The front in daylight: cream stone, vertical fins and tall black-framed glazing, with a landscaped forecourt and a low boundary wall.", "Daytime view of the cream stone residence with vertical fins and a landscaped front"),
+      shot("entrancestairs", "Entrance and staircase", "A floating marble staircase with a glass balustrade rises beside a wood-panelled wall, opening onto the ground-floor lounge.", "Entrance hall with a floating marble staircase, glass balustrade and wood-panelled wall"),
+      shot("tvlounge-doubleheight", "Double-height lounge", "Sectional seating sits under a double-height void, with pendant lights and full-height curtains.", "Double-height lounge with sectional sofas, pendant lights and full-height curtains"),
+      shot("loungeupview", "The lounge from above", "The same void seen from the upper floor, with a cascade of pendant lights hanging in front of full-height curtains.", "Double-height lounge seen from the floor above, lit by a cascade of pendant lights"),
+      shot("upperlounge", "Upper-floor lounge", "A family lounge on the upper floor with a false ceiling and cove lighting, and a corridor leading beyond.", "Upper-floor family lounge with a false ceiling, cove lighting and a corridor beyond"),
+      shot("upperlounge2", "Drawing room", "Cream sofas, round centre tables and layered curtains in a bright seating room.", "Drawing room with cream sofas, round centre tables and full-height curtains"),
+      shot("diningangle1", "Dining and living", "A ring chandelier hangs over a wooden dining table, with curved sofas in the living area beside it.", "Open dining and living area with a ring chandelier, wooden dining table and curved sofas"),
+      shot("diningangle2", "Dining table", "A dining table set for eight beside a wood-textured feature wall and gold curtains.", "Dining table set for eight beside a wood-textured feature wall and gold curtains"),
+      shot("kitchenmainimg", "Kitchen", "A fitted kitchen with an island, wood-finish wall cabinets and under-cabinet lighting.", "Fitted kitchen with an island, wood-finish wall cabinets and under-cabinet lighting"),
+      shot("kitchenimg1", "Kitchen cabinetry", "Glazed timber-door wall cabinets above the sink, with a window letting in daylight.", "Kitchen wall cabinets with glazed timber doors and a window over the sink"),
+      shot("kitchenimg2", "Kitchen wall", "A tall cabinet wall with a built-in hob and extractor, and open shelving at the end.", "Kitchen with a tall cabinet wall, built-in hob and extractor"),
+      shot("studyroom", "Study", "A black writing desk and white armchairs, with a large framed artwork on the wall.", "Home study with a black desk, white armchairs and a large framed artwork"),
+      shot("studyroom2", "Study seating", "Two white armchairs face a black desk, beside tall sheer curtains.", "Study seating area with two white armchairs and a black writing desk"),
+      shot("bed2", "Master bedroom", "An upholstered, panelled bed wall with textured wallpaper and warm cove lighting.", "Master bedroom with an upholstered panelled bed wall, textured wallpaper and warm lighting"),
+      shot("bed2angle2sitting", "Bedroom sitting area", "A green sofa and patterned armchairs around a round coffee table.", "Bedroom sitting area with a green sofa, patterned armchairs and a round coffee table"),
+      shot("bed1", "Bedroom", "A navy bedspread against a panelled feature wall, with full-height curtains.", "Bedroom with a navy bedspread, panelled feature wall and full-height curtains"),
+      shot("bed3", "Bedroom with stone feature wall", "A textured white stone feature wall behind the bed, with sheer curtains.", "Bedroom with a textured white stone feature wall and sheer curtains"),
+      shot("bed3angle2", "Bedroom, second view", "Pink bedding and a round upholstered seat set against the stone feature wall.", "Bedroom with a textured white stone feature wall, pink bedding and sheer curtains"),
+      shot("bed4", "Bedroom lounge", "A chaise, a sofa and a round marble coffee table in a bedroom seating area.", "Bedroom lounge with a chaise, sofa and round marble coffee table"),
+      shot("bed5", "Guest bedroom", "A wall art installation above the bed, with bedside lamps and an accent armchair.", "Guest bedroom with a wall art installation, bedside lamps and an accent armchair"),
+      shot("bed5angle2", "Guest bedroom, second view", "A patterned accent armchair at the foot of the bed.", "Guest bedroom with a patterned accent armchair beside the bed"),
+      shot("washroom1", "Washroom", "A glass shower enclosure with stone-effect wall tiles.", "Washroom with a glass shower enclosure and stone-effect wall tiles"),
+      shot("washroom3", "Washroom vanity", "A round mirror above a stone vanity, with a glass shower enclosure beside it.", "Washroom with a glass shower enclosure, a round mirror and a stone vanity"),
+    ],
+    credit: "Design: Mohsin Ali · Tiles: Architects World",
   },
-  {
-    slug: "classical-residence-sheikhupura",
-    category: "residential",
-    title: "Classical Residence",
-    location: "Sheikhupura",
-    summary: "A 2 Kanal classical home with arched windows, iron-railed balconies, a columned car porch and an arched entrance.",
-    story: [
-      "Classical design leaves no room for error: the proportions have to be right, and every moulding has to line up with the next. The arches, cornices and columns were set out carefully on site before any finish was applied.",
-      "Behind the formal front, the house is planned around family life — a drawing room, a dining room that opens to the lawn, and bedrooms upstairs behind the balconies.",
-    ],
-    facts: [
-      { label: "Plot", value: "2 Kanal" },
-      { label: "Type", value: "Private estate" },
-      { label: "Scope", value: "Construction & finishing" },
-      { label: "Status", value: "Completed" },
-    ],
-    scope: ["Grey structure", "Classical façade", "Finishing & joinery", "Electrical & plumbing"],
-    cover: FACADES.spanishEstate,
-    gallery: [INTERIORS.libraryFireside, INTERIORS.studyEquestrian, INTERIORS.bedGuest],
-    credit: "Design: Asad Afzal",
-  },
-  {
-    slug: "monolith-residence-phase-9-prism",
-    category: "residential",
-    title: "Monolith Residence",
-    location: "Phase 9 Prism, Lahore",
-    summary: "A compact modern home in dark stone, with a white stone fin, a glass balcony and an angled roof canopy.",
-    story: [
-      "On a smaller plot, every metre counts. The front is a single dark stone block, cut by a white stone fin and a tall glass bay that brings light into the stair and living room.",
-      "An angled canopy crowns the roof, and slim lines of light trace the edges at night — simple details that make a compact house look distinctive.",
-    ],
-    facts: [
-      { label: "Type", value: "Private residence" },
-      { label: "Scope", value: "Design & build" },
-      { label: "Status", value: "Completed" },
-    ],
-    scope: ["Architecture", "Structural design", "Stone cladding", "Finishing & joinery"],
-    cover: FACADES.prismMonolith,
-    gallery: [INTERIORS.atriumApex, INTERIORS.mediaAcoustic, INTERIORS.bedMinimal],
-  },
-  {
-    slug: "glass-pavilion-residence-phase-7",
-    category: "residential",
-    title: "Glass Pavilion Residence",
-    location: "Phase 7, Lahore",
-    summary: "A modern home with a double-height glass front, a grey stone frame traced in light, vertical fins and a roof terrace.",
-    story: [
-      "Full-height glass is easy to draw and hard to build well. Here the glazing was planned with the structure, so its frames line up with the slab edges and the double-height living room stays bright all day.",
-      "A grey stone frame wraps the upper floor, with vertical fins for shade and a glass-railed terrace on the roof. At night, lines of light pick out the frame.",
-    ],
-    facts: [
-      { label: "Type", value: "Private residence" },
-      { label: "Scope", value: "Design & build" },
-      { label: "Status", value: "Completed" },
-    ],
-    scope: ["Architecture", "Glazing", "Stone cladding", "Finishing & joinery"],
-    cover: FACADES.phase7Curtain,
-    gallery: [INTERIORS.staircaseCantilever, INTERIORS.diningGrand],
-  },
+];
 
-  /* ------------------------------ Commercial ------------------------------- */
-  {
-    slug: "corporate-headquarters-lahore",
-    category: "commercial",
-    title: "Corporate Headquarters",
-    location: "Lahore",
-    summary: "A mid-rise office building with a two-level podium, column-free floor plates and a curtain-wall tower.",
-    story: [
-      "Open, flexible floors were the priority, so the frame uses long spans that keep each office level as free of columns as possible.",
-      "The podium holds the reception, meeting suites and a café, with the curtain-wall tower above set back to give the entrance a generous canopy.",
-    ],
-    facts: [
-      { label: "Type", value: "Office building" },
-      { label: "Scope", value: "Design & build" },
-      { label: "Status", value: "Completed" },
-    ],
-    scope: ["Architecture", "Structural frame", "Curtain wall", "MEP coordination", "Fit-out"],
-    drawing: "tower",
-    gallery: [],
-  },
-  {
-    slug: "showroom-pavilion-lahore",
-    category: "commercial",
-    title: "Showroom Pavilion",
-    location: "Lahore",
-    summary: "A double-height display hall behind a fully glazed street front, built for retail on a busy boulevard.",
-    story: [
-      "A showroom sells through its glass. The street front is a single double-height glazed plane carried on a slender steel frame, so the display floor is visible end to end from the road.",
-      "Services run in a concealed spine along the rear wall, leaving the ceiling clean and the floor free to rearrange.",
-    ],
-    facts: [
-      { label: "Type", value: "Retail showroom" },
-      { label: "Scope", value: "General contracting" },
-      { label: "Status", value: "Completed" },
-    ],
-    scope: ["Steel frame", "Glazing", "MEP", "Fit-out"],
-    drawing: "pavilion",
-    gallery: [],
-  },
-  {
-    slug: "mixed-use-plaza-lahore",
-    category: "commercial",
-    title: "Mixed-Use Plaza",
-    location: "Lahore",
-    summary: "A retail podium with offices above, arranged around a shared courtyard and a single circulation core.",
-    story: [
-      "Retail at street level and offices above have very different needs. The plaza separates them vertically — shops open directly onto the street, while the offices are reached through a quiet courtyard lobby.",
-      "A single structural grid runs through both, keeping the frame economical and the floors adaptable as tenants change.",
-    ],
-    facts: [
-      { label: "Type", value: "Mixed-use plaza" },
-      { label: "Scope", value: "Design & build" },
-      { label: "Status", value: "Completed" },
-    ],
-    scope: ["Architecture", "Structural frame", "Façade", "MEP coordination"],
-    drawing: "podium",
-    gallery: [],
-  },
+/** Categories that actually have a project, in display order. */
+export const activeCategories = (): Category[] =>
+  (Object.keys(CATEGORIES) as Category[]).filter((c) => PROJECTS.some((p) => p.category === c));
+
+/* ------------------------------ Elevations ------------------------------ */
+/**
+ * Front elevations from the client's project list, shown on the Residential
+ * page. They carry only what their file names and the project list say — plot,
+ * size, area and design credit — so there is no story or gallery behind them.
+ */
+const OTHERS = "/images/projects/residential/others";
+
+export interface Elevation {
+  /** Plot number or working name, shown large. */
+  plot: string;
+  size: string;
+  area: string;
+  /** A plain description of the architecture. */
+  style: string;
+  credit?: string;
+  image: Shot;
+}
+
+const elevation = (e: Omit<Elevation, "image"> & { file: string; alt: string; position?: string }): Elevation => {
+  const { file, alt, position, ...rest } = e;
+  return {
+    ...rest,
+    image: {
+      src: encodeURI(`${OTHERS}/${file}`),
+      alt,
+      ...(position ? { position } : {}),
+      title: `${e.plot} · ${e.area}`,
+      note: [`${e.size} residence`, `${e.style} front elevation`, e.credit].filter(Boolean).join(" · "),
+    },
+  };
+};
+
+export const ELEVATIONS: Elevation[] = [
+  elevation({
+    plot: "12-V",
+    size: "1 Kanal",
+    area: "DHA Phase 7",
+    style: "Contemporary",
+    file: "1 kanal residential 12 v phase 7.jpeg",
+    alt: "Contemporary front elevation with a glazed double-height bay, a dark stone side wing, vertical louvres and a roof terrace",
+  }),
+  elevation({
+    plot: "Spanish Design",
+    size: "2 Kanal",
+    area: "Sheikhupura",
+    style: "Classical Spanish",
+    credit: "Design: Asad Afzal",
+    file: "2 Kanal Spanish design by Asad Afzal at Sheikhupura.png",
+    alt: "Classical front elevation with arched windows, iron-railed balconies, a columned car porch and an arched entrance, lit at dusk",
+  }),
+  elevation({
+    plot: "464-D",
+    size: "5 Marla",
+    area: "9 Town",
+    style: "Modern",
+    file: "464-D-9-prism.jpeg",
+    alt: "Modern front elevation in dark stone with a white stone fin, a glass balcony and an angled roof canopy",
+  }),
+  elevation({
+    plot: "483-Y",
+    size: "1 Kanal",
+    area: "DHA Phase 7",
+    style: "Contemporary",
+    file: "483Y phase 7.png",
+    alt: "Contemporary front elevation in cream stone with a double-height glazed bay, timber-clad entrance and a covered car porch",
+  }),
 ];
 
 export const projectsIn = (category: Category) => PROJECTS.filter((p) => p.category === category);
@@ -233,7 +223,7 @@ export const SITES: Site[] = [
   { plot: "2166-Y", area: "DHA Phase 7", size: "10 Marla", type: "residential", status: "ongoing" },
   { plot: "3-G", area: "Valencia Town", size: "4 Kanal", type: "residential", status: "ongoing", note: "2 Kanal house + 2 Kanal lawn" },
   { plot: "21 Commercial", area: "Fazaia Housing Society", size: "8 Marla", type: "commercial", status: "ongoing", note: "Commercial plaza", credits: ["Design: Just&Const"] },
-  { plot: "342-U", area: "DHA Phase 7", size: "1 Kanal", type: "residential", status: "ongoing", note: "Aura’26", credits: ["Design: Mohsin Ali", "Tiles: Architects World"] },
+  { plot: "342-U", area: "DHA Phase 7", size: "1 Kanal", type: "residential", status: "ongoing", note: "Aura’26", credits: ["Design: Mohsin Ali", "Tiles: Architects World"], photo: PROJECTS[0].cover },
   { plot: "784-R", area: "DHA Phase 7", size: "1 Kanal", type: "residential", status: "ongoing", credits: ["Design: Mansoor Nabi", "Construction: Just&Const"] },
   { plot: "1314-T", area: "DHA Phase 7", size: "1 Kanal", type: "residential", status: "ongoing", credits: ["Construction: Just&Const"] },
   { plot: "32/44-D", area: "DHA Phase 6", size: "1 Kanal", type: "residential", status: "ongoing", credits: ["Design: Just&Const"] },

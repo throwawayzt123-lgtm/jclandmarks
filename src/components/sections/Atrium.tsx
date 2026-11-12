@@ -57,7 +57,7 @@ export default function Atrium() {
  scrollTrigger: {
  trigger: root,
  start:"top 78%",
- once: true,
+ toggleActions: "play reset play reset",
             },
           }
         );

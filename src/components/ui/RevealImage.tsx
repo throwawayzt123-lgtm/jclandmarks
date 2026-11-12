@@ -53,7 +53,7 @@ export default function RevealImage({
  scrollTrigger: {
  trigger: root,
  start:"top 82%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );
@@ -71,7 +71,7 @@ export default function RevealImage({
  scrollTrigger: {
  trigger: root,
  start:"top 82%",
- once: true,
+ toggleActions: "play reset play reset",
             },
           }
         );
@@ -88,7 +88,7 @@ export default function RevealImage({
  scrollTrigger: {
  trigger: root,
  start:"top 82%",
- once: true,
+ toggleActions: "play reset play reset",
             },
           }
         );

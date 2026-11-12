@@ -1,53 +1,65 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useLayoutEffect, useRef, type PointerEvent as ReactPointerEvent } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { setScrollLocked } from "@/components/SmoothScrollProvider";
 
 /**
- * THE CURTAIN — loading screen.
+ * THE MARK — loading screen.
  *
- * The house lights are down: plain black velvet curtains hang closed and the
- * Jay-Cee logo sits on the cloth, with a hairline of gold beneath it that
- * fills as the page really loads.
+ * The logo holds the centre of a black screen. Around it, a hairline gold arc
+ * closes as the page loads — a ring being drawn, not a spinner — and four gold
+ * panes light in turn beneath it, one for each quarter of the load, echoing
+ * the window in the mark. Fine motes of gold drift up through the dark behind
+ * everything.
  *
- * At handover the logo lifts away and the curtains draw apart — gathering into
- * folds as they travel — to reveal the home.
+ * At handover the ring completes and flares, a ripple of light leaves the mark,
+ * the tagline resolves beneath it, and the whole screen irises away from the
+ * centre to reveal the site.
  *
- * It is lightly alive: a sheen of candlelight follows the cursor across the
- * velvet, the cloth sways a hair against it, and the crest drifts.
- *
- * Plays in full once per visit; a return to the homepage gets a short fade, and
- * reduced-motion users get the finished screen and a plain fade.
+ * Lightly alive: a pool of light follows the cursor and the mark leans a hair
+ * toward it. Plays in full once per visit; a return to the homepage gets a
+ * short fade, and reduced-motion users get the finished screen and a plain fade.
  */
 interface FrameLoaderProps {
   /** 0..1 — share of the frames needed before the hero can be revealed. */
   progress: number;
   /** Flips true once the hero is ready; starts the handover sequence. */
   done: boolean;
-  /** Called after the curtains have opened. */
+  /** Called after the screen has cleared. */
   onExited?: () => void;
 }
 
 /** Survives client-side navigation, so the intro plays once per visit. */
 let introPlayed = false;
 
-/** Shortest time the curtains hang closed on a first visit, so a warm cache never flashes them. */
-const MIN_BUILD_SECONDS = 1.1;
+/** Shortest time the screen stays on a first visit, so a warm cache never flashes it. */
+const MIN_BUILD_SECONDS = 1.3;
 
-/** Velvet: folds of light and shadow repeating across each curtain, shaded top and bottom. */
-const VELVET =
-  "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 72%, rgba(0,0,0,0.45) 100%), " +
-  "repeating-linear-gradient(90deg, #060606 0%, #141414 2.6%, #262626 4.4%, #1a1a1a 6%, #0b0b0b 8.4%, #050505 10%, #060606 12.5%)";
+/** Ring geometry, in the SVG's own units. */
+const R = 92;
+const CIRC = 2 * Math.PI * R;
+
+/** Motes of gold drifting up behind the mark: [left%, delay s, duration s, size px]. */
+const MOTES: Array<[number, number, number, number]> = [
+  [8, 0, 13, 2], [17, 3.4, 16, 1], [26, 1.4, 11, 2], [35, 6, 15, 1],
+  [44, 2.4, 12, 2], [53, 7.6, 17, 1], [62, 0.8, 14, 2], [71, 4.6, 12, 1],
+  [80, 2, 16, 2], [89, 6.8, 13, 1], [95, 1.2, 15, 1], [3, 5.2, 12, 2],
+];
 
 export default function FrameLoader({ progress, done, onExited }: FrameLoaderProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const markRef = useRef<HTMLDivElement>(null);
+  const arcRef = useRef<SVGCircleElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
-  const barRef = useRef<HTMLSpanElement>(null);
+  const panesRef = useRef<HTMLSpanElement[]>([]);
   const shown = useRef({ v: 0 });
   const startedAt = useRef(0);
-  const quick = useRef(introPlayed);
+  // Fixed for the component's whole life, so they may be read during render.
+  const [quick] = useState(() => introPlayed);
+  const [reduced] = useState(() => prefersReducedMotion());
+  const exiting = useRef(false);
   // The parent passes a fresh callback on every render; keep the latest one
   // in a ref so the handover effect depends on `done` alone.
   const onExitedRef = useRef(onExited);
@@ -55,34 +67,43 @@ export default function FrameLoader({ progress, done, onExited }: FrameLoaderPro
     onExitedRef.current = onExited;
   });
 
-  /** Paint a 0..1 loading value into the gold hairline and the counter. */
+  /** Paint a 0..1 loading value into the arc, the panes and the counter. */
   const render = useCallback((v: number) => {
-    if (barRef.current) barRef.current.style.transform = `scaleX(${v})`;
+    if (arcRef.current) arcRef.current.style.strokeDashoffset = String(CIRC * (1 - v));
     if (counterRef.current) counterRef.current.textContent = String(Math.round(v * 100)).padStart(3, "0");
+    // Each pane fills over its own quarter of the load.
+    panesRef.current.forEach((pane, i) => {
+      if (!pane) return;
+      const k = Math.min(1, Math.max(0, v * 4 - i));
+      pane.style.opacity = String(0.14 + k * 0.86);
+      pane.style.transform = `scale(${0.82 + k * 0.18})`;
+    });
   }, []);
 
-  /* ---------- Set up: lock scrolling, curtains hang closed, slow first creep ---------- */
+  /* ---------- Set up: lock scrolling, dark screen, slow first creep ---------- */
   useLayoutEffect(() => {
     const root = rootRef.current;
     if (!root) return;
     startedAt.current = performance.now();
+    panesRef.current = Array.from(root.querySelectorAll<HTMLSpanElement>(".ld-pane"));
     // The page under the loader must not move: start at the top (the browser
     // may restore an old scroll position on reload) and hold it there until
-    // the curtains have opened.
+    // the screen has cleared.
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     window.scrollTo(0, 0);
     setScrollLocked("loader", true);
-    const reduced = prefersReducedMotion();
 
     const ctx = gsap.context(() => {
-      if (reduced || quick.current) {
+      if (reduced || quick) {
         render(1);
+        gsap.set(".ld-tag", { opacity: 1, y: 0 });
       } else {
         render(0);
         // While the first frames are still on their way the arc begins anyway,
-        // so the medallion never sits frozen at zero.
+        // so the mark never sits frozen at zero.
         gsap.to(shown.current, { v: 0.07, duration: 2.6, ease: "power1.out", onUpdate: () => render(shown.current.v) });
-        gsap.fromTo(".ld-center > *", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 1.3, stagger: 0.12, delay: 0.25, ease: "power3.out" });
+        gsap.fromTo(".ld-mark", { opacity: 0, scale: 0.86 }, { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out" });
+        gsap.fromTo(".ld-rise", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.1, stagger: 0.14, delay: 0.35, ease: "power3.out" });
       }
     }, root);
 
@@ -90,11 +111,11 @@ export default function FrameLoader({ progress, done, onExited }: FrameLoaderPro
       ctx.revert();
       setScrollLocked("loader", false);
     };
-  }, [render]);
+  }, [render, quick, reduced]);
 
   /* ---------- Follow real loading, smoothly ---------- */
   useEffect(() => {
-    if (quick.current) return;
+    if (quick) return;
     const tween = gsap.to(shown.current, {
       // Forward only: real progress below the setting-out creep is ignored.
       v: Math.max(shown.current.v, Math.min(1, progress)),
@@ -106,13 +127,12 @@ export default function FrameLoader({ progress, done, onExited }: FrameLoaderPro
     return () => {
       tween.kill();
     };
-  }, [progress, render]);
+  }, [progress, render, quick]);
 
-  /* ---------- Handover: the crest flares, the curtains draw apart ---------- */
+  /* ---------- Handover: the ring flares, the screen irises away ---------- */
   useEffect(() => {
     const root = rootRef.current;
     if (!done || !root) return;
-    const reduced = prefersReducedMotion();
 
     let ctx: gsap.Context | undefined;
     const finish = () => {
@@ -123,57 +143,62 @@ export default function FrameLoader({ progress, done, onExited }: FrameLoaderPro
     };
 
     // Quick variant (repeat visit) and reduced motion: a clean fade.
-    if (quick.current || reduced) {
+    if (quick || reduced) {
       ctx = gsap.context(() => {
-        gsap.to(root, { opacity: 0, duration: quick.current ? 0.45 : 0.6, ease: "power2.out", onComplete: finish });
+        gsap.to(root, { opacity: 0, duration: quick ? 0.45 : 0.6, ease: "power2.out", onComplete: finish });
       }, root);
       return () => ctx?.revert();
     }
 
-    // Let the curtains hang a moment (respecting the minimum) before they open.
+    // Let the mark be seen a moment (respecting the minimum) before handover.
     const wait = Math.max(0, MIN_BUILD_SECONDS - (performance.now() - startedAt.current) / 1000);
 
     ctx = gsap.context(() => {
       const tl = gsap.timeline({
         delay: wait,
         onComplete: finish,
-        // Tells deferred work (useIntroLayoutEffect) to pause for the curtains.
-        onStart: () => root.setAttribute("data-handover", ""),
+        // Tells deferred work (useIntroLayoutEffect) to pause for the screen.
+        onStart: () => {
+          exiting.current = true;
+          root.setAttribute("data-handover", "");
+        },
       });
-      tl.to(shown.current, { v: 1, duration: 0.35, ease: "power2.out", onUpdate: () => render(shown.current.v) })
-        // The logo lifts away as the cloth begins to move.
-        .to(".ld-center", { opacity: 0, y: -18, duration: 0.6, ease: "power2.in" }, "+=0.3")
-        .to(".ld-sheen", { opacity: 0, duration: 0.5 }, "<")
-        // The curtains gather into folds toward the edges...
-        .to(".ld-curtain", { scaleX: 0.13, duration: 1.9, ease: "power3.inOut" }, "-=0.25")
-        // ...then slip clear of the screen.
-        .to(".ld-curtain-l", { xPercent: -100, duration: 0.7, ease: "power2.in" }, "-=0.55")
-        .to(".ld-curtain-r", { xPercent: 100, duration: 0.7, ease: "power2.in" }, "<");
+      tl.to(shown.current, { v: 1, duration: 0.4, ease: "power2.out", onUpdate: () => render(shown.current.v) })
+        // The ring completes and flares.
+        .to(".ld-ring", { filter: "drop-shadow(0 0 26px rgba(216,180,121,0.75))", duration: 0.5, ease: "power2.out" }, "-=0.1")
+        .to(".ld-mark", { scale: 1.05, duration: 0.6, ease: "power2.out" }, "<")
+        // A ripple of light leaves the mark.
+        .fromTo(".ld-ripple", { opacity: 0.55, scale: 0.9 }, { opacity: 0, scale: 2.6, duration: 1.2, ease: "power2.out" }, "<")
+        // The tagline resolves beneath it.
+        .fromTo(".ld-tag", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "<0.2")
+        .to(".ld-meta", { opacity: 0, duration: 0.5, ease: "power2.in" }, "<")
+        // Then the screen irises away from the centre.
+        .to(".ld-mark, .ld-tag", { opacity: 0, scale: 1.14, duration: 0.9, ease: "power3.in" }, "+=0.55")
+        .to(root, { clipPath: "circle(0% at 50% 50%)", duration: 1.1, ease: "power4.inOut" }, "<0.25");
     }, root);
 
     return () => ctx?.revert();
-  }, [done, render]);
+  }, [done, render, quick, reduced]);
 
-  /* ---------- A little life: sheen follows the cursor, cloth sways, crest drifts ---------- */
-  const playable = !quick.current && !prefersReducedMotion();
+  /* ---------- A little life: light follows the cursor, the mark leans ---------- */
+  const playable = !quick && !reduced;
   const sheenRef = useRef<HTMLDivElement>(null);
-  const sway = useRef<((v: number) => void) | null>(null);
-  const driftX = useRef<((v: number) => void) | null>(null);
-  const driftY = useRef<((v: number) => void) | null>(null);
+  const tiltX = useRef<((v: number) => void) | null>(null);
+  const tiltY = useRef<((v: number) => void) | null>(null);
 
   useEffect(() => {
-    if (!playable) return;
-    sway.current = gsap.quickTo(".ld-curtain", "skewX", { duration: 1.1, ease: "power3.out" });
-    driftX.current = gsap.quickTo(".ld-center", "x", { duration: 0.9, ease: "power3.out" });
-    driftY.current = gsap.quickTo(".ld-center", "y", { duration: 0.9, ease: "power3.out" });
+    if (!playable || !markRef.current) return;
+    gsap.set(markRef.current, { transformPerspective: 800 });
+    tiltX.current = gsap.quickTo(markRef.current, "rotationY", { duration: 0.9, ease: "power3.out" });
+    tiltY.current = gsap.quickTo(markRef.current, "rotationX", { duration: 0.9, ease: "power3.out" });
     return () => {
-      sway.current = driftX.current = driftY.current = null;
+      tiltX.current = tiltY.current = null;
     };
   }, [playable]);
 
   const onMove = useCallback(
     (e: ReactPointerEvent<HTMLDivElement>) => {
-      if (!playable || e.pointerType === "touch") return;
+      if (!playable || exiting.current || e.pointerType === "touch") return;
       const el = sheenRef.current;
       if (el) {
         el.style.setProperty("--mx", `${e.clientX}px`);
@@ -182,14 +207,13 @@ export default function FrameLoader({ progress, done, onExited }: FrameLoaderPro
       }
       const nx = e.clientX / window.innerWidth - 0.5;
       const ny = e.clientY / window.innerHeight - 0.5;
-      sway.current?.(nx * 1.4);
-      driftX.current?.(nx * -16);
-      driftY.current?.(ny * -12);
+      tiltX.current?.(nx * 14);
+      tiltY.current?.(ny * -14);
     },
     [playable]
   );
 
-  const pct = quick.current ? 100 : 0;
+  const pct = quick ? 100 : 0;
 
   return (
     <div
@@ -202,53 +226,97 @@ export default function FrameLoader({ progress, done, onExited }: FrameLoaderPro
       // the loader leaves the page.
       data-scroll-lock=""
       onPointerMove={onMove}
-      className="fixed inset-0 z-[120] overflow-hidden text-[#f4f2ee]"
+      className="fixed inset-0 z-[120] overflow-hidden bg-[#050505] text-[#f4f2ee] [clip-path:circle(150%_at_50%_50%)]"
     >
-      {/* The two curtains. Each gathers toward its own outer edge. */}
+      {/* A deep pool of warm light behind the mark, and a vignette at the edges */}
       <div
         aria-hidden="true"
-        className="ld-curtain ld-curtain-l absolute inset-y-0 left-0 w-[calc(50%+1px)] origin-left"
-        style={{ background: VELVET, backgroundColor: "#0a0a0a" }}
-      >
-      </div>
-      <div
-        aria-hidden="true"
-        className="ld-curtain ld-curtain-r absolute inset-y-0 right-0 w-[calc(50%+1px)] origin-right"
-        style={{ background: VELVET, backgroundColor: "#0a0a0a" }}
-      >
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_46%_42%_at_50%_46%,rgba(216,180,121,0.11),transparent_72%),radial-gradient(ellipse_120%_100%_at_50%_50%,transparent_52%,rgba(0,0,0,0.7)_100%)]"
+      />
+
+      {/* Motes of gold drifting up through the dark */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        {!quick &&
+          !reduced &&
+          MOTES.map(([left, delay, dur, size], i) => (
+            <span
+              key={i}
+              className="ld-mote absolute bottom-[-6%] rounded-full bg-[#D8B479]"
+              style={{
+                left: `${left}%`,
+                width: size,
+                height: size,
+                animation: `ld-mote ${dur}s linear ${delay}s infinite`,
+              }}
+            />
+          ))}
       </div>
 
-      {/* Candlelight sheen that follows the cursor over the velvet */}
+      {/* Light that follows the cursor */}
       <div
         ref={sheenRef}
         aria-hidden="true"
-        className="ld-sheen pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700"
-        style={{ backgroundImage: "radial-gradient(circle 340px at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.07), transparent 100%)" }}
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700"
+        style={{ backgroundImage: "radial-gradient(circle 300px at var(--mx, 50%) var(--my, 50%), rgba(216,180,121,0.07), transparent 100%)" }}
       />
 
-      {/* A soft pool of light behind the crest, vignette at the corners */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_45%_40%_at_50%_50%,rgba(255,255,255,0.05),transparent_70%),radial-gradient(ellipse_120%_100%_at_50%_50%,transparent_55%,rgba(0,0,0,0.55)_100%)]"
-      />
+      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6">
+        {/* The mark, inside the closing ring */}
+        <div ref={markRef} className="ld-mark relative grid h-[clamp(13rem,30vw,17rem)] w-[clamp(13rem,30vw,17rem)] place-items-center will-change-transform">
+          {/* Ripple that leaves the mark at handover */}
+          <span aria-hidden="true" className="ld-ripple absolute inset-0 rounded-full opacity-0 shadow-[0_0_0_1px_rgba(216,180,121,0.6)]" />
 
-      {/* Logo on the cloth, with a gold hairline that fills as the page loads */}
-      <div className="absolute inset-0 z-30 flex items-center justify-center">
-        <div className="ld-center pointer-events-none flex flex-col items-center will-change-transform">
-          <div className="grid h-[clamp(9rem,20vw,12rem)] w-[clamp(9rem,20vw,12rem)] place-items-center rounded-full bg-black shadow-[inset_0_0_0_1px_rgba(216,180,121,0.45),0_0_60px_-8px_rgba(216,180,121,0.35)]">
-            <div className="relative h-[70%] w-[70%]">
-              <Image src="/images/jc-logo-gold.png" alt="" fill priority sizes="130px" className="object-contain" />
-            </div>
-          </div>
-          <div className="mt-10 flex w-[clamp(9rem,22vw,13rem)] items-center gap-4">
-            <span className="relative h-px flex-1 bg-[rgba(244,242,238,0.14)]">
-              <span ref={barRef} className="absolute inset-0 origin-left bg-[#D8B479]" style={{ transform: `scaleX(${quick.current ? 1 : 0})` }} />
-            </span>
-            <span className="text-[0.62rem] tabular-nums tracking-[0.2em] text-[rgba(244,242,238,0.6)]">
-              <span ref={counterRef}>{String(pct).padStart(3, "0")}</span>
-            </span>
-          </div>
+          {/* The ring: a faint track, and the gold arc that closes as it loads */}
+          <svg aria-hidden="true" viewBox="0 0 200 200" className="ld-ring absolute inset-0 h-full w-full -rotate-90">
+            <circle cx="100" cy="100" r={R} fill="none" stroke="rgba(244,242,238,0.09)" strokeWidth="1" />
+            <circle
+              ref={arcRef}
+              cx="100"
+              cy="100"
+              r={R}
+              fill="none"
+              stroke="#D8B479"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeDasharray={CIRC}
+              style={{ strokeDashoffset: quick ? 0 : CIRC }}
+            />
+          </svg>
+
+          {/* The logo itself. Its artwork sits on an opaque black square, so
+              its edges are feathered into the screen rather than left as a box. */}
+          <span
+            className="relative block h-[64%] w-[64%]"
+            style={{
+              maskImage: "radial-gradient(ellipse 72% 86% at 50% 50%, #000 72%, transparent 100%)",
+              WebkitMaskImage: "radial-gradient(ellipse 72% 86% at 50% 50%, #000 72%, transparent 100%)",
+            }}
+          >
+            <Image src="/images/jc-logo-gold.png" alt="" fill priority sizes="(max-width: 640px) 150px, 190px" className="object-contain" />
+          </span>
         </div>
+
+        {/* Four panes — one per quarter of the load, echoing the window in the mark */}
+        <div className="ld-rise ld-meta mt-10 grid grid-cols-2 gap-1.5">
+          {[0, 1, 2, 3].map((i) => (
+            <span
+              key={i}
+              aria-hidden="true"
+              className="ld-pane block h-2.5 w-2.5 bg-[#D8B479]"
+              style={{ opacity: quick ? 1 : 0.14, transform: `scale(${quick ? 1 : 0.82})` }}
+            />
+          ))}
+        </div>
+
+        {/* Counter */}
+        <span className="ld-rise ld-meta mt-7 text-[0.62rem] tabular-nums tracking-[0.34em] text-[rgba(244,242,238,0.5)]">
+          <span ref={counterRef}>{String(pct).padStart(3, "0")}</span>
+        </span>
+
+        {/* The tagline resolves at handover */}
+        <p className="ld-tag mt-8 text-center font-serif text-[clamp(1rem,2.6vw,1.35rem)] font-light italic leading-snug text-[#EBD2A0] opacity-0 [text-wrap:balance]">
+          Ordinary is not our address.
+        </p>
       </div>
     </div>
   );

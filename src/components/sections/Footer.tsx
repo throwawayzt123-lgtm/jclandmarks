@@ -21,12 +21,12 @@ const NAV = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
+  { label: "Journal", href: "/journal" },
   { label: "Contact", href: "/contact" },
 ];
 
 const PROJECT_LINKS = [
-  { label: "Residential", href: "/projects/residential" },
-  { label: "Commercial", href: "/projects/commercial" },
+  { label: "Our Projects", href: "/projects" },
   { label: "Ongoing", href: "/ongoing" },
   { label: "Homes for Sale", href: "/for-sale" },
 ];
@@ -60,7 +60,7 @@ export default function Footer() {
               className="u-display text-2xl font-light tracking-tight text-[#f4f2ee] sm:text-3xl lg:text-[2.6rem]"
               lines={[
                 <span key="l">
-                  Architecture Beyond <span className="font-serif italic text-[#D8B479]">Expectation.</span>
+                  Ordinary is not <span className="font-serif italic text-[#D8B479]">our address.</span>
                 </span>,
               ]}
             />
@@ -103,7 +103,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`JC Landmarks on ${s.label}`}
-                    className="grid h-11 w-11 place-items-center bg-white/[0.04] text-[rgba(244,242,238,0.75)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] transition-colors duration-300 hover:bg-[#D8B479] hover:text-[#11141b]"
+                    className="grid h-11 w-11 place-items-center rounded-full bg-white/[0.04] text-[rgba(244,242,238,0.75)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] transition-colors duration-300 hover:bg-[#D8B479] hover:text-[#11141b]"
                   >
                     <SocialIcon name={s.icon} />
                   </a>

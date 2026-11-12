@@ -51,22 +51,22 @@ export default function AboutPanorama({
       gsap.fromTo(
         splitWords(root.querySelector(".pn-head")),
         { yPercent: 118, opacity: 0 },
-        { yPercent: 0, opacity: 1, duration: 1.2, stagger: 0.045, ease: "power4.out", scrollTrigger: { trigger: ".pn-head", start: revealStart("top 85%"), once: true } }
+        { yPercent: 0, opacity: 1, duration: 1.2, stagger: 0.045, ease: "power4.out", scrollTrigger: { trigger: ".pn-head", start: revealStart("top 85%"), toggleActions: "play reset play reset" } }
       );
       gsap.fromTo(
         ".pn-fade",
         { opacity: 0, y: 22 },
-        { opacity: 1, y: 0, duration: 1, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: ".pn-head", start: revealStart("top 85%"), once: true } }
+        { opacity: 1, y: 0, duration: 1, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: ".pn-head", start: revealStart("top 85%"), toggleActions: "play reset play reset" } }
       );
       gsap.fromTo(
         ".pn-plate",
         { clipPath: "inset(100% 0% 0% 0%)" },
-        { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "power4.inOut", scrollTrigger: { trigger: ".pn-plate", start: revealStart("top 88%"), once: true } }
+        { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "power4.inOut", scrollTrigger: { trigger: ".pn-plate", start: revealStart("top 88%"), toggleActions: "play reset play reset" } }
       );
       gsap.fromTo(
         ".pn-img",
         { scale: 1.18 },
-        { scale: 1, duration: 1.8, ease: "power3.out", scrollTrigger: { trigger: ".pn-plate", start: revealStart("top 88%"), once: true } }
+        { scale: 1, duration: 1.8, ease: "power3.out", scrollTrigger: { trigger: ".pn-plate", start: revealStart("top 88%"), toggleActions: "play reset play reset" } }
       );
     }, root);
 

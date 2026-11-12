@@ -83,7 +83,7 @@ export default function Experience() {
  scrollTrigger: {
  trigger: root,
  start:"top 78%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );
@@ -101,7 +101,7 @@ export default function Experience() {
  scrollTrigger: {
  trigger:".exp-list",
  start:"top 80%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );
@@ -119,7 +119,7 @@ export default function Experience() {
  scrollTrigger: {
  trigger:".exp-plate-box",
  start:"top 80%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );

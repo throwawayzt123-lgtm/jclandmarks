@@ -8,11 +8,14 @@
  * information reads from here, so one edit updates the whole site.
  */
 
+/** The company tagline — the homepage headline, page title and footer statement. */
+export const TAGLINE = "Ordinary is not our address.";
+
 export const CONTACT = {
-  phone: "+92 300 9775877",
-  phoneHref: "tel:+923009775877",
-  whatsapp: "+92 300 9775877",
-  whatsappHref: "https://wa.me/923009775877",
+  phone: "+92 310 4811111",
+  phoneHref: "tel:+923104811111",
+  whatsapp: "+92 310 4811111",
+  whatsappHref: "https://wa.me/923104811111",
   email: "info@jclandmarks.com",
   hours: "Monday – Saturday · 10:00 – 18:00",
 } as const;
@@ -71,15 +74,8 @@ export const NAV: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
-  {
-    label: "Projects",
-    href: "/projects",
-    children: [
-      { label: "Residential", href: "/projects/residential" },
-      { label: "Commercial", href: "/projects/commercial" },
-      { label: "All Projects", href: "/projects" },
-    ],
-  },
+  { label: "Projects", href: "/projects" },
+  { label: "Journal", href: "/journal" },
   { label: "Ongoing", href: "/ongoing" },
   { label: "For Sale", href: "/for-sale" },
   { label: "Contact", href: "/contact" },

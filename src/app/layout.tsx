@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from"next";
+import { TAGLINE } from "@/lib/site";
 import localFont from"next/font/local";
 import"./globals.css";
 import Navbar from"@/components/navigation/Navbar";
@@ -36,9 +37,9 @@ const body = localFont({
 
 const SITE_URL ="https://jclandmarks.com";
 const SITE_NAME ="JC Landmarks";
-const TITLE ="JC Landmarks — Design & Build Construction in Lahore";
+const TITLE ="JC Landmarks — Ordinary Is Not Our Address | Design & Build in Lahore";
 const DESCRIPTION =
-"JC Landmarks is a Lahore construction company. We design and build private homes and commercial buildings — architecture, engineering, approvals, construction and finishing under one contract.";
+"Ordinary is not our address. JC Landmarks is a Lahore construction company. We design and build private homes and commercial buildings — architecture, engineering, approvals, construction and finishing under one contract.";
 
 export const metadata: Metadata = {
  metadataBase: new URL(SITE_URL),
@@ -103,6 +104,7 @@ const jsonLd = {
 "@type":"GeneralContractor",
  name: SITE_NAME,
  alternateName:"Jay-Cee Landmarks",
+ slogan: TAGLINE,
  description: DESCRIPTION,
  url: SITE_URL,
  image: `${SITE_URL}/images/frames5/ezgif-frame-001.jpg`,

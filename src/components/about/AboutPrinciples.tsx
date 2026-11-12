@@ -53,7 +53,7 @@ export default function AboutPrinciples() {
           scrollTrigger: {
             trigger: ".pr-head",
             start: revealStart("top 85%"),
-            once: true,
+            toggleActions: "play reset play reset",
           },
         }
       );
@@ -71,7 +71,7 @@ export default function AboutPrinciples() {
             scrollTrigger: {
               trigger: plate,
               start: revealStart("top 86%"),
-              once: true,
+              toggleActions: "play reset play reset",
             },
           }
         );
@@ -104,7 +104,7 @@ export default function AboutPrinciples() {
             scrollTrigger: {
               trigger: item,
               start: revealStart("top 88%"),
-              once: true,
+              toggleActions: "play reset play reset",
             },
           }
         );
@@ -121,7 +121,7 @@ export default function AboutPrinciples() {
             scrollTrigger: {
               trigger: item,
               start: revealStart("top 86%"),
-              once: true,
+              toggleActions: "play reset play reset",
             },
           }
         );

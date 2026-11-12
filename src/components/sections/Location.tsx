@@ -24,7 +24,7 @@ export default function Location() {
  if (!root || prefersReducedMotion()) return;
 
  const ctx = gsap.context(() => {
- const st = { trigger: root, start:"top 85%", once: true };
+ const st = { trigger: root, start:"top 85%", toggleActions: "play reset play reset" };
 
  gsap.fromTo(
 ".loc-ring",
@@ -86,7 +86,7 @@ export default function Location() {
  scrollTrigger: {
  trigger: root,
  start:"top 78%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );
@@ -104,7 +104,7 @@ export default function Location() {
  scrollTrigger: {
  trigger:".loc-plate-wrap",
  start:"top 80%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );
@@ -121,7 +121,7 @@ export default function Location() {
  scrollTrigger: {
  trigger:".loc-facts",
  start:"top 80%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );

@@ -29,7 +29,7 @@ export default function Lifestyle() {
  scrollTrigger: {
  trigger: root,
  start:"top 78%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );

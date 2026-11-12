@@ -66,7 +66,7 @@ export default function ServiceRealEstate() {
           duration: 1.2,
           stagger: 0.04,
           ease: "power4.out",
-          scrollTrigger: { trigger: ".re-head", start: revealStart("top 85%"), once: true },
+          scrollTrigger: { trigger: ".re-head", start: revealStart("top 85%"), toggleActions: "play reset play reset" },
         }
       );
 
@@ -79,7 +79,7 @@ export default function ServiceRealEstate() {
           duration: 1,
           stagger: 0.1,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".re-head", start: revealStart("top 80%"), once: true },
+          scrollTrigger: { trigger: ".re-head", start: revealStart("top 80%"), toggleActions: "play reset play reset" },
         }
       );
 
@@ -88,12 +88,12 @@ export default function ServiceRealEstate() {
         gsap.fromTo(
           media,
           { clipPath: "inset(100% 0% 0% 0%)" },
-          { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "power4.inOut", scrollTrigger: { trigger: media, start: revealStart("top 88%"), once: true } }
+          { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "power4.inOut", scrollTrigger: { trigger: media, start: revealStart("top 88%"), toggleActions: "play reset play reset" } }
         );
         gsap.fromTo(
           media.querySelector(".re-media-img"),
           { scale: 1.25 },
-          { scale: 1, duration: 1.8, ease: "power3.out", scrollTrigger: { trigger: media, start: revealStart("top 88%"), once: true } }
+          { scale: 1, duration: 1.8, ease: "power3.out", scrollTrigger: { trigger: media, start: revealStart("top 88%"), toggleActions: "play reset play reset" } }
         );
       });
 

@@ -85,7 +85,7 @@ export default function IdentityStatement() {
           duration: 1.2,
           stagger: 0.05,
           ease: "power4.out",
-          scrollTrigger: { trigger: root, start: revealStart("top 82%"), once: true },
+          scrollTrigger: { trigger: root, start: revealStart("top 82%"), toggleActions: "play reset play reset" },
         }
       );
 

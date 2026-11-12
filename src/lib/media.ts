@@ -132,13 +132,6 @@ export const PANORAMAS = {
     hfov: 180,
     vfov: 78.7,
   },
-  workspace: {
-    src: "/images/panorama/panoimg2.jpeg",
-    alt: "A full 360-degree view across a open-plan workspace with desks, monitors and tall windows",
-    title: "The workspace",
-    hfov: 360,
-    vfov: 41.2,
-  },
 } as const satisfies Record<string, Panorama>;
 
 /**

@@ -37,7 +37,7 @@ export default function ServicesClose() {
           duration: 1.25,
           stagger: 0.045,
           ease: "power4.out",
-          scrollTrigger: { trigger: ".scl-head", start: revealStart("top 86%"), once: true },
+          scrollTrigger: { trigger: ".scl-head", start: revealStart("top 86%"), toggleActions: "play reset play reset" },
         }
       );
 
@@ -50,7 +50,7 @@ export default function ServicesClose() {
           duration: 1,
           stagger: 0.1,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".scl-routes", start: revealStart("top 88%"), once: true },
+          scrollTrigger: { trigger: ".scl-routes", start: revealStart("top 88%"), toggleActions: "play reset play reset" },
         }
       );
 
@@ -62,7 +62,7 @@ export default function ServicesClose() {
           duration: 1.1,
           stagger: 0.1,
           ease: "power3.inOut",
-          scrollTrigger: { trigger: ".scl-routes", start: revealStart("top 88%"), once: true },
+          scrollTrigger: { trigger: ".scl-routes", start: revealStart("top 88%"), toggleActions: "play reset play reset" },
         }
       );
     }, root);

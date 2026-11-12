@@ -37,7 +37,7 @@ export default function SectionLabel({
  scrollTrigger: {
  trigger: root,
  start:"top 85%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );
@@ -52,7 +52,7 @@ export default function SectionLabel({
  scrollTrigger: {
  trigger: root,
  start:"top 85%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );

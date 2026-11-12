@@ -63,7 +63,7 @@ export default function Materials() {
  scrollTrigger: {
  trigger: root,
  start:"top 78%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );
@@ -82,7 +82,7 @@ export default function Materials() {
  scrollTrigger: {
  trigger:".mat-grid",
  start:"top 80%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );

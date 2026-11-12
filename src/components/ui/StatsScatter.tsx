@@ -38,7 +38,7 @@ export default function StatsScatter({ stats, eyebrow, title }: { stats: Stat[];
 
     const ctx = gsap.context(() => {
       gsap.utils.toArray<HTMLElement>(".st-item").forEach((el, i) => {
-        const st = { trigger: el, start: revealStart("top 88%"), once: true };
+        const st = { trigger: el, start: revealStart("top 88%"), toggleActions: "play reset play reset" };
         gsap.fromTo(el, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.2, delay: (i % 2) * 0.1, ease: "power3.out", scrollTrigger: st });
 
         // Count the leading number up; keep whatever follows it ("k", "+", "/7").

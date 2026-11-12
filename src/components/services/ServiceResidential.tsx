@@ -67,7 +67,7 @@ export default function ServiceResidential() {
           duration: 1.2,
           stagger: 0.04,
           ease: "power4.out",
-          scrollTrigger: { trigger: ".sr-head", start: revealStart("top 85%"), once: true },
+          scrollTrigger: { trigger: ".sr-head", start: revealStart("top 85%"), toggleActions: "play reset play reset" },
         }
       );
 
@@ -79,7 +79,7 @@ export default function ServiceResidential() {
           y: 0,
           duration: 1.1,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".sr-head", start: revealStart("top 80%"), once: true },
+          scrollTrigger: { trigger: ".sr-head", start: revealStart("top 80%"), toggleActions: "play reset play reset" },
         }
       );
 
@@ -108,12 +108,12 @@ export default function ServiceResidential() {
         gsap.fromTo(
           row.querySelector(".sr-opt-rule"),
           { scaleX: 0 },
-          { scaleX: 1, duration: 1.1, ease: "power3.inOut", scrollTrigger: { trigger: row, start: revealStart("top 90%"), once: true } }
+          { scaleX: 1, duration: 1.1, ease: "power3.inOut", scrollTrigger: { trigger: row, start: revealStart("top 90%"), toggleActions: "play reset play reset" } }
         );
         gsap.fromTo(
           row.querySelectorAll(".sr-fade"),
           { opacity: 0, y: 18 },
-          { opacity: 1, y: 0, duration: 0.95, stagger: 0.09, ease: "power3.out", scrollTrigger: { trigger: row, start: revealStart("top 88%"), once: true } }
+          { opacity: 1, y: 0, duration: 0.95, stagger: 0.09, ease: "power3.out", scrollTrigger: { trigger: row, start: revealStart("top 88%"), toggleActions: "play reset play reset" } }
         );
       });
 

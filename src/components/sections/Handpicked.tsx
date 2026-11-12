@@ -3,7 +3,8 @@
 import Image from"next/image";
 import { useRef, useState } from "react";
 import { gsap, prefersReducedMotion } from"@/lib/gsap";
-import { FACADES, INTERIORS, type Still } from"@/lib/media";
+import { type Still } from"@/lib/media";
+import { ELEVATIONS, PROJECTS, projectHref } from "@/lib/portfolio";
 import { useIntroLayoutEffect } from "@/lib/useIntroLayoutEffect";
 
 import Link from "next/link";
@@ -18,35 +19,44 @@ import Link from "next/link";
  * title overlay, which is what gives the reference its editorial feel.
  */
 
-interface Project {
+interface Slide {
  title: [string, string];
  body: string;
+ /** Where "Learn more" goes for this slide. */
+ href: string;
  centre: Still;
  left: Still;
  right: Still;
 }
 
-const PROJECTS: Project[] = [
+/** Photographs of 342-U, straight from the project's own gallery. */
+const AURA = PROJECTS[0];
+const shot = (file: string): Still => AURA.gallery.find((g) => g.src.endsWith(`/${file}.webp`)) ?? AURA.cover!;
+
+const SLIDES: Slide[] = [
   {
- title: ["12-V","Stone Residence"],
- body:"A 1 Kanal home in DHA Phase 7 — cream stone, a double-height glazed stairwell and a covered car porch with a terrace above.",
- centre: INTERIORS.loungeDoubleHeight,
- left: FACADES.phase7Villa,
- right: INTERIORS.diningGrand,
+ title: ["342-U","Aura’26"],
+ body:"A 1 Kanal home in DHA Phase 7 — cream stone and timber, a double-height lounge and a floating marble staircase.",
+ href: projectHref(AURA),
+ centre: shot("frontnight-342U"),
+ left: shot("frontfasade"),
+ right: shot("entrancestairs"),
   },
   {
- title: ["464-D","Prism Monolith"],
- body:"A 5 Marla home that makes every metre count — dark stone, a white stone fin, a glass balcony and an angled roof canopy.",
- centre: INTERIORS.salonCurved,
- left: FACADES.prismMonolith,
- right: INTERIORS.staircaseCantilever,
+ title: ["342-U","Inside"],
+ body:"Double-height living, a dining room that opens to the lounge, and a fitted kitchen with an island — finished and handed over complete.",
+ href: projectHref(AURA),
+ centre: shot("tvlounge-doubleheight"),
+ left: shot("diningangle1"),
+ right: shot("kitchenmainimg"),
   },
   {
- title: ["483-Y","Glass Curtain"],
- body:"A 1 Kanal home in DHA Phase 7 with a double-height glass front, a grey stone frame and a roof terrace — built turnkey, foundation to finish.",
- centre: INTERIORS.atriumApex,
- left: FACADES.phase7Curtain,
- right: INTERIORS.foyerGallery,
+ title: ["More","Residences"],
+ body:"Front elevations from our project list — homes from 5 marla to 2 kanal, in Lahore and Sheikhupura.",
+ href: "/projects#elevations",
+ centre: shot("upperlounge2"),
+ left: ELEVATIONS[0].image,
+ right: ELEVATIONS[1].image,
   },
 ];
 
@@ -134,7 +144,7 @@ export default function Handpicked() {
             (Our Projects)
           </span>
           <div className="flex items-center gap-3 font-serif text-[0.9rem]">
-            {PROJECTS.map((_, i) => (
+            {SLIDES.map((_, i) => (
               <span
  key={i}
  className={
@@ -150,7 +160,7 @@ export default function Handpicked() {
         </div>
 
         {/* ---- Slides ---- */}
-        {PROJECTS.map((p, i) => (
+        {SLIDES.map((p, i) => (
           <article
  key={p.title.join("-")}
  className="pj-slide absolute inset-0 flex flex-col justify-center will-change-transform"
@@ -211,7 +221,7 @@ export default function Handpicked() {
                 {p.body}
               </p>
               <Link
- href="/projects"
+ href={p.href}
  className="u-btn u-btn--light u-btn--sm shrink-0"
               >
                 <span>Learn more</span>

@@ -132,12 +132,12 @@ export default function Inquiry() {
       gsap.fromTo(
         ".inq-narrative",
         { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: root, start: "top 78%", once: true } }
+        { opacity: 1, y: 0, duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: root, start: "top 78%", toggleActions: "play reset play reset" } }
       );
       gsap.fromTo(
         ".inq-card",
         { opacity: 0, y: 35 },
-        { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", scrollTrigger: { trigger: root, start: "top 80%", once: true } }
+        { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", scrollTrigger: { trigger: root, start: "top 80%", toggleActions: "play reset play reset" } }
       );
     }, root);
 

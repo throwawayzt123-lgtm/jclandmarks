@@ -5,6 +5,7 @@ import PageHero from "@/components/ui/PageHero";
 import RevealScope from "@/components/ui/RevealScope";
 import DrawingPlate from "@/components/ui/DrawingPlate";
 import CtaBand from "@/components/ui/CtaBand";
+import ProjectGallery from "@/components/ui/ProjectGallery";
 import Footer from "@/components/sections/Footer";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import { CATEGORIES, PROJECTS, enquiryHref, findProject, projectHref, projectsIn } from "@/lib/portfolio";
@@ -104,7 +105,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[cate
         {/* Gallery */}
         <RevealScope as="section" className="bg-[#ffffff] pb-[clamp(6rem,14vh,10rem)] text-[#11141b]">
           <div className="u-shell">
-            {p.cover && (
+            {p.cover && !p.gallery.some((g) => g.src === p.cover?.src) && (
               <figure data-r="plate" className="relative h-[clamp(22rem,78vh,44rem)] overflow-hidden bg-[#000000]">
                 <div data-r-img className="absolute inset-0">
                   <div data-r="drift" className="absolute inset-x-0 -inset-y-[7%]">
@@ -121,32 +122,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[cate
               </figure>
             )}
 
-            {p.gallery.length > 0 && (
-              <div className="mt-6 grid gap-6 sm:grid-cols-2">
-                {p.gallery.map((g, i) => {
-                  const wide = i % 3 === 2;
-                  return (
-                    <figure
-                      key={g.src + i}
-                      data-r="plate"
-                      className={`relative overflow-hidden bg-[#000000] ${wide ? "aspect-[16/9] sm:col-span-2" : "aspect-[4/5]"}`}
-                    >
-                      <div data-r-img className="absolute inset-0">
-                        <Image
-                          src={g.src}
-                          alt={g.alt}
-                          fill
-                          sizes={wide ? "100vw" : "(max-width: 640px) 100vw, 50vw"}
-                          loading="lazy"
-                          className="object-cover"
-                          style={{ objectPosition: g.position ?? "center" }}
-                        />
-                      </div>
-                    </figure>
-                  );
-                })}
-              </div>
-            )}
+            {p.gallery.length > 0 && <ProjectGallery shots={p.gallery} name={p.title} />}
 
             {!hasPhotos && (
               <figure>

@@ -51,7 +51,7 @@ export default function AboutClose() {
           scrollTrigger: {
             trigger: ".ac-cta",
             start: revealStart("top 88%"),
-            once: true,
+            toggleActions: "play reset play reset",
           },
         }
       );

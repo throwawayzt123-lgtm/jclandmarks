@@ -5,10 +5,10 @@ import RevealScope from "@/components/ui/RevealScope";
 import ProjectCard from "@/components/ui/ProjectCard";
 import DrawingPlate from "@/components/ui/DrawingPlate";
 import CtaBand from "@/components/ui/CtaBand";
+import ElevationShowcase from "@/components/ui/ElevationShowcase";
 import Footer from "@/components/sections/Footer";
 import ScrollProgress from "@/components/ui/ScrollProgress";
-import { CATEGORIES, PROJECTS, projectsIn, type Category } from "@/lib/portfolio";
-import { FACADES } from "@/lib/media";
+import { CATEGORIES, ELEVATIONS, PROJECTS, activeCategories, projectsIn } from "@/lib/portfolio";
 
 import Link from "next/link";
 export const metadata: Metadata = {
@@ -17,11 +17,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/projects" },
 };
 
-const ORDER: Category[] = ["residential", "commercial"];
 
 export default function ProjectsPage() {
-  const columnA = PROJECTS.filter((_, i) => i % 2 === 0);
-  const columnB = PROJECTS.filter((_, i) => i % 2 === 1);
+  const ORDER = activeCategories();
+  const [lead, ...others] = PROJECTS;
+  const columnA = others.filter((_, i) => i % 2 === 0);
+  const columnB = others.filter((_, i) => i % 2 === 1);
 
   return (
     <>
@@ -29,14 +30,15 @@ export default function ProjectsPage() {
       <main id="top">
         <PageHero
           eyebrow="Our Projects"
-          title="Homes and buildings"
-          accent="we have delivered."
-          lede="Houses and commercial buildings we have designed, engineered and built in and around Lahore — each one handed over complete."
+          title="Our work,"
+          accent="room by room."
+          lede="A home we have built in DHA Phase 7 — from the stone front to the last washroom tile."
           crumbs={[{ label: "Home", href: "/" }, { label: "Projects" }]}
-          still={FACADES.spanishEstate}
+          still={lead?.cover}
         />
 
-        {/* Categories */}
+        {/* Categories — only worth browsing once there is more than one */}
+        {ORDER.length > 1 && (
         <RevealScope as="section" className="bg-[#ffffff] py-[clamp(6rem,14vh,10rem)] text-[#11141b]">
           <div className="u-shell">
             <span data-r="up" className="block text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#b58c49]">
@@ -91,38 +93,49 @@ export default function ProjectsPage() {
             </div>
           </div>
         </RevealScope>
+        )}
 
         {/* All work */}
-        <RevealScope as="section" className="bg-[#f5f6f8] py-[clamp(6rem,14vh,10rem)] text-[#11141b]">
+        <RevealScope as="section" className="bg-[#ffffff] py-[clamp(6rem,14vh,10rem)] text-[#11141b]">
           <div className="u-shell">
             <div className="grid items-end gap-y-6 lg:grid-cols-12 lg:gap-x-16">
               <div className="col-span-full lg:col-span-7">
                 <span data-r="up" className="block text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#b58c49]">
-                  Complete portfolio
+                  Featured project
                 </span>
                 <h2 data-r="words" className="mt-8 font-serif text-[clamp(1.9rem,3.8vw,3.2rem)] font-light leading-[1.16] tracking-[-0.01em]">
-                  Every project, in one place.
+                  See how a home is finished.
                 </h2>
               </div>
               <p data-r="up" className="col-span-full max-w-md text-[0.96rem] leading-[1.8] text-[#4b5563] lg:col-span-4 lg:col-start-9">
-                Select any project for its full story, specification and gallery.
+                Open the project for its full gallery — exterior, living spaces, kitchen, study, bedrooms and washrooms.
               </p>
             </div>
 
-            <div className="mt-[clamp(3.5rem,8vh,5.5rem)] grid gap-y-16 lg:grid-cols-2 lg:gap-x-20">
-              <div className="flex flex-col gap-16 lg:gap-24">
-                {columnA.map((p) => (
-                  <ProjectCard key={p.slug} project={p} showCategory />
-                ))}
+            {lead && (
+              <div className="mt-[clamp(3.5rem,8vh,5.5rem)]">
+                <ProjectCard project={lead} feature showCategory sizes="(max-width: 1024px) 100vw, 55vw" />
               </div>
-              <div className="flex flex-col gap-16 lg:mt-32 lg:gap-24">
-                {columnB.map((p) => (
-                  <ProjectCard key={p.slug} project={p} showCategory />
-                ))}
+            )}
+
+            {others.length > 0 && (
+              <div className="mt-[clamp(4.5rem,10vh,7rem)] grid gap-y-16 lg:grid-cols-2 lg:gap-x-20">
+                <div className="flex flex-col gap-16 lg:gap-24">
+                  {columnA.map((p) => (
+                    <ProjectCard key={p.slug} project={p} showCategory />
+                  ))}
+                </div>
+                <div className="flex flex-col gap-16 lg:mt-32 lg:gap-24">
+                  {columnB.map((p) => (
+                    <ProjectCard key={p.slug} project={p} showCategory />
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </RevealScope>
+
+        {ELEVATIONS.length > 0 && <ElevationShowcase items={ELEVATIONS} />}
 
         <CtaBand
           title="Planning a project of your own?"

@@ -58,7 +58,7 @@ export default function AboutPractice() {
           scrollTrigger: {
             trigger: ".ap-head",
             start: revealStart("top 84%"),
-            once: true,
+            toggleActions: "play reset play reset",
           },
         }
       );
@@ -74,7 +74,7 @@ export default function AboutPractice() {
           scrollTrigger: {
             trigger: ".ap-head",
             start: revealStart("top 78%"),
-            once: true,
+            toggleActions: "play reset play reset",
           },
         }
       );
@@ -91,7 +91,7 @@ export default function AboutPractice() {
           scrollTrigger: {
             trigger: ".ap-plate",
             start: revealStart("top 82%"),
-            once: true,
+            toggleActions: "play reset play reset",
           },
         }
       );
@@ -106,7 +106,7 @@ export default function AboutPractice() {
           scrollTrigger: {
             trigger: ".ap-plate",
             start: revealStart("top 82%"),
-            once: true,
+            toggleActions: "play reset play reset",
           },
         }
       );
@@ -123,7 +123,7 @@ export default function AboutPractice() {
             scrollTrigger: {
               trigger: row,
               start: revealStart("top 86%"),
-              once: true,
+              toggleActions: "play reset play reset",
             },
           }
         );
@@ -140,7 +140,7 @@ export default function AboutPractice() {
             scrollTrigger: {
               trigger: row,
               start: revealStart("top 84%"),
-              once: true,
+              toggleActions: "play reset play reset",
             },
           }
         );

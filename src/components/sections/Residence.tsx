@@ -31,7 +31,7 @@ export default function Residence() {
           y: 0,
           duration: 0.9,
           ease: "power3.out",
-          scrollTrigger: { trigger: root, start: revealStart("top 80%"), once: true },
+          scrollTrigger: { trigger: root, start: revealStart("top 80%"), toggleActions: "play reset play reset" },
         }
       );
 
@@ -43,7 +43,7 @@ export default function Residence() {
           y: 0,
           duration: 1.1,
           ease: "power3.out",
-          scrollTrigger: { trigger: root, start: revealStart("top 76%"), once: true },
+          scrollTrigger: { trigger: root, start: revealStart("top 76%"), toggleActions: "play reset play reset" },
         }
       );
 
@@ -78,7 +78,7 @@ export default function Residence() {
             scrollTrigger: {
               trigger: ".res-attr-grid",
               start: revealStart("top 82%"),
-              once: true,
+              toggleActions: "play reset play reset",
             },
           }
         );
@@ -95,7 +95,7 @@ export default function Residence() {
             scrollTrigger: {
               trigger: ".res-attr-grid",
               start: revealStart("top 82%"),
-              once: true,
+              toggleActions: "play reset play reset",
             },
           }
         );
@@ -103,7 +103,7 @@ export default function Residence() {
 
       /* ---------- Plate: unmasked from the centre, then held in parallax ---------- */
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: ".res-plates", start: revealStart("top 84%"), once: true },
+        scrollTrigger: { trigger: ".res-plates", start: revealStart("top 84%"), toggleActions: "play reset play reset" },
         defaults: { ease: "power3.out" },
       });
 

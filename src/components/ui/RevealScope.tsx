@@ -41,7 +41,7 @@ export default function RevealScope({ as: Tag = "div", className, id, children }
       const once = (el: Element, start = "top 86%") => ({
         trigger: el,
         start: revealStart(start),
-        once: true,
+        toggleActions: "play reset play reset",
       });
 
       all('[data-r="words"]').forEach((el) => {
@@ -96,7 +96,7 @@ export default function RevealScope({ as: Tag = "div", className, id, children }
           ease: "power3.out",
           // Counts the moment the number is on screen at all: it reads "0"
           // until then, so it must never sit visible and unstarted.
-          scrollTrigger: { trigger: el, start: "top bottom", once: true },
+          scrollTrigger: { trigger: el, start: "top bottom", toggleActions: "play reset play reset" },
           onUpdate: () => {
             el.textContent = `${Math.round(state.v)}${suffix}`;
           },

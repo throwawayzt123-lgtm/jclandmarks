@@ -64,7 +64,7 @@ export default function Story() {
  scrollTrigger: {
  trigger: root,
  start:"top 78%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );
@@ -82,7 +82,7 @@ export default function Story() {
  scrollTrigger: {
  trigger:".st-cards-container",
  start:"top 80%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );

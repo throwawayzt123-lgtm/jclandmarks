@@ -29,9 +29,9 @@ interface Grain {
 
 /** Sand tones, light to deep gold — readable on both white and black. */
 const TONES = ["#efd9ad", "#e2c38c", "#d8b479", "#c9a063", "#b58c49"];
-const MAX_GRAINS = 1400;
+const MAX_GRAINS = 380;
 /** Grains per pixel of pointer travel. */
-const DENSITY = 1.1;
+const DENSITY = 0.3;
 
 export default function SandTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -59,17 +59,17 @@ export default function SandTrail() {
 
     const spawn = (x: number, y: number, dx: number, dy: number) => {
       if (grains.length >= MAX_GRAINS) grains.shift();
-      const spread = 5;
-      const max = 0.9 + Math.random() * 1.1; // seconds
+      const spread = 2.5;
+      const max = 0.45 + Math.random() * 0.5; // seconds
       grains.push({
         x: x + (Math.random() - 0.5) * spread * 2,
         y: y + (Math.random() - 0.5) * spread * 2,
         // A share of the pointer's motion, plus a little scatter.
-        vx: dx * 0.1 + (Math.random() - 0.5) * 34,
-        vy: dy * 0.1 + (Math.random() - 0.5) * 34 - 10,
+        vx: dx * 0.06 + (Math.random() - 0.5) * 18,
+        vy: dy * 0.06 + (Math.random() - 0.5) * 18 - 4,
         life: max,
         max,
-        size: 0.9 + Math.random() * 1.9,
+        size: 0.8 + Math.random() * 1.2,
         tone: (Math.random() * TONES.length) | 0,
       });
     };
@@ -122,7 +122,7 @@ export default function SandTrail() {
         const sec = Math.max(0.008, (now - last.t) / 1000);
         const vx = dx / sec;
         const vy = dy / sec;
-        const n = Math.min(70, Math.floor(dist * DENSITY));
+        const n = Math.min(14, Math.round(dist * DENSITY));
         for (let i = 0; i < n; i++) {
           const f = (i + Math.random()) / n;
           spawn(last.x + dx * f, last.y + dy * f, vx, vy);

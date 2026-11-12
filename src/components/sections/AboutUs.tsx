@@ -48,7 +48,7 @@ export default function AboutUs() {
           duration: 1.25,
           stagger: 0.045,
           ease: "power4.out",
-          scrollTrigger: { trigger: ".abt-open", start: revealStart("top 84%"), once: true },
+          scrollTrigger: { trigger: ".abt-open", start: revealStart("top 84%"), toggleActions: "play reset play reset" },
         }
       );
 
@@ -62,7 +62,7 @@ export default function AboutUs() {
           duration: 1.1,
           stagger: 0.14,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".abt-open", start: revealStart("top 78%"), once: true },
+          scrollTrigger: { trigger: ".abt-open", start: revealStart("top 78%"), toggleActions: "play reset play reset" },
         }
       );
 
@@ -99,7 +99,7 @@ export default function AboutUs() {
           duration: 0.9,
           stagger: 0.1,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".abt-sign", start: revealStart("top 90%"), once: true },
+          scrollTrigger: { trigger: ".abt-sign", start: revealStart("top 90%"), toggleActions: "play reset play reset" },
         }
       );
     }, root);

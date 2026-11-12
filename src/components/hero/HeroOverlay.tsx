@@ -115,11 +115,11 @@ export default function HeroOverlay({
           className="u-display text-[clamp(2.6rem,6.2vw,6.75rem)] leading-[0.95] tracking-[-0.025em] text-[var(--cine-text)] [text-shadow:0_2px_40px_rgba(0,0,0,0.45)]"
         >
           <span className="block overflow-hidden pb-[0.1em]">
-            <span className="hero-reveal block font-light">Where Landmarks</span>
+            <span className="hero-reveal block font-light">Ordinary is not</span>
           </span>
           <span className="block overflow-hidden pb-[0.12em]">
             <span className="hero-reveal block pl-[0.06em] font-light italic text-[#EBD2A0] [text-shadow:0_2px_36px_rgba(0,0,0,0.75),0_0_2px_rgba(0,0,0,0.35)]">
-              Begin.
+              our address.
             </span>
           </span>
         </h1>

@@ -84,7 +84,7 @@ export default function ParallaxLayers({
  scrollTrigger: {
  trigger: root,
  start:"top 82%",
- once: true,
+ toggleActions: "play reset play reset",
           },
         }
       );
