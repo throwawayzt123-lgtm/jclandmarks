@@ -12,7 +12,7 @@ import Link from "next/link";
 /**
  * HOMEPAGE — OUR SERVICES
  *
- * Three tall panels in a row. Pointing at (or tabbing into) one widens it and
+ * Two tall panels in a row. Pointing at (or tabbing into) one widens it and
  * reveals its detail, while the others narrow to a title — so the section
  * reads as one composition and still gives each service room to speak.
  * Each panel links to its chapter on /services.
@@ -44,13 +44,6 @@ const SERVICES: Service[] = [
     title: "Residential Construction",
     cta: "Explore residential",
     still: FACADES.phase7Villa,
-  },
-  {
-    id: "real-estate",
-    no: "03",
-    title: "Real Estate",
-    cta: "Explore real estate",
-    still: FACADES.spanishEstate,
   },
 ];
 
@@ -229,14 +222,13 @@ export default function HomeServices() {
               What We Do
             </span>
             <h2 className="hs-head font-serif text-[clamp(2rem,4.2vw,3.6rem)] font-light leading-[1.12] tracking-[-0.01em]">
-              We design, build and sell —{" "}
+              We design and build —{" "}
               <em className="italic text-[#b58c49]">under one roof.</em>
             </h2>
           </div>
           <p className="hs-lede col-span-full max-w-md text-[1rem] leading-[1.8] text-[#4b5563] lg:col-span-4 lg:col-start-9">
-            Commercial buildings, private homes and the homes we help people
-            buy and sell — all handled by one team that answers for every
-            stage, from the first drawing to the final key.
+            Commercial buildings and private homes — all handled by one team
+            that answers for every stage, from the first drawing to the final key.
           </p>
         </div>
 

@@ -28,12 +28,12 @@ const DISCIPLINES = [
     key: "const",
     word: "Const",
     name: "Construction",
-    line: "Design and build of homes and commercial buildings — delivered by JC Landmarks.",
+    line: "Design and build of homes and commercial buildings — delivered by Jay-Cee Landmarks.",
   },
 ] as const;
 
 const DEFAULT_LINE =
-  "JC Landmarks is the construction arm of a group that brings legal and building expertise together — so every project stands on sound ground and sound paperwork.";
+  "Jay-Cee Landmarks is the construction arm of a group that brings legal and building expertise together — so every project stands on sound ground and sound paperwork.";
 
 export default function ParentCompany() {
   const rootRef = useRef<HTMLElement>(null);

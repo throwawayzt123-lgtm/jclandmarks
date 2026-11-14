@@ -7,6 +7,8 @@ import { splitWords } from "@/lib/splitWords";
 import type { Still } from "@/lib/media";
 import type { DrawingKind, Fact } from "@/lib/portfolio";
 import DrawingPlate from "@/components/ui/DrawingPlate";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbLd, ldGraph } from "@/lib/seo-core";
 
 import Link from "next/link";
 /**
@@ -97,6 +99,8 @@ export default function PageHero({ eyebrow, title, accent, lede, crumbs, still, 
         <div className="ph-top">
           {crumbs && crumbs.length > 0 && (
             <nav aria-label="Breadcrumb" className="mb-8">
+              {/* The same trail as structured data, for breadcrumb rich results */}
+              <JsonLd data={ldGraph(breadcrumbLd(crumbs.map((c) => ({ name: c.label, path: c.href }))))} />
               <ol className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.62rem] uppercase tracking-[0.22em] text-[rgba(244,242,238,0.5)]">
                 {crumbs.map((c, i) => (
                   <li key={c.label} className="flex items-center gap-3">

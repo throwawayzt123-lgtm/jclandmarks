@@ -155,7 +155,7 @@ export default function ServiceCommercial() {
 
         <div className="mt-12 grid gap-y-10 lg:grid-cols-12 lg:gap-x-20">
           <h2 className="sc-head col-span-full font-serif text-[clamp(1.9rem,3.8vw,3.3rem)] font-light leading-[1.16] tracking-[-0.01em] lg:col-span-7">
-            Buildings that work as hard as the businesses inside them.
+            Buildings that work as hard as <em className="italic text-[#D8B479]">the businesses inside them.</em>
           </h2>
           <p className="sc-lede col-span-full max-w-md text-[0.98rem] leading-[1.8] text-[rgba(244,242,238,0.66)] lg:col-span-4 lg:col-start-9 lg:pt-3">
             A commercial building is judged on three things: opening on time,
@@ -260,7 +260,7 @@ export default function ServiceCommercial() {
 
               {/* Title block */}
               <figcaption className="mt-6 grid grid-cols-2 gap-y-3 pt-5 text-[0.6rem] uppercase tracking-[0.2em] text-[rgba(244,242,238,0.5)] shadow-[inset_0_1px_0_rgba(216,180,121,0.14)] sm:grid-cols-4">
-                <span>JC Landmarks</span>
+                <span>Jay-Cee Landmarks</span>
                 <span>Sheet C-201</span>
                 <span>Front elevation</span>
                 <span className="sm:text-right">Not to scale</span>

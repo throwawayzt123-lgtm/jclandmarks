@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { pageMeta, abs, ldGraph, ORG_ID } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 import PageHero from "@/components/ui/PageHero";
 import RevealScope from "@/components/ui/RevealScope";
 import Inquiry from "@/components/sections/Inquiry";
@@ -8,22 +10,25 @@ import { CONTACT, OFFICES, SOCIAL, directionsUrl, mapEmbedUrl } from "@/lib/site
 import SocialIcon from "@/components/ui/SocialIcon";
 import { INTERIORS } from "@/lib/media";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Contact JC Landmarks about a commercial or residential project, buying or selling a home, or visiting an ongoing site.",
-  alternates: { canonical: "/contact" },
-};
+export const metadata: Metadata = pageMeta({
+  title: "Contact Jay-Cee Landmarks | DHA Phase 6, Lahore",
+  absoluteTitle: true,
+  description:
+    "Call or WhatsApp +92 310 4811111, or visit our office at Plaza 112, CCA-1, DHA Phase 6, Lahore, to discuss building your home or commercial project.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (
     <>
       <ScrollProgress />
+      <JsonLd data={ldGraph({ "@type": "ContactPage", url: abs("/contact"), name: "Contact Jay-Cee Landmarks", about: { "@id": ORG_ID }, mainEntity: { "@id": ORG_ID } })} />
       <main id="top">
         <PageHero
           eyebrow="Contact"
           title="Let’s talk about"
           accent="your project."
-          lede="Building, buying or selling — tell us what you have in mind and the right person on our team will reply within one working day."
+          lede="A new home, a commercial building or a visit to one of our sites — tell us what you have in mind and the right person on our team will reply within one working day."
           crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
           still={INTERIORS.foyerGallery}
         >
@@ -52,7 +57,7 @@ export default function ContactPage() {
               Office Locations
             </span>
             <h2 data-r="words" className="mt-8 max-w-2xl font-serif text-[clamp(1.9rem,3.8vw,3.2rem)] font-light leading-[1.16] tracking-[-0.01em]">
-              Visit us, by appointment.
+              Visit us, <em className="italic text-[#b58c49]">by appointment.</em>
             </h2>
 
             {OFFICES.map((o) => (
@@ -106,7 +111,7 @@ export default function ContactPage() {
                               href={s.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              aria-label={`JC Landmarks on ${s.label}`}
+                              aria-label={`Jay-Cee Landmarks on ${s.label}`}
                               className="grid h-11 w-11 place-items-center rounded-full bg-[#f5f6f8] text-[#11141b] transition-colors duration-300 hover:bg-[#11141b] hover:text-[#D8B479]"
                             >
                               <SocialIcon name={s.icon} />

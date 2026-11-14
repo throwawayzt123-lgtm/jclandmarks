@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { pageMeta, abs, ldGraph, ORG_ID } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 import Image from "next/image";
 import Link from "next/link";
 import PageHero from "@/components/ui/PageHero";
@@ -8,16 +10,12 @@ import Footer from "@/components/sections/Footer";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import { formatDate, postHref, postsByDate } from "@/lib/blog";
 
-const TITLE = "Journal";
-const DESCRIPTION =
-  "Plain guidance on building in Lahore from JC Landmarks — what a house really costs, how a build is sequenced, and what to check before you sign.";
-
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: "/journal" },
-  openGraph: { type: "website", url: "/journal", title: `${TITLE} — JC Landmarks`, description: DESCRIPTION },
-};
+export const metadata: Metadata = pageMeta({
+  title: "Journal: Building a House in Lahore",
+  description:
+    "Plain guidance on building in Lahore from Jay-Cee Landmarks — what a house really costs, how a build is sequenced, and what to check before you sign.",
+  path: "/journal",
+});
 
 export default function JournalPage() {
   const posts = postsByDate();
@@ -26,6 +24,24 @@ export default function JournalPage() {
   return (
     <>
       <ScrollProgress />
+      <JsonLd
+        data={ldGraph({
+          "@type": "Blog",
+          "@id": `${abs("/journal")}#blog`,
+          name: "Jay-Cee Landmarks Journal",
+          description: "Guidance on building a house in Lahore: costs, contracts, timelines and choosing a builder.",
+          url: abs("/journal"),
+          inLanguage: "en-PK",
+          publisher: { "@id": ORG_ID },
+          blogPost: posts.map((p) => ({
+            "@type": "BlogPosting",
+            headline: p.seoTitle ?? p.title,
+            url: abs(postHref(p)),
+            datePublished: p.date,
+            image: abs(p.cover.src),
+          })),
+        })}
+      />
       <main id="top">
         <PageHero
           eyebrow="Journal"

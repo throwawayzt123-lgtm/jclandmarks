@@ -196,7 +196,7 @@ export default function ServiceResidential() {
       <div className="u-shell mt-[clamp(5rem,12vh,8rem)]">
         <div className="grid gap-y-6 lg:grid-cols-12 lg:gap-x-20">
           <h3 className="col-span-full font-serif text-[clamp(1.6rem,2.8vw,2.4rem)] font-light leading-[1.2] lg:col-span-5">
-            Choose how much of it we build.
+            Choose how much of it <em className="italic text-[#b58c49]">we build.</em>
           </h3>
         </div>
 

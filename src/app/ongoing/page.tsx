@@ -1,5 +1,6 @@
 import StatsScatter, { type Stat } from "@/components/ui/StatsScatter";
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Image from "next/image";
 import PageHero from "@/components/ui/PageHero";
 import RevealScope from "@/components/ui/RevealScope";
@@ -10,11 +11,12 @@ import ScrollProgress from "@/components/ui/ScrollProgress";
 import { SITES, enquiryHref } from "@/lib/portfolio";
 import { FACADES } from "@/lib/media";
 
-export const metadata: Metadata = {
-  title: "Ongoing Projects",
-  description: "Homes and commercial buildings JC Landmarks is building now across Lahore — DHA, Valencia Town, Fazaia Housing Society and more.",
-  alternates: { canonical: "/ongoing" },
-};
+export const metadata: Metadata = pageMeta({
+  title: "Ongoing Construction Projects in Lahore",
+  description:
+    "Homes and commercial plazas Jay-Cee Landmarks is building now — DHA Phases 5 to 8, Valencia Town, Fazaia Housing Society, EME Society and more.",
+  path: "/ongoing",
+});
 
 /** Plot sizes in marla, for the "under construction" total. 1 kanal = 20 marla. */
 const toMarla = (size: string) => {
@@ -99,7 +101,7 @@ export default function OngoingPage() {
                   Project register
                 </span>
                 <h2 data-r="words" className="mt-6 font-serif text-[clamp(1.8rem,3.4vw,2.8rem)] font-light leading-[1.16]">
-                  Every project we are building.
+                  Every project <em className="italic text-[#b58c49]">we are building.</em>
                 </h2>
               </div>
               <p data-r="up" className="col-span-full max-w-md text-[0.95rem] leading-[1.8] text-[#4b5563] lg:col-span-4 lg:col-start-9">

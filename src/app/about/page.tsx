@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { pageMeta, abs, ldGraph, breadcrumbLd, ORG_ID } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 import AboutHero from "@/components/about/AboutHero";
 import AboutPractice from "@/components/about/AboutPractice";
 import AboutTimeline from "@/components/about/AboutTimeline";
@@ -10,31 +12,23 @@ import ArchitecturalTicker from "@/components/ui/ArchitecturalTicker";
 import Footer from "@/components/sections/Footer";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 
-const TITLE = "About Us";
-const DESCRIPTION =
-  "JC Landmarks is an architecture, engineering and construction practice. We draw a residence, calculate it, and build it with our own site teams — one responsibility from first survey to handover.";
-
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: "/about" },
-  openGraph: {
-    type: "website",
-    url: "/about",
-    title: `${TITLE} — JC Landmarks`,
-    description: DESCRIPTION,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${TITLE} — JC Landmarks`,
-    description: DESCRIPTION,
-  },
-};
+export const metadata: Metadata = pageMeta({
+  title: "About Us — Architects & Builders in Lahore",
+  description:
+    "Jay-Cee Landmarks is a Lahore design-and-build company: our own architects, engineers and site teams take each home from first survey to handover.",
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (
     <>
       <ScrollProgress />
+      <JsonLd
+        data={ldGraph(
+          { "@type": "AboutPage", url: abs("/about"), name: "About Jay-Cee Landmarks", about: { "@id": ORG_ID }, mainEntity: { "@id": ORG_ID } },
+          breadcrumbLd([{ name: "Home", path: "/" }, { name: "About" }])
+        )}
+      />
       <main id="top">
         <AboutHero />
         <AboutPractice />      {/* Four disciplines, one accountable team */}

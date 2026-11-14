@@ -127,9 +127,8 @@ export default function AboutUs() {
 
           <div className="abt-lede col-span-full lg:col-span-4 lg:col-start-9 lg:pt-3">
             <p className="text-[1.02rem] leading-[1.75] text-[#3b4150]">
-              JC Landmarks is a Lahore construction company. We design and build
-              private homes and commercial buildings, and help families buy and
-              sell property — all under one roof.
+              Jay-Cee Landmarks is a Lahore construction company. We design and build
+              private homes and commercial buildings — all under one roof.
             </p>
             <p className="mt-6 text-[0.95rem] leading-[1.75] text-[#6b7280]">
               Our own architects, engineers and site teams carry each project from
@@ -169,7 +168,7 @@ export default function AboutUs() {
               className="mb-7 block h-px w-14 bg-[#D8B479]"
             />
             <p className="font-serif text-[1.05rem] text-[#11141b]">
-              JC Landmarks
+              Jay-Cee Landmarks
             </p>
             <p className="text-[0.66rem] uppercase tracking-[0.2em] text-[#8a8f9a]">
               Lahore · Design &amp; Build

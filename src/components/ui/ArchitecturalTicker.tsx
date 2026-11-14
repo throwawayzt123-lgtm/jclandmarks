@@ -33,8 +33,6 @@ const ROW_TWO = [
 "✦",
 "INTERIORS",
 "✦",
-"BUY & SELL",
-"✦",
 "LAHORE",
 "✦",
 "RESIDENTIAL",

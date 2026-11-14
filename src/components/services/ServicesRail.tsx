@@ -5,7 +5,7 @@ import { ScrollTrigger } from "@/lib/gsap";
 
 /**
  * A slim chapter index pinned to the right edge on wide screens. It appears
- * only while the three service chapters are on screen, and marks whichever
+ * only while the service chapters are on screen, and marks whichever
  * one is crossing the middle of the viewport.
  *
  * State lives on DOM attributes rather than in React, so scrolling never
@@ -15,7 +15,6 @@ import { ScrollTrigger } from "@/lib/gsap";
 const CHAPTERS = [
   { id: "commercial", no: "01", label: "Commercial" },
   { id: "residential", no: "02", label: "Residential" },
-  { id: "real-estate", no: "03", label: "Real Estate" },
 ];
 
 export default function ServicesRail() {
@@ -34,7 +33,7 @@ export default function ServicesRail() {
     triggers.push(
       ScrollTrigger.create({
         trigger: "#commercial",
-        endTrigger: "#real-estate",
+        endTrigger: "#residential",
         start: "top 60%",
         end: "bottom 40%",
         onToggle: (self) => rail.toggleAttribute("data-visible", self.isActive),

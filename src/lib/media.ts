@@ -1,5 +1,5 @@
 /**
- * Art-direction manifest for JC Landmarks.
+ * Art-direction manifest for Jay-Cee Landmarks.
  *
  * All section photography is sourced directly from client-provided architectural
  * photography under `/images/touse/`:

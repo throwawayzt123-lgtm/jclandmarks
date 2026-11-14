@@ -31,7 +31,7 @@ export default function ElevationShowcase({ items }: ElevationShowcaseProps) {
               More Residences
             </span>
             <h2 data-r="words" className="mt-6 font-serif text-[clamp(1.8rem,3.4vw,2.8rem)] font-light leading-[1.16] tracking-[-0.01em]">
-              Front elevations from our project list.
+              Front elevations <em className="italic text-[#b58c49]">from our project list.</em>
             </h2>
           </div>
           <p data-r="up" className="col-span-full max-w-md text-[0.95rem] leading-[1.8] text-[#4b5563] lg:col-span-4 lg:col-start-9">

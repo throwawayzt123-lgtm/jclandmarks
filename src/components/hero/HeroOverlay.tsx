@@ -114,6 +114,11 @@ export default function HeroOverlay({
         <h1
           className="u-display text-[clamp(2.6rem,6.2vw,6.75rem)] leading-[0.95] tracking-[-0.025em] text-[var(--cine-text)] [text-shadow:0_2px_40px_rgba(0,0,0,0.45)]"
         >
+          {/* What and where, inside the H1 so search engines read it as the page's subject */}
+          <span className="hero-fade mb-6 block font-sans text-[0.66rem] font-semibold uppercase not-italic tracking-[0.34em] text-[#D8B479] [text-shadow:none] sm:text-[0.72rem] md:mb-8">
+            Design &amp; build construction · Lahore
+            <span className="u-sr-only"> — </span>
+          </span>
           <span className="block overflow-hidden pb-[0.1em]">
             <span className="hero-reveal block font-light">Ordinary is not</span>
           </span>

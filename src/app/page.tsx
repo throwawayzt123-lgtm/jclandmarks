@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import ImageSequenceHero from"@/components/hero/ImageSequenceHero";
 import IdentityStatement from"@/components/sections/IdentityStatement";
 import AboutUs from"@/components/sections/AboutUs";
+import FounderStatement from"@/components/sections/FounderStatement";
 import ArchitecturalTicker from"@/components/ui/ArchitecturalTicker";
 import HomeServices from"@/components/sections/HomeServices";
 import Handpicked from"@/components/sections/Handpicked";
@@ -17,6 +20,14 @@ import Inquiry from"@/components/sections/Inquiry";
 import Footer from"@/components/sections/Footer";
 import ScrollProgress from"@/components/ui/ScrollProgress";
 
+export const metadata: Metadata = pageMeta({
+  title: "Jay-Cee Landmarks | Home Construction Company in Lahore",
+  absoluteTitle: true,
+  description:
+    "Design-and-build construction company in Lahore: architecture, structural engineering, grey structure and turnkey homes under one contract.",
+  path: "/",
+});
+
 export default function Home() {
  return (
     <>
@@ -25,6 +36,7 @@ export default function Home() {
         <ImageSequenceHero />
         <IdentityStatement /> {/* Chevron architectural identity statement */}
         <AboutUs />        {/* About Us · The Atelier */}
+        <FounderStatement /> {/* The founder's promise, held up on black */}
         <ArchitecturalTicker /> {/* Scrub-driven luxury typography ribbon */}
         <HomeServices />   {/* Section 3: Our Services — expanding panels */}
         <Handpicked />     {/* Section 4: Curved scroll-driven residence ribbon */}

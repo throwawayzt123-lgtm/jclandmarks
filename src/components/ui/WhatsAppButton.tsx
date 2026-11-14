@@ -8,7 +8,7 @@ import { CONTACT } from "@/lib/site";
  * mobile menu (z-99), the loading screen and the panorama viewer, so it never
  * covers them, and clears the iPhone home bar.
  */
-const GREETING = "Hello JC Landmarks, I would like to know more about ";
+const GREETING = "Hello Jay-Cee Landmarks, I would like to know more about ";
 const href = `${CONTACT.whatsappHref}?text=${encodeURIComponent(GREETING)}`;
 
 export default function WhatsAppButton() {

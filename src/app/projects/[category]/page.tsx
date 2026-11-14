@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import PageHero from "@/components/ui/PageHero";
 import RevealScope from "@/components/ui/RevealScope";
@@ -22,11 +23,13 @@ export async function generateMetadata({ params }: PageProps<"/projects/[categor
   const { category } = await params;
   if (!isCategory(category)) return {};
   const c = CATEGORIES[category];
-  return {
-    title: `${c.label} Projects`,
+  const lead = projectsIn(category).find((p) => p.cover);
+  return pageMeta({
+    title: `${c.label} Projects in Lahore`,
     description: c.lede,
-    alternates: { canonical: `/projects/${category}` },
-  };
+    path: `/projects/${category}`,
+    image: lead?.cover ? { src: lead.cover.src, alt: lead.cover.alt } : undefined,
+  });
 }
 
 export default async function CategoryPage({ params }: PageProps<"/projects/[category]">) {

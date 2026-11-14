@@ -25,7 +25,7 @@ import { setScrollLocked } from "@/components/SmoothScrollProvider";
 const PAGE_INFO: Record<string, { tag: string; line: string; still: Still }> = {
   "/": { tag: "Start here", line: "Design & build in Lahore", still: FACADES.phase7Villa },
   "/about": { tag: "Who we are", line: "One team, from plot to keys", still: INTERIORS.staircaseCantilever },
-  "/services": { tag: "What we build", line: "Homes, commercial & real estate", still: FACADES.phase7Curtain },
+  "/services": { tag: "What we build", line: "Homes & commercial buildings", still: FACADES.phase7Curtain },
   "/projects": { tag: "Our work", line: "Homes we have delivered", still: FACADES.spanishEstate },
   "/journal": { tag: "Field notes", line: "What we have learned on site", still: INTERIORS.studyEquestrian },
   "/ongoing": { tag: "On site now", line: "Being built across Lahore", still: FACADES.prismMonolith },
@@ -139,7 +139,7 @@ export default function Navbar() {
       {/* MENU — the word and two fine lines. It sits on its own layer with a
           "difference" blend, so with no bar behind it, it reads white over the
           dark hero and black sections and turns black over white ones. */}
-      <div className={`${barCls} z-[101] mix-blend-difference`}>
+      <div className={`${barCls} z-[101]`}>
         <div className={rowCls}>
           {/* Holds the logo's place so the control lines up with it */}
           <span aria-hidden="true" className={`block shrink-0 ${logoSize}`} />
@@ -152,23 +152,23 @@ export default function Navbar() {
             aria-expanded={menuOpen}
             aria-controls="site-menu"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="nav-item group pointer-events-auto flex items-center gap-4 py-3 pl-3 text-white focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-white"
+            className="nav-item group pointer-events-auto flex items-center gap-3.5 bg-[#000000]/85 px-4 py-2.5 text-[#D8B479] backdrop-blur-sm transition-[background-color,color] duration-500 outline-none hover:bg-[#D8B479] hover:text-[#000000] focus-visible:bg-[#D8B479] focus-visible:text-[#000000] sm:gap-4 sm:px-5 sm:py-3"
           >
-            <span className="relative block h-[1.1em] overflow-hidden text-[0.8rem] font-medium uppercase leading-[1.1] tracking-[0.2em] sm:text-[0.86rem]">
+            <span className="relative block h-[1.1em] overflow-hidden text-[0.72rem] font-semibold uppercase leading-[1.1] tracking-[0.26em] sm:text-[0.78rem]">
               <span className={`block transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${menuOpen ? "-translate-y-1/2" : ""}`}>
                 <span className="block">Menu</span>
                 <span className="block">Close</span>
               </span>
             </span>
-            <span aria-hidden="true" className="relative block h-[9px] w-9 sm:w-11">
+            <span aria-hidden="true" className="relative block h-[7px] w-6 sm:w-7">
               <span
                 className={`absolute right-0 top-0 block h-[1.5px] origin-center bg-current transition-[transform,width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                  menuOpen ? "w-7 -translate-x-1 translate-y-[3.75px] rotate-45" : "w-full"
+                  menuOpen ? "w-5 -translate-x-0.5 translate-y-[2.75px] rotate-45" : "w-full"
                 }`}
               />
               <span
                 className={`absolute bottom-0 right-0 block h-[1.5px] origin-center bg-current transition-[transform,width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                  menuOpen ? "w-7 -translate-x-1 -translate-y-[3.75px] -rotate-45" : "w-full group-hover:w-2/3"
+                  menuOpen ? "w-5 -translate-x-0.5 -translate-y-[2.75px] -rotate-45" : "w-full group-hover:w-2/3"
                 }`}
               />
             </span>
@@ -326,7 +326,7 @@ export default function Navbar() {
               </div>
               <figcaption className="mt-5 flex items-baseline justify-between gap-6">
                 <span className="font-serif text-[1.35rem] font-light italic text-[#f4f2ee]">{PAGE_INFO[shown]?.line}</span>
-                <span className="shrink-0 text-[0.55rem] uppercase tracking-[0.24em] text-white/35">JC Landmarks · Lahore</span>
+                <span className="shrink-0 text-[0.55rem] uppercase tracking-[0.24em] text-white/35">Jay-Cee Landmarks · Lahore</span>
               </figcaption>
             </figure>
 
@@ -364,7 +364,7 @@ export default function Navbar() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`JC Landmarks on ${s.label}`}
+                    aria-label={`Jay-Cee Landmarks on ${s.label}`}
                     className="grid h-[2.6rem] w-[2.6rem] shrink-0 place-items-center rounded-full text-white/70 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)] transition-colors duration-300 hover:text-[#D8B479] hover:shadow-[inset_0_0_0_1px_rgba(216,180,121,0.55)] lg:h-12 lg:w-12"
                   >
                     <SocialIcon name={s.icon} className="h-[15px] w-[15px]" />

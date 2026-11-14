@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Image from "next/image";
 import PageHero from "@/components/ui/PageHero";
 import RevealScope from "@/components/ui/RevealScope";
@@ -11,11 +12,12 @@ import ScrollProgress from "@/components/ui/ScrollProgress";
 import { CATEGORIES, ELEVATIONS, PROJECTS, activeCategories, projectsIn } from "@/lib/portfolio";
 
 import Link from "next/link";
-export const metadata: Metadata = {
-  title: "Projects",
-  description: "Completed residential and commercial projects by JC Landmarks — designed, engineered and built by our own teams.",
-  alternates: { canonical: "/projects" },
-};
+export const metadata: Metadata = pageMeta({
+  title: "Our Projects — Houses Built in Lahore",
+  description:
+    "Homes designed and built by Jay-Cee Landmarks in Lahore: Aura’26 in DHA Phase 7 room by room, plus front elevations from DHA, 9 Town and Sheikhupura.",
+  path: "/projects",
+});
 
 
 export default function ProjectsPage() {
@@ -104,7 +106,7 @@ export default function ProjectsPage() {
                   Featured project
                 </span>
                 <h2 data-r="words" className="mt-8 font-serif text-[clamp(1.9rem,3.8vw,3.2rem)] font-light leading-[1.16] tracking-[-0.01em]">
-                  See how a home is finished.
+                  See how a home <em className="italic text-[#b58c49]">is finished.</em>
                 </h2>
               </div>
               <p data-r="up" className="col-span-full max-w-md text-[0.96rem] leading-[1.8] text-[#4b5563] lg:col-span-4 lg:col-start-9">

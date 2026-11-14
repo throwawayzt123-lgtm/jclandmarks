@@ -21,7 +21,6 @@ const TOPICS = [
   { key: "commercial", label: "Commercial project", hint: "Offices, retail, hospitality." },
   { key: "residential", label: "Residential build", hint: "A new home — grey structure to turnkey." },
   { key: "buy", label: "Buy a home", hint: "Find a home that is ready to move into." },
-  { key: "sell", label: "Sell a home", hint: "A valuation, and a sale handled end to end." },
   { key: "site-visit", label: "Visit an ongoing site", hint: "See one of our projects in person." },
   { key: "general", label: "Something else", hint: "Any other question — just ask." },
 ] as const;

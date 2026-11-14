@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Image from "next/image";
 import PageHero from "@/components/ui/PageHero";
 import RevealScope from "@/components/ui/RevealScope";
@@ -10,11 +11,13 @@ import { CONTACT } from "@/lib/site";
 import { INTERIORS } from "@/lib/media";
 
 import Link from "next/link";
-export const metadata: Metadata = {
-  title: "Homes for Sale",
-  description: "Homes for sale built by JC Landmarks — property details, specifications and direct enquiry for each available residence.",
-  alternates: { canonical: "/for-sale" },
-};
+export const metadata: Metadata = pageMeta({
+  title: "House for Sale in DHA Phase 7, Lahore",
+  description:
+    "Aura’26, a newly built 1 Kanal house for sale in DHA Phase 7, Lahore, by Jay-Cee Landmarks — double-height lounge, marble staircase. Price on request.",
+  path: "/for-sale",
+  image: { src: LISTINGS[0].cover.src, alt: LISTINGS[0].cover.alt },
+});
 
 export default function ForSalePage() {
   const available = LISTINGS.filter((l) => l.status === "Available").length;
@@ -36,7 +39,7 @@ export default function ForSalePage() {
           <div className="u-shell">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <h2 data-r="words" className="font-serif text-[clamp(1.8rem,3.4vw,2.8rem)] font-light leading-[1.16]">
-                Available residences
+                Available <em className="italic text-[#b58c49]">residences</em>
               </h2>
               <p data-r="up" className="text-[0.64rem] uppercase tracking-[0.24em] text-[#8a8f9a]">
                 {LISTINGS.length} homes · {available} available now
@@ -99,14 +102,17 @@ export default function ForSalePage() {
                       <p className="mt-6 font-serif text-[1.15rem] font-light italic text-[#11141b]">{l.price}</p>
 
                       {/* Calls to action */}
-                      <div className="mt-auto flex flex-wrap items-center gap-x-7 gap-y-4 pt-7">
-                        <Link
-                          href={enquiryHref("buy", l.title)}
-                          className="u-btn u-btn--dark u-btn--sm"
-                        >
-                          <span>{reserved ? "Join the waiting list" : "Enquire about this home"}</span>
+                      <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-4 pt-7">
+                        <Link href={enquiryHref("buy", l.title)} className="u-btn u-btn--dark u-btn--sm">
+                          <span>{reserved ? "Join the waiting list" : "Get a quote"}</span>
                           <span aria-hidden="true" className="u-btn__arrow" />
                         </Link>
+                        {l.project && (
+                          <Link href={l.project} className="u-btn u-btn--line u-btn--sm">
+                            <span>Visit project</span>
+                            <span aria-hidden="true" className="u-btn__arrow" />
+                          </Link>
+                        )}
                         <a href={CONTACT.phoneHref} className="text-[0.62rem] uppercase tracking-[0.24em] text-[#11141b] underline decoration-[#b58c49] decoration-1 underline-offset-[6px] transition-colors hover:text-[#b58c49]">
                           Call us
                         </a>
@@ -115,29 +121,6 @@ export default function ForSalePage() {
                   </article>
                 );
               })}
-            </div>
-          </div>
-        </RevealScope>
-
-        {/* Selling side */}
-        <RevealScope as="section" className="bg-[#f5f6f8] py-[clamp(5rem,12vh,8rem)] text-[#11141b]">
-          <div className="u-shell grid items-end gap-y-10 lg:grid-cols-12 lg:gap-x-16">
-            <div className="col-span-full lg:col-span-7">
-              <span data-r="up" className="block text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#b58c49]">
-                Selling a home?
-              </span>
-              <h2 data-r="words" className="mt-6 font-serif text-[clamp(1.8rem,3.4vw,2.8rem)] font-light leading-[1.16]">
-                We value, market and sell homes for their owners.
-              </h2>
-            </div>
-            <div data-r="stagger" className="col-span-full flex flex-col items-start gap-6 lg:col-span-4 lg:col-start-9">
-              <p className="text-[0.95rem] leading-[1.8] text-[#4b5563]">
-                A builder&rsquo;s valuation looks past the finishes to the structure underneath — which is where a fair price is decided.
-              </p>
-              <Link href={enquiryHref("sell")} className="group inline-flex items-center gap-3 text-[0.64rem] uppercase tracking-[0.24em] text-[#11141b] transition-colors hover:text-[#b58c49]">
-                Request a valuation
-                <span aria-hidden="true" className="text-[#b58c49] transition-transform duration-500 group-hover:translate-x-1.5">→</span>
-              </Link>
             </div>
           </div>
         </RevealScope>

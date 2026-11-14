@@ -72,20 +72,31 @@ export default function AboutClose() {
             In Closing
           </span>
 
-          <blockquote className="ac-quote mt-10 font-serif text-[clamp(1.4rem,2.7vw,2.3rem)] font-light italic leading-[1.5]">
-            &ldquo;We would rather build a home that still looks right in
-            twenty years than one that only looks finished on handover
-            day.&rdquo;
+          {/* The founder's words, exactly as given. */}
+          <blockquote className="mt-10">
+            <p className="ac-quote font-serif text-[clamp(1.4rem,2.7vw,2.3rem)] font-light italic leading-[1.5]">
+              &ldquo;We animate blueprints into landmarks. Every nail, every
+              deadline&mdash;a promise fulfilled. That is my legacy and the soul
+              of Jay-Cee Landmarks.&rdquo;
+            </p>
+            <footer className="ac-cta mt-8 flex flex-col items-center gap-3">
+              <span aria-hidden="true" className="block h-px w-14 bg-[rgba(20,33,61,0.16)]" />
+              <cite className="text-[0.66rem] font-semibold uppercase not-italic tracking-[0.3em] text-[#b58c49]">
+                M. Naveed
+              </cite>
+            </footer>
           </blockquote>
 
           <div className="ac-cta mt-14 flex flex-col items-center gap-7">
-            <span
-              aria-hidden="true"
-              className="block h-px w-14 bg-[rgba(20,33,61,0.16)]"
-            />
-            <p className="max-w-md text-[0.95rem] leading-[1.8] text-[#4b5563]">
-              If you are planning a home or a commercial building and want the people
-              who design it to be the people who build it, we would be glad to talk.
+            <p className="max-w-2xl text-[1rem] leading-[1.85] text-[#374151]">
+              We don&rsquo;t just erect structures&mdash;we craft enduring legacies.
+              From groundbreaking to grand unveiling, we fuse architectural artistry
+              with masterful project management, delivering precision, transparency,
+              and unwavering excellence. Your vision, our mastery&mdash;transformed
+              into reality. Let&rsquo;s build something extraordinary together.
+            </p>
+            <p className="font-serif text-[clamp(1.15rem,2.2vw,1.6rem)] font-light italic leading-[1.35] text-[#11141b]">
+              Reach out today&mdash;and turn your blueprint into a landmark.
             </p>
             <MagneticButton href="/contact">
               Talk to our team

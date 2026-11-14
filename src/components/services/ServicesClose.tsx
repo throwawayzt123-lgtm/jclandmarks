@@ -9,14 +9,13 @@ import Link from "next/link";
 /**
  * SERVICES — CLOSING BAND
  *
- * Dark, to bookend the dark masthead. One question, and three routes into the
+ * Dark, to bookend the dark masthead. One question, and two routes into the
  * enquiry form, each named for the service so the visitor never has to work
  * out which door is theirs.
  */
 const ROUTES = [
   { label: "Commercial project", note: "Plazas, offices, showrooms", topic: "commercial" },
   { label: "Residential build", note: "New home, grey structure, turnkey", topic: "residential" },
-  { label: "Buy or sell a home", note: "Listings, valuation, purchase", topic: "buy" },
 ];
 
 export default function ServicesClose() {
@@ -81,10 +80,10 @@ export default function ServicesClose() {
           Start Your Project
         </span>
         <h2 className="scl-head mt-10 max-w-3xl font-serif text-[clamp(2rem,4.4vw,3.8rem)] font-light leading-[1.12] tracking-[-0.01em]">
-          Building, buying or selling? Let’s talk.
+          Planning to build? <em className="italic text-[#D8B479]">Let’s talk.</em>
         </h2>
 
-        <ul className="scl-routes mt-[clamp(3.5rem,9vh,6rem)] grid gap-y-2 lg:grid-cols-3 lg:gap-x-10">
+        <ul className="scl-routes mt-[clamp(3.5rem,9vh,6rem)] grid gap-y-2 lg:grid-cols-2 lg:gap-x-10">
           {ROUTES.map((r) => (
             <li key={r.label} className="scl-route">
               <Link href={enquiryHref(r.topic)} className="group relative block py-8 outline-none">

@@ -183,7 +183,7 @@ export default function Location() {
             />
             <div className="ml-2 sm:ml-4 [text-shadow:0_1px_12px_rgba(0,0,0,0.75)]">
               <span className="u-eyebrow text-[0.62rem] text-[#f4f2ee] font-medium block">
-                JC Landmarks
+                Jay-Cee Landmarks
               </span>
               <span className="mt-1 text-[0.58rem] tracking-wider text-[#D8B479] uppercase hidden sm:block">
                 2-Kanal Residence · Design &amp; Build

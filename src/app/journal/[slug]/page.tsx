@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { pageMeta, abs, ldGraph, ORG_ID, WEBSITE_ID } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -19,19 +21,18 @@ export async function generateMetadata({ params }: PageProps<"/journal/[slug]">)
   const { slug } = await params;
   const p = findPost(slug);
   if (!p) return {};
-  return {
-    title: p.title,
+  return pageMeta({
+    title: p.seoTitle ?? p.title,
+    // Long headlines would be cut off in results with the brand appended.
+    absoluteTitle: (p.seoTitle ?? p.title).length > 42,
     description: p.summary,
-    alternates: { canonical: postHref(p) },
-    openGraph: {
-      type: "article",
-      url: postHref(p),
-      title: p.title,
-      description: p.summary,
-      publishedTime: p.date,
-      images: [{ url: p.cover.src, alt: p.cover.alt }],
-    },
-  };
+    path: postHref(p),
+    image: { src: p.cover.src, alt: p.cover.alt },
+    type: "article",
+    publishedTime: p.date,
+    modifiedTime: p.updated,
+    section: p.topic,
+  });
 }
 
 /** One article block. Typography lives here, so an article can never break it. */
@@ -102,6 +103,29 @@ export default async function PostPage({ params }: PageProps<"/journal/[slug]">)
   return (
     <>
       <ScrollProgress />
+      <JsonLd
+        data={ldGraph({
+          "@type": "BlogPosting",
+          "@id": `${abs(postHref(post))}#article`,
+          headline: post.seoTitle ?? post.title,
+          name: post.title,
+          description: post.summary,
+          image: [abs(post.cover.src)],
+          datePublished: post.date,
+          dateModified: post.updated ?? post.date,
+          articleSection: post.topic,
+          inLanguage: "en-PK",
+          wordCount: post.body.reduce(
+            (n, b) => n + ("text" in b ? b.text : "items" in b ? b.items.join(" ") : b.caption ?? "").split(/\s+/).length,
+            0
+          ),
+          timeRequired: `PT${post.minutes}M`,
+          author: { "@id": ORG_ID },
+          publisher: { "@id": ORG_ID },
+          isPartOf: { "@id": WEBSITE_ID },
+          mainEntityOfPage: abs(postHref(post)),
+        })}
+      />
       <main id="top">
         <PageHero
           eyebrow={post.topic}
@@ -124,7 +148,7 @@ export default async function PostPage({ params }: PageProps<"/journal/[slug]">)
 
               <div className="mt-16 flex flex-wrap items-center justify-between gap-6 pt-8 shadow-[inset_0_1px_0_rgba(20,33,61,0.12)]">
                 <span className="text-[0.62rem] uppercase tracking-[0.24em] text-[#8a8f9a]">
-                  JC Landmarks · {formatDate(post.date)}
+                  Jay-Cee Landmarks · {formatDate(post.date)}
                 </span>
                 <Link href="/journal" className="group inline-flex items-center gap-3 text-[0.64rem] uppercase tracking-[0.24em] transition-colors hover:text-[#b58c49]">
                   <span aria-hidden="true" className="text-[#b58c49] transition-transform duration-500 group-hover:-translate-x-1.5">←</span>

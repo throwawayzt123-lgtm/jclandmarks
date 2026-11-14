@@ -50,6 +50,10 @@ export interface Project {
   title: string;
   location: string;
   summary: string;
+  /** Search-result title (≈60 characters with the brand). Defaults to "title — location". */
+  seoTitle?: string;
+  /** Search-result description (≈150 characters). Defaults to the summary. */
+  seoDescription?: string;
   story: string[];
   facts: Fact[];
   scope: string[];
@@ -61,7 +65,13 @@ export interface Project {
 
 /** Photographs of project 342-U, in /public/images/projects/residential/project1-342U. */
 const P342 = "/images/projects/residential/project1-342U";
-const still = (file: string, alt: string, position?: string): Still => ({ src: `${P342}/${file}.webp`, alt, ...(position ? { position } : {}) });
+/** Every 342-U photo's alt text ends with where it is, for image search. */
+const P342_PLACE = "Aura’26, DHA Phase 7, Lahore";
+const still = (file: string, alt: string, position?: string): Still => ({
+  src: `${P342}/${file}.webp`,
+  alt: `${alt} — ${P342_PLACE}`,
+  ...(position ? { position } : {}),
+});
 const shot = (file: string, title: string, note: string, alt: string, position?: string): Shot => ({ ...still(file, alt, position), title, note });
 
 export const PROJECTS: Project[] = [
@@ -72,6 +82,9 @@ export const PROJECTS: Project[] = [
     title: "Aura’26",
     location: "DHA Phase 7, Lahore",
     summary: "A 1 Kanal family home in cream stone and timber, with a double-height lounge, a floating marble staircase and fully furnished interiors.",
+    seoTitle: "Aura’26 — 1 Kanal House, DHA Phase 7 Lahore",
+    seoDescription:
+      "Aura’26 (342-U, DHA Phase 7): a 1 Kanal home in cream stone with a double-height lounge and floating marble staircase — 24 photos, built by Jay-Cee Landmarks.",
     story: [
       "Plot 342-U is a 1 Kanal family home in DHA Phase 7. From the street it is calm and clean-lined: cream stone, tall black-framed windows and vertical fins that give the front its rhythm, lit warmly at night.",
       "Inside, the house opens around a floating marble staircase and a double-height lounge, with a drawing room, dining room, study and a fitted kitchen with an island. Upstairs are the bedroom suites, each with its own washroom, finished in textured walls, panelling and soft lighting.",
@@ -141,8 +154,9 @@ const elevation = (e: Omit<Elevation, "image"> & { file: string; alt: string; po
   return {
     ...rest,
     image: {
-      src: encodeURI(`${OTHERS}/${file}`),
-      alt,
+      src: `${OTHERS}/${file}`,
+      // Where it is, for image search: "… — 1 Kanal residence, 12-V, DHA Phase 7".
+      alt: `${alt} — ${e.size} residence, ${e.plot === e.area || /design/i.test(e.plot) ? e.area : `${e.plot}, ${e.area}`}`,
       ...(position ? { position } : {}),
       title: `${e.plot} · ${e.area}`,
       note: [`${e.size} residence`, `${e.style} front elevation`, e.credit].filter(Boolean).join(" · "),
@@ -156,7 +170,7 @@ export const ELEVATIONS: Elevation[] = [
     size: "1 Kanal",
     area: "DHA Phase 7",
     style: "Contemporary",
-    file: "1 kanal residential 12 v phase 7.jpeg",
+    file: "12-v-1-kanal-house-dha-phase-7-lahore.jpeg",
     alt: "Contemporary front elevation with a glazed double-height bay, a dark stone side wing, vertical louvres and a roof terrace",
   }),
   elevation({
@@ -165,7 +179,7 @@ export const ELEVATIONS: Elevation[] = [
     area: "Sheikhupura",
     style: "Classical Spanish",
     credit: "Design: Asad Afzal",
-    file: "2 Kanal Spanish design by Asad Afzal at Sheikhupura.png",
+    file: "2-kanal-spanish-design-house-sheikhupura.png",
     alt: "Classical front elevation with arched windows, iron-railed balconies, a columned car porch and an arched entrance, lit at dusk",
   }),
   elevation({
@@ -173,7 +187,7 @@ export const ELEVATIONS: Elevation[] = [
     size: "5 Marla",
     area: "9 Town",
     style: "Modern",
-    file: "464-D-9-prism.jpeg",
+    file: "464-d-5-marla-modern-house-9-town-lahore.jpeg",
     alt: "Modern front elevation in dark stone with a white stone fin, a glass balcony and an angled roof canopy",
   }),
   elevation({
@@ -181,7 +195,7 @@ export const ELEVATIONS: Elevation[] = [
     size: "1 Kanal",
     area: "DHA Phase 7",
     style: "Contemporary",
-    file: "483Y phase 7.png",
+    file: "483-y-1-kanal-house-dha-phase-7-lahore.png",
     alt: "Contemporary front elevation in cream stone with a double-height glazed bay, timber-clad entrance and a covered car porch",
   }),
 ];
@@ -247,55 +261,29 @@ export interface Listing {
   specs: Fact[];
   features: string[];
   cover: Still;
+  /** The project page for this home, when we built it ourselves. */
+  project?: string;
 }
 
 export const LISTINGS: Listing[] = [
   {
-    slug: "glass-pavilion-home",
-    title: "Glass Pavilion Home",
-    location: "Phase 7, Lahore",
+    slug: "aura-26-342-u",
+    title: "Aura’26",
+    location: "342-U, DHA Phase 7, Lahore",
     status: "Available",
     price: "Price on request",
     specs: [
       { label: "Plot", value: "1 Kanal" },
       { label: "Bedrooms", value: "5" },
       { label: "Bathrooms", value: "6" },
-      { label: "Built", value: "2025" },
+      { label: "Built", value: "2026" },
     ],
-    features: ["Double-height glass living room", "Roof terrace", "Covered car porch"],
-    cover: FACADES.phase7Curtain,
-  },
-  {
-    slug: "monolith-home",
-    title: "Monolith Home",
-    location: "Phase 9 Prism, Lahore",
-    status: "Available",
-    price: "Price on request",
-    specs: [
-      { label: "Plot", value: "5 Marla" },
-      { label: "Bedrooms", value: "3" },
-      { label: "Bathrooms", value: "4" },
-      { label: "Built", value: "2025" },
-    ],
-    features: ["Dark stone façade", "Glass balcony", "Roof canopy"],
-    cover: FACADES.prismMonolith,
-  },
-  {
-    slug: "contemporary-stone-home",
-    title: "Contemporary Stone Home",
-    location: "Phase 7, Lahore",
-    status: "Reserved",
-    price: "Price on request",
-    specs: [
-      { label: "Plot", value: "1 Kanal" },
-      { label: "Bedrooms", value: "6" },
-      { label: "Bathrooms", value: "7" },
-      { label: "Built", value: "2024" },
-    ],
-    features: ["Double-height glazed stairwell", "Covered car porch", "Staff quarters"],
-    cover: FACADES.phase7Villa,
+    features: ["Double-height lounge", "Floating marble staircase", "Fitted kitchen with island"],
+    cover: PROJECTS[0].cover!,
+    project: projectHref(PROJECTS[0]),
   },
 ];
+
 
 /** The contact page reads these to pre-fill the enquiry form. */
 export const enquiryHref = (topic: string, about?: string) => {

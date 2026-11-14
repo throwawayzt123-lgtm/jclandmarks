@@ -53,7 +53,7 @@ export default function Footer() {
         <div className="flex flex-col justify-between gap-8 pb-12 md:flex-row md:items-end">
           <div>
             <span className="mb-3 block text-[0.66rem] font-medium uppercase tracking-[0.32em] text-[#D8B479]">
-              JC Landmarks · Design, Build &amp; Real Estate
+              Jay-Cee Landmarks · Design &amp; Build
             </span>
             <TextReveal
               as="h2"
@@ -102,7 +102,7 @@ export default function Footer() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`JC Landmarks on ${s.label}`}
+                    aria-label={`Jay-Cee Landmarks on ${s.label}`}
                     className="grid h-11 w-11 place-items-center rounded-full bg-white/[0.04] text-[rgba(244,242,238,0.75)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] transition-colors duration-300 hover:bg-[#D8B479] hover:text-[#11141b]"
                   >
                     <SocialIcon name={s.icon} />
@@ -202,7 +202,7 @@ export default function Footer() {
         {/* Legal bar */}
         <div className="mt-[clamp(2.5rem,6vh,4rem)] flex flex-col justify-between gap-3 pt-6 text-[0.62rem] uppercase tracking-[0.18em] text-[rgba(244,242,238,0.4)] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:flex-row sm:items-center">
           <p>
-            © {new Date().getFullYear()} JC Landmarks · A product of{" "}
+            © {new Date().getFullYear()} Jay-Cee Landmarks · A product of{" "}
             {PARENT.url ? (
               <a href={PARENT.url} target="_blank" rel="noopener noreferrer" className="text-[#D8B479] transition-colors hover:text-white">
                 {PARENT.name}

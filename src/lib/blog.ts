@@ -22,6 +22,10 @@ export interface Post {
   summary: string;
   /** ISO date; shown as a long date. */
   date: string;
+  /** ISO date of the last real edit, if any (sitemap and article schema). */
+  updated?: string;
+  /** Search-result title, when the headline is too long for one (≈60 characters). */
+  seoTitle?: string;
   /** e.g. "Building in Lahore" — a plain, factual label. */
   topic: string;
   /** Rough reading time in minutes. */
@@ -33,6 +37,7 @@ export interface Post {
 export const POSTS: Post[] = [
   {
     slug: "cost-of-building-a-house-in-lahore",
+    seoTitle: "House Construction Cost in Lahore: What It Really Costs",
     title: "What it really costs to build a house in Lahore",
     summary:
       "Grey structure, finishing and the costs owners forget — a plain guide to how a build is priced, and why two quotes for the same plot can differ so much.",
@@ -102,6 +107,173 @@ export const POSTS: Post[] = [
       {
         kind: "p",
         text: "We price our own work this way because it is the only version that survives contact with a real site. An itemised estimate before we start, a written specification for the finishing, and any change agreed with the owner in writing before it is carried out. It makes the first conversation longer and every conversation after it shorter.",
+      },
+    ],
+  },
+  {
+    slug: "grey-structure-vs-turnkey",
+    seoTitle: "Grey Structure vs Turnkey Construction in Lahore",
+    title: "Grey structure or turnkey: which contract suits you?",
+    summary:
+      "The two ways most homes in Lahore are built, what each one includes, and the kind of owner each one actually suits.",
+    date: "2026-11-05",
+    topic: "Building in Lahore",
+    minutes: 5,
+    cover: FACADES.prismMonolith,
+    body: [
+      {
+        kind: "p",
+        text: "Almost every owner we meet is choosing between the same two arrangements: pay a contractor to raise the structure and manage the finishing yourself, or hand the whole house to one party and collect the keys. Neither is the right answer on its own. They suit different people, different budgets and, above all, different amounts of free time.",
+      },
+      { kind: "h", text: "What grey structure actually covers" },
+      {
+        kind: "p",
+        text: "Grey structure is the building without its finishes: excavation, foundations, the concrete frame, brickwork, roof slabs, plaster, and the conduits and pipes buried in the walls for wiring and plumbing. At the end of it you own a sound, weather-tight shell with services roughed in \u2014 and nothing you can live in yet.",
+      },
+      {
+        kind: "p",
+        text: "Owners choose it because the pricing is relatively easy to check, and because finishing is where personal taste matters most. If you intend to source your own stone, joinery and fittings, and you have the time to run that, grey structure keeps the decisions in your hands.",
+      },
+      { kind: "h", text: "What turnkey adds" },
+      {
+        kind: "p",
+        text: "Turnkey carries the same structure through flooring, woodwork, kitchens, washrooms, electrical and plumbing fit-out, paint, ceilings and the fa\u00e7ade, up to a house that is ready to move into. One contract, one schedule, one party answerable for the result.",
+      },
+      {
+        kind: "p",
+        text: "The advantage is not only convenience. When the same team builds the structure and the finishes, the two are planned together: service runs are set out before slabs are poured, and ceiling heights account for the ducting that will eventually sit inside them. Problems that are expensive to fix later are avoided at drawing stage.",
+      },
+      {
+        kind: "image",
+        still: INTERIORS.staircaseCantilever,
+        caption: "Stone, joinery and lighting detailed together \u2014 the case for one team carrying a house from structure through finishing.",
+      },
+      { kind: "h", text: "Which suits you" },
+      {
+        kind: "list",
+        items: [
+          "Choose grey structure if you have time to manage trades, enjoy sourcing materials, and are comfortable coordinating the sequence yourself.",
+          "Choose turnkey if you want one schedule, one point of contact and a fixed, itemised cost for the whole house.",
+          "Choose turnkey if you live abroad or travel often \u2014 finishing needs decisions every week, not every month.",
+          "Either way, fix the specification in writing first. It is the only thing that makes two quotes comparable.",
+        ],
+      },
+      {
+        kind: "quote",
+        text: "The question is not which contract is cheaper. It is which one matches the hours you can honestly give the site.",
+      },
+      {
+        kind: "p",
+        text: "We build both ways, and we say plainly which we think fits a brief when an owner asks. A grey-structure client who cannot visit the site for months usually ends up paying more in delays than the turnkey premium would have cost.",
+      },
+    ],
+  },
+  {
+    slug: "how-long-does-it-take-to-build-a-house-in-lahore",
+    seoTitle: "How Long Does It Take to Build a House in Lahore?",
+    title: "How long does it take to build a house in Lahore?",
+    summary:
+      "A realistic timeline for a 1 kanal home \u2014 approvals, grey structure, finishing and handover \u2014 and the three things that cause most delays.",
+    date: "2026-10-28",
+    topic: "Process",
+    minutes: 5,
+    cover: FACADES.phase7Curtain,
+    body: [
+      {
+        kind: "p",
+        text: "For a 1 kanal house built properly, from the first site visit to the day you move in, a realistic range is twelve to eighteen months. Anyone promising eight is either leaving something out or planning to work in a way you will not enjoy living with afterwards.",
+      },
+      { kind: "h", text: "The stages, and roughly what each takes" },
+      {
+        kind: "list",
+        items: [
+          "Survey, brief and design: 6 to 10 weeks, including the revisions that always follow the first set of drawings.",
+          "Structural design and approvals: 4 to 8 weeks, depending on the society and how complete the submission is.",
+          "Grey structure: 5 to 7 months for a 1 kanal house, governed by curing times that cannot be rushed.",
+          "Finishing: 5 to 7 months, overlapping the tail of the structure where the sequence allows.",
+          "Snagging and handover: 3 to 5 weeks of closing a list, testing services and clearing the site.",
+        ],
+      },
+      { kind: "h", text: "Why concrete sets the pace" },
+      {
+        kind: "p",
+        text: "Concrete needs time to gain strength, and no amount of pressure changes that. Each slab has to cure before the floor above it is loaded. A contractor who shortens curing to beat a deadline is borrowing from the building\u2019s life to pay for your calendar, and the interest falls due as cracks years later.",
+      },
+      {
+        kind: "image",
+        still: FACADES.phase7Villa,
+        caption: "A finished front conceals months of sequence: foundations, frame, slabs, then everything that hangs off them.",
+      },
+      { kind: "h", text: "The three usual causes of delay" },
+      {
+        kind: "p",
+        text: "First, late decisions. Finishing moves at the speed of the owner\u2019s choices; a tile selection that waits three weeks costs three weeks. Second, mid-build changes. Moving a wall after the frame is cast is not a small edit. Third, under-resourced sites, where one team is spread across several projects and yours gets the leftover days.",
+      },
+      {
+        kind: "quote",
+        text: "Nearly every schedule we have seen slip went the same way: not one large disaster, but twenty small decisions that arrived late.",
+      },
+      {
+        kind: "p",
+        text: "What helps is unglamorous. Approve the drawings before work starts. Choose the finishing specification early, even for rooms you will not see for a year. Agree changes in writing with their cost and their time implication attached. A schedule survives on decisions made ahead of the trade that needs them.",
+      },
+    ],
+  },
+  {
+    slug: "questions-to-ask-a-construction-company",
+    seoTitle: "10 Questions to Ask a Construction Company in Lahore",
+    title: "Ten questions to ask before you hire a construction company",
+    summary:
+      "What to ask a builder in Lahore before signing \u2014 about contracts, site supervision, materials and what happens after handover.",
+    date: "2026-10-20",
+    topic: "Choosing a builder",
+    minutes: 4,
+    cover: INTERIORS.foyerGallery,
+    body: [
+      {
+        kind: "p",
+        text: "Choosing who builds your house is a bigger decision than choosing the design. A plan can be changed on paper; poor construction has to be lived with, or opened up and redone. These are the questions we would ask if we were the ones hiring.",
+      },
+      { kind: "h", text: "About the contract" },
+      {
+        kind: "list",
+        items: [
+          "Will I receive an itemised estimate, or a single lump-sum figure?",
+          "What exactly is excluded \u2014 boundary wall, approvals, landscaping, electrical backup?",
+          "How will changes be priced once work has started, and who signs them off?",
+          "What is the payment schedule, and is it tied to stages completed rather than dates?",
+        ],
+      },
+      { kind: "h", text: "About the site" },
+      {
+        kind: "list",
+        items: [
+          "Who supervises day to day, and how many other sites is that person running?",
+          "Are the engineers and site teams your own, or subcontracted to whoever is free?",
+          "Can I visit unannounced, and will someone walk me through what is happening?",
+        ],
+      },
+      { kind: "h", text: "About materials and what follows" },
+      {
+        kind: "list",
+        items: [
+          "Which brands of steel, cement and fittings are assumed in the quote?",
+          "Is concrete tested, and will I see the results?",
+          "What happens if something fails six months after handover?",
+        ],
+      },
+      {
+        kind: "image",
+        still: INTERIORS.bedMaster,
+        caption: "Ask to see a house finished two or three years ago. New work hides most things; time does not.",
+      },
+      {
+        kind: "quote",
+        text: "Ask to see a house the contractor built three years ago, not three months ago. Any builder can hand over something that looks right on day one.",
+      },
+      {
+        kind: "p",
+        text: "The answers matter less than the manner of answering. A builder who is comfortable being asked these things in detail, and who writes the answers down, is usually the one who will still be comfortable when something goes wrong on site \u2014 which, on every project, eventually it does.",
       },
     ],
   },

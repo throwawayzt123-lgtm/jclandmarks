@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from"next";
-import { TAGLINE } from "@/lib/site";
+import { SITE_NAME, SITE_URL, LOCALE, organizationLd, websiteLd, ldGraph } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 import localFont from"next/font/local";
 import"./globals.css";
 import Navbar from"@/components/navigation/Navbar";
@@ -35,97 +36,55 @@ const body = localFont({
  fallback: ["ui-sans-serif","system-ui","sans-serif"],
 });
 
-const SITE_URL ="https://jclandmarks.com";
-const SITE_NAME ="JC Landmarks";
-const TITLE ="JC Landmarks — Ordinary Is Not Our Address | Design & Build in Lahore";
+const TITLE = `${SITE_NAME} | Home Construction Company in Lahore`;
 const DESCRIPTION =
-"Ordinary is not our address. JC Landmarks is a Lahore construction company. We design and build private homes and commercial buildings — architecture, engineering, approvals, construction and finishing under one contract.";
+  "Design-and-build construction company in Lahore: architecture, structural engineering, grey structure and turnkey homes under one contract.";
 
 export const metadata: Metadata = {
- metadataBase: new URL(SITE_URL),
- title: {
- default: TITLE,
- template: `%s — ${SITE_NAME}`,
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
- description: DESCRIPTION,
- applicationName: SITE_NAME,
- keywords: [
-"construction company Lahore",
-"house construction",
-"design and build",
-"commercial construction",
-"real estate Lahore",
-"JC Landmarks",
-  ],
- authors: [{ name: SITE_NAME }],
- creator: SITE_NAME,
- alternates: { canonical:"/" },
- openGraph: {
- type:"website",
- url: SITE_URL,
- siteName: SITE_NAME,
- title: TITLE,
- description: DESCRIPTION,
- locale:"en_US",
- images: [
-      {
- url:"/images/frames5/ezgif-frame-001.jpg",
- width: 1280,
- height: 720,
- alt:"A JC Landmarks residence seen from above, with its pool terrace",
-      },
-    ],
+  description: DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: SITE_NAME,
+    locale: LOCALE,
+    title: TITLE,
+    description: DESCRIPTION,
   },
- twitter: {
- card:"summary_large_image",
- title: TITLE,
- description: DESCRIPTION,
- images: ["/images/frames5/ezgif-frame-001.jpg"],
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
   },
- robots: {
- index: true,
- follow: true,
- googleBot: { index: true, follow: true,"max-image-preview":"large" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
- category:"real estate",
+  formatDetection: { telephone: true, address: false, email: false },
+  category: "construction",
 };
 
 export const viewport: Viewport = {
- themeColor:"#0b0b0a",
- colorScheme:"dark",
- width:"device-width",
- initialScale: 1,
-};
-
-
-/** Structured data so the listing is machine-readable for search. */
-const jsonLd = {
-"@context":"https://schema.org",
-"@type":"GeneralContractor",
- name: SITE_NAME,
- alternateName:"Jay-Cee Landmarks",
- slogan: TAGLINE,
- description: DESCRIPTION,
- url: SITE_URL,
- image: `${SITE_URL}/images/frames5/ezgif-frame-001.jpg`,
- logo: `${SITE_URL}/images/jc-logo-gold.png`,
- address: {
-"@type":"PostalAddress",
- streetAddress:"Plaza 112, 4th Floor, CCA-1, Phase 6, DHA",
- addressLocality:"Lahore",
- addressRegion:"Punjab",
- addressCountry:"PK",
-  },
- geo: {"@type":"GeoCoordinates", latitude: 31.4677162, longitude: 74.4519043 },
- sameAs: ["https://www.facebook.com/share/1FySY6fQVA/","https://www.instagram.com/jay.cee_landmarks/"],
- areaServed:"Lahore",
+  themeColor: "#000000",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
  return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    <html lang="en-PK" className={`${display.variable} ${body.variable}`}>
       <body>
-        <a href="#residence" className="u-sr-only">
+        <a href="#top" className="u-sr-only">
           Skip to content
         </a>
         <SmoothScrollProvider />
@@ -133,11 +92,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <WhatsAppButton />
         <SandTrail />
-        <script
- type="application/ld+json"
-          // Static, author-controlled object — no user input reaches this.
- dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <JsonLd data={ldGraph(organizationLd, websiteLd)} />
       </body>
     </html>
   );

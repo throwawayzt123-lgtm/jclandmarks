@@ -275,7 +275,7 @@ export default function ImageSequenceHero({
 
         {/* The sequence is decorative; this is its accessible equivalent. */}
         <p className="u-sr-only">
-          A walkthrough of a JC Landmarks residence: the camera descends over the house and its pool terrace, passes the front entrance, and settles inside the double-height living room.
+          A walkthrough of a Jay-Cee Landmarks residence: the camera descends over the house and its pool terrace, passes the front entrance, and settles inside the double-height living room.
         </p>
       </section>
     </>

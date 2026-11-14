@@ -22,7 +22,7 @@ const CHEVRONS: ChevronItem[] = [
   {
  id:"chv-1",
  src:"/images/touse/frontsquaresized/front2.webp",
- alt:"Contemporary residence by JC Landmarks with a double-height glazed front and lit entrance",
+ alt:"Contemporary residence by Jay-Cee Landmarks with a double-height glazed front and lit entrance",
  position:"center 22%",
  leftPercent: 0,
   },
@@ -236,7 +236,7 @@ export default function IdentityStatement() {
         <div className="pt-6 flex items-center justify-center gap-3">
           <span className="h-px w-8 bg-[rgba(216,180,121,0.4)]" />
           <span className="text-[0.65rem] tracking-[0.28em] uppercase text-[#D8B479] font-medium">
-            JC Landmarks · Design &amp; Build
+            Jay-Cee Landmarks · Design &amp; Build
           </span>
           <span className="h-px w-8 bg-[rgba(216,180,121,0.4)]" />
         </div>

@@ -9,7 +9,7 @@ import { FACADES } from "@/lib/media";
 /**
  * SERVICES — INDEX MASTHEAD
  *
- * The three services are the masthead. Each is a large serif row; pointing at
+ * The services are the masthead. Each is a large serif row; pointing at
  * one cross-fades the backdrop to that service's plate, so the hero works as
  * a table of contents rather than a banner. Touch devices simply tap through
  * to the chapter — the backdrop swap is a pointer-only nicety.
@@ -28,13 +28,6 @@ const SERVICES = [
     title: "Residential Construction",
     note: "Custom homes · Grey structure · Turnkey",
     still: FACADES.phase7Villa,
-  },
-  {
-    no: "03",
-    id: "real-estate",
-    title: "Real Estate",
-    note: "Buy · Sell · Valuation",
-    still: FACADES.spanishEstate,
   },
 ];
 
@@ -164,7 +157,7 @@ export default function ServicesHero() {
         </span>
 
         <h1 className="sh-head mt-8 max-w-3xl font-serif text-[clamp(2.2rem,5vw,4.3rem)] font-light leading-[1.1] tracking-[-0.01em]">
-          Design, construction and real estate — under one roof.
+          Design and construction — <em className="italic text-[#D8B479]">under one roof.</em>
         </h1>
 
         <nav aria-label="Services" className="mt-[clamp(3.5rem,9vh,6rem)]">

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { pageMeta, abs, ldGraph, ORG_ID } from "@/lib/seo";
+import JsonLd from "@/components/seo/JsonLd";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import PageHero from "@/components/ui/PageHero";
@@ -21,12 +23,12 @@ export async function generateMetadata({ params }: PageProps<"/projects/[categor
   const { category, slug } = await params;
   const p = findProject(category, slug);
   if (!p) return {};
-  return {
-    title: `${p.title} — ${p.location}`,
-    description: p.summary,
-    alternates: { canonical: projectHref(p) },
-    openGraph: p.cover ? { images: [{ url: p.cover.src, alt: p.cover.alt }] } : undefined,
-  };
+  return pageMeta({
+    title: p.seoTitle ?? `${p.title} — ${p.location}`,
+    description: p.seoDescription ?? p.summary,
+    path: projectHref(p),
+    image: p.cover ? { src: p.cover.src, alt: p.cover.alt } : undefined,
+  });
 }
 
 export default async function ProjectPage({ params }: PageProps<"/projects/[category]/[slug]">) {
@@ -42,6 +44,25 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[cate
   return (
     <>
       <ScrollProgress />
+      {p.gallery.length > 0 && (
+        <JsonLd
+          data={ldGraph({
+            "@type": "ImageGallery",
+            name: `${p.title}, ${p.location}`,
+            description: p.seoDescription ?? p.summary,
+            url: abs(projectHref(p)),
+            creator: { "@id": ORG_ID },
+            contentLocation: { "@type": "Place", name: p.location },
+            associatedMedia: p.gallery.map((s) => ({
+              "@type": "ImageObject",
+              contentUrl: abs(s.src),
+              name: s.title,
+              caption: s.note,
+              description: s.alt,
+            })),
+          })}
+        />
+      )}
       <main id="top">
         <PageHero
           eyebrow={`${cat.label} Project`}

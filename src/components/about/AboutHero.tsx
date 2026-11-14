@@ -109,7 +109,7 @@ export default function AboutHero() {
 
       <div className="u-shell relative w-full pb-[clamp(3.5rem,8vh,6rem)] pt-[clamp(8rem,18vh,12rem)]">
         <span className="ah-eyebrow block text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#D8B479]">
-          About JC Landmarks
+          About Jay-Cee Landmarks
         </span>
 
         <h1 className="ah-head mt-8 max-w-4xl font-serif text-[clamp(2.3rem,5.4vw,4.6rem)] font-light leading-[1.1] tracking-[-0.01em]">
@@ -118,7 +118,7 @@ export default function AboutHero() {
 
         <div className="mt-12 grid gap-y-10 lg:grid-cols-12 lg:gap-x-20">
           <p className="ah-lede col-span-full max-w-xl text-[1.02rem] leading-[1.8] text-[rgba(244,242,238,0.74)] lg:col-span-5">
-            JC Landmarks is a design-and-build construction company. We draw the
+            Jay-Cee Landmarks is a design-and-build construction company. We draw the
             building, engineer it, get it approved and build it with our own site
             teams — one company responsible from the first survey to handover.
           </p>
